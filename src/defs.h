@@ -2,12 +2,16 @@
 #define __DEFS_H__
 
 typedef unsigned long long U64;
+typedef unsigned char U8;
 
 #define PROGRAM_NAME "Sharky"
-#define PROGRAM_VERSION "0.0.1"
+#define PROGRAM_VERSION "0.0.2"
 
 // Number of squares on our virtual board.
 #define BOARD_SQ_NUM 120
+
+// Maximum number of half moves per game.
+#define MAX_GAME_MOVES_NUM 1600
 
 // Empty square, and pieces.
 enum {
@@ -39,6 +43,9 @@ enum {
 
 // Booleans.
 enum { FALSE, TRUE };
+
+// Castling information. Will be used to mark bits.
+enum { WKCastling = 1, WQCastling = 2, BKCastling = 4, BQCastling = 8 };
 
 #endif
 
