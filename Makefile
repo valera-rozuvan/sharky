@@ -1,15 +1,21 @@
 # TODO: Try to simplify. For example, see:
 # https://stackoverflow.com/questions/1814270/gcc-g-option-to-place-all-object-files-into-separate-directory
 
-all: obj/sharky.o obj/board_routines.o
-	gcc -o build/sharky obj/sharky.o obj/board_routines.o
+# CFLAGS =
+CFLAGS = -DVASSERT_ENABLE
 
-obj/sharky.o:
-	gcc -c src/sharky.c -o obj/sharky.o
+all: obj/sharky.o obj/board_routines.o obj/vassert.o
+	gcc -o build/sharky obj/sharky.o obj/board_routines.o obj/vassert.o
 
-obj/board_routines.o:
-	gcc -c src/board_routines.c -o obj/board_routines.o
+obj/sharky.o: src/sharky.c Makefile
+	gcc -c $(CFLAGS) src/sharky.c -o obj/sharky.o
+
+obj/board_routines.o: src/board_routines.c src/board_routines.h Makefile
+	gcc -c $(CFLAGS) src/board_routines.c -o obj/board_routines.o
+
+obj/vassert.o: src/vassert.c src/vassert.h Makefile
+	gcc -c $(CFLAGS) src/vassert.c -o obj/vassert.o
 
 clean:
-	rm build/sharky obj/*.o
+	rm -rf build/sharky obj/*.o
 
