@@ -64,12 +64,18 @@ typedef struct {
   // Remember, that index 0 is the EMPTY piece.
   U8 numPieces[13];
 
+  // Where exactly are pieces on the board. For each color/type
+  // of piece. Remember, that index 0 is the EMPTY piece. If you promote
+  // all pawns to one type of piece, maximum can be 10.
+  // Why? So that we don't for loop over all 64 squares to find pieces.
+  U8 pieceList[13][10];
+
   // For evaluation. Number of pieces on the board.
   // 3 indexes - white, black, and both.
   //
   // Big pieces - anything that is not a pawn.
   // Major pieces - rooks and queens
-  // Minor oieces - bishops and knights.
+  // Minor pieces - bishops and knights.
   U8 bigPieces[3];
   U8 majorPieces[3];
   U8 minorPieces[3];
@@ -80,5 +86,5 @@ typedef struct {
   UNDO_MOVE history[MAX_GAME_MOVES_NUM];
 } BOARD;
 
-#endif
+#endif // __BOARD_H__
 

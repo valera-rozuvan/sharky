@@ -5,7 +5,7 @@ typedef unsigned long long U64;
 typedef unsigned char U8;
 
 #define PROGRAM_NAME "Sharky"
-#define PROGRAM_VERSION "0.0.3"
+#define PROGRAM_VERSION "0.0.4"
 
 // Number of squares on our virtual board.
 #define BOARD_SQ_NUM 120
