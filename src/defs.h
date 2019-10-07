@@ -5,7 +5,7 @@ typedef unsigned long long U64;
 typedef unsigned char U8;
 
 #define PROGRAM_NAME "Sharky"
-#define PROGRAM_VERSION "0.0.4"
+#define PROGRAM_VERSION "0.0.5"
 
 // Number of squares on our virtual board.
 #define BOARD_SQ_NUM 120
@@ -47,5 +47,5 @@ enum { FALSE, TRUE };
 // Castling information. Will be used to mark bits.
 enum { WKCastling = 1, WQCastling = 2, BKCastling = 4, BQCastling = 8 };
 
-#endif
+#endif // __DEFS_H__
 

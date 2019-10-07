@@ -139,30 +139,29 @@ void initBoardCoordConvArrays() {
 }
 
 void printBoardCoordConvArrays() {
-  printf("%s", "arr120to64 =>\n");
+  printf("arr120to64 =>\n");
 
   U8 idx = 0;
 
   for (idx = 0; idx < BOARD_SQ_NUM; ++idx) {
     if (idx % 10 == 0) {
-      printf("%s", "\n");
+      printf("\n");
     }
 
     printf("%5d", arr120to64[idx]);
   }
 
-  printf("%s", "\n\n");
-  printf("%s", "arr64to120 =>\n");
+  printf("\n\n");
+  printf("arr64to120 =>\n");
 
   for (idx = 0; idx < 64; ++idx) {
     if (idx % 8 == 0) {
-      printf("%s", "\n");
+      printf("\n");
     }
 
     printf("%5d", arr64to120[idx]);
   }
 
-  printf("%s", "\n");
+  printf("\n\n");
 }
-
 

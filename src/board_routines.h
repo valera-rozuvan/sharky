@@ -9,5 +9,5 @@ extern U8 arr120to64[120];
 void initBoardCoordConvArrays();
 void printBoardCoordConvArrays();
 
-#endif
+#endif // __BOARD_ROUTINES_H__
 
