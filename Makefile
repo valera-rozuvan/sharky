@@ -4,8 +4,8 @@
 # CFLAGS =
 CFLAGS = -DVASSERT_ENABLE
 
-all: obj/sharky.o obj/board_routines.o obj/vassert.o
-	gcc -o build/sharky obj/sharky.o obj/board_routines.o obj/vassert.o
+all: obj/sharky.o obj/board_routines.o obj/vassert.o obj/bitboard.o
+	gcc -o build/sharky obj/sharky.o obj/board_routines.o obj/vassert.o obj/bitboard.o
 
 obj/sharky.o: src/sharky.c Makefile
 	gcc -c $(CFLAGS) src/sharky.c -o obj/sharky.o
@@ -15,6 +15,9 @@ obj/board_routines.o: src/board_routines.c src/board_routines.h Makefile
 
 obj/vassert.o: src/vassert.c src/vassert.h Makefile
 	gcc -c $(CFLAGS) src/vassert.c -o obj/vassert.o
+
+obj/bitboard.o: src/bitboard.c src/bitboard.h Makefile
+	gcc -c $(CFLAGS) src/bitboard.c -o obj/bitboard.o
 
 clean:
 	rm -rf build/sharky obj/*.o
