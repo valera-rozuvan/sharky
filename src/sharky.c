@@ -19,6 +19,14 @@ int main()
   bBoard |= (1ULL << arr120to64[G7]);
   printBitboard(bBoard);
 
+  unsigned char bitCount = count_1s(bBoard);
+  printf("bit count = %hhu\n\n", bitCount);
+
+  unsigned char poppedBit = pop_1st_bit(&bBoard);
+  printf("popped bit = %hhu\n\n", poppedBit);
+
+  printBitboard(bBoard);
+
   return 0;
 }
 
