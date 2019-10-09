@@ -107,17 +107,17 @@
 #include "board.h"
 #include "board_routines.h"
 
-U8 arr64to120[64];
-U8 arr120to64[BOARD_SQ_NUM];
+unsigned char arr64to120[64];
+unsigned char arr120to64[BOARD_SQ_NUM];
 
 void initBoardCoordConvArrays() {
-  U8 idx = 0;
-  U8 fileIter = FILE_A;
-  U8 rankIter = RANK_1;
-  U8 suqareIter = A1;
+  unsigned char idx = 0;
+  unsigned char fileIter = FILE_A;
+  unsigned char rankIter = RANK_1;
+  unsigned char suqareIter = A1;
 
   // Counter for the 64 length array.
-  U8 square64 = 0;
+  unsigned char square64 = 0;
 
   // Initialize the bigger array to out of bounds values. The buffer squares should
   // not lead to a square on the 64 bit board.
@@ -141,7 +141,7 @@ void initBoardCoordConvArrays() {
 void printBoardCoordConvArrays() {
   printf("arr120to64 =>\n");
 
-  U8 idx = 0;
+  unsigned char idx = 0;
 
   for (idx = 0; idx < BOARD_SQ_NUM; ++idx) {
     if (idx % 10 == 0) {

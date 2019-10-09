@@ -3,11 +3,11 @@
 #include "defs.h"
 #include "board_routines.h"
 
-void printBitboard(U64 bBoard) {
+void printBitboard(unsigned long long bBoard) {
   char rankIter = 0;
   char fileIter = 0;
-  U8 sq120 = 0;
-  U8 sq64 = 0;
+  unsigned char sq120 = 0;
+  unsigned char sq64 = 0;
 
   rankIter = RANK_8;
   do {
