@@ -14,7 +14,7 @@ int main()
   VASSERT_U_CHAR_EQ(arr64to120[13], 36);
   VASSERT_U_CHAR_EQ(arr120to64[42], 17);
 
-  U64 bBoard = 0ULL;
+  unsigned long long bBoard = 0ULL;
   bBoard |= (1ULL << arr120to64[D2]);
   bBoard |= (1ULL << arr120to64[G7]);
   printBitboard(bBoard);

@@ -1,9 +1,6 @@
 #ifndef __DEFS_H__
 #define __DEFS_H__
 
-typedef unsigned long long U64;
-typedef unsigned char U8;
-
 #define PROGRAM_NAME "Sharky"
 #define PROGRAM_VERSION "0.0.5"
 
