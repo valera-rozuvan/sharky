@@ -1,36 +1,13 @@
-#include <stdio.h>
+unsigned long long setBitMask[64];
+unsigned long long clrBitMask[64];
 
-#include "defs.h"
-#include "board_routines.h"
+void initBitMasks() {
+  unsigned char idx = 0;
 
-void printBitboard(unsigned long long bBoard) {
-  char rankIter = 0;
-  char fileIter = 0;
-  unsigned char sq120 = 0;
-  unsigned char sq64 = 0;
-
-  rankIter = RANK_8;
-  do {
-    fileIter = FILE_A;
-
-    do {
-      sq120 = FileRank2SQ(fileIter, rankIter);
-      sq64 = arr120to64[sq120];
-
-      if ((1ULL << sq64) & bBoard) {
-        printf("X");
-      } else {
-        printf("-");
-      }
-
-      fileIter += 1;
-    } while (fileIter <= FILE_H);
-
-    printf("\n");
-    rankIter -= 1;
-  } while (rankIter >= RANK_1);
-
-  printf("\n");
+  for (idx = 0; idx < 64; idx += 1) {
+    setBitMask[idx] = 0ULL | (1ULL << idx);
+    clrBitMask[idx] = ~setBitMask[idx];
+  }
 }
 
 /*
