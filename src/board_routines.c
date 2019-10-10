@@ -2,7 +2,7 @@
  * Routines to convert indexes between our two virtual representations
  * of the chess board.
  *
- * Array with length of 120. It can be represented as follows.
+ * Board120. Array with length of 120. It can be represented as follows.
  * 10 by 12 items. In the center is the chess board. We have buffer
  * zones at the top, left, right, and bottom. Top and bottom
  * buffer zones have 2 rows to accommodate for generating knight
@@ -47,7 +47,7 @@
  * | 110 | 111 | 112 | 113 | 114 | 115 | 116 | 117 | 118 | 119 |
  * ^-----------------------------------------------------------^
  *
- * Actual chess board has 64 squares, and will be represented as
+ * Board64. Actual chess board has 64 squares, and will be represented as
  * rotated. Below you can see the visualization of the array length 64.
  * 8 by 8 items.
  *
@@ -87,14 +87,14 @@
  *        ^---------------------------------------------------------------^
  *
  * So, we need two routines to be able to quickly convert between coordinates
- * of one array (64 size) to the other (120 size). For this we will have
+ * of one array (64 size board) to the other (120 size board). For this we will have
  * precomputed arrays with indexes of one array pointing to values of indexes
  * of the other array. And vice versa.
  *
  * For example:
  *
- *   arr64to120[13] = 36
- *   arr120to64[42] = 17
+ *   board64to120[13] = 36
+ *   board120to64[42] = 17
  *
  * The values of these two conversion arrays will be initialized by method
  * initBoardCoordConv(), which should be called at the start of the program.
@@ -107,8 +107,8 @@
 #include "board.h"
 #include "board_routines.h"
 
-unsigned char arr64to120[64];
-unsigned char arr120to64[BOARD_SQ_NUM];
+unsigned char board64to120[64];
+unsigned char board120to64[BOARD_SQ_NUM];
 
 void initBoardCoordConvArrays() {
   unsigned char idx = 0;
@@ -122,7 +122,7 @@ void initBoardCoordConvArrays() {
   // Initialize the bigger array to out of bounds values. The buffer squares should
   // not lead to a square on the 64 bit board.
   for (idx = 0; idx < BOARD_SQ_NUM; ++idx) {
-    arr120to64[idx] = 64;
+    board120to64[idx] = 64;
   }
 
   // Now we setup actual useful values.
@@ -130,8 +130,8 @@ void initBoardCoordConvArrays() {
     for (fileIter = FILE_A; fileIter <= FILE_H; ++fileIter) {
       suqareIter = FileRank2SQ(fileIter, rankIter);
 
-      arr64to120[square64] = suqareIter;
-      arr120to64[suqareIter] = square64;
+      board64to120[square64] = suqareIter;
+      board120to64[suqareIter] = square64;
 
       square64 += 1;
     }
@@ -139,7 +139,7 @@ void initBoardCoordConvArrays() {
 }
 
 void printBoardCoordConvArrays() {
-  printf("arr120to64 =>\n");
+  printf("board120to64 =>\n");
 
   unsigned char idx = 0;
 
@@ -148,20 +148,50 @@ void printBoardCoordConvArrays() {
       printf("\n");
     }
 
-    printf("%5d", arr120to64[idx]);
+    printf("%5d", board120to64[idx]);
   }
 
   printf("\n\n");
-  printf("arr64to120 =>\n");
+  printf("board64to120 =>\n");
 
   for (idx = 0; idx < 64; ++idx) {
     if (idx % 8 == 0) {
       printf("\n");
     }
 
-    printf("%5d", arr64to120[idx]);
+    printf("%5d", board64to120[idx]);
   }
 
   printf("\n\n");
+}
+
+void printBoard64(unsigned long long bBoard) {
+  char rankIter = 0;
+  char fileIter = 0;
+  unsigned char sq120 = 0;
+  unsigned char sq64 = 0;
+
+  rankIter = RANK_8;
+  do {
+    fileIter = FILE_A;
+
+    do {
+      sq120 = FileRank2SQ(fileIter, rankIter);
+      sq64 = board120to64[sq120];
+
+      if ((1ULL << sq64) & bBoard) {
+        printf("X");
+      } else {
+        printf("-");
+      }
+
+      fileIter += 1;
+    } while (fileIter <= FILE_H);
+
+    printf("\n");
+    rankIter -= 1;
+  } while (rankIter >= RANK_1);
+
+  printf("\n");
 }
 
