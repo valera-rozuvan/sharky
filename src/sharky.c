@@ -5,6 +5,7 @@
 #include "board.h"
 #include "board_routines.h"
 #include "bitboard.h"
+#include "random_const.h"
 
 int main()
 {
@@ -36,6 +37,8 @@ int main()
   printf("Setting H7...\n\n");
   SET_BIT(bBoard, board120to64[H7]);
   printBoard64(bBoard);
+
+  printf("%llu\n\n", RANDOM_CONST[0]);
 
   return 0;
 }
