@@ -4,9 +4,6 @@
 #define PROGRAM_NAME "Sharky"
 #define PROGRAM_VERSION "0.0.5"
 
-// Number of squares on our virtual board.
-#define BOARD_SQ_NUM 120
-
 // Maximum number of half moves per game.
 #define MAX_GAME_MOVES_NUM 1600
 
@@ -35,7 +32,7 @@ enum {
   A7 = 81, B7, C7, D7, E7, F7, G7, H7,
   A8 = 91, B8, C8, D8, E8, F8, G8, H8,
 
-  NO_SQ
+  NO_SQ = 99
 };
 
 // Booleans.

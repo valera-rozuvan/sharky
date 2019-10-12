@@ -6,9 +6,6 @@
 extern unsigned char board64to120[64];
 extern unsigned char board120to64[120];
 
-void initBoardCoordConvArrays();
-void printBoardCoordConvArrays();
-
 void printBoard64(unsigned long long bBoard);
 
 #endif // __BOARD_ROUTINES_H__

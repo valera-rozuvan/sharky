@@ -1,5 +1,5 @@
 /*
- * Routines to convert indexes between our two virtual representations
+ * Define arrays to convert indexes between two virtual representations
  * of the chess board.
  *
  * Board120. Array with length of 120. It can be represented as follows.
@@ -96,9 +96,6 @@
  *   board64to120[13] = 36
  *   board120to64[42] = 17
  *
- * The values of these two conversion arrays will be initialized by method
- * initBoardCoordConv(), which should be called at the start of the program.
- *
  */
 
 #include "stdio.h"
@@ -107,63 +104,30 @@
 #include "board.h"
 #include "board_routines.h"
 
-unsigned char board64to120[64];
-unsigned char board120to64[BOARD_SQ_NUM];
-
-void initBoardCoordConvArrays() {
-  unsigned char idx = 0;
-  unsigned char fileIter = FILE_A;
-  unsigned char rankIter = RANK_1;
-  unsigned char suqareIter = A1;
-
-  // Counter for the 64 length array.
-  unsigned char square64 = 0;
-
-  // Initialize the bigger array to out of bounds values. The buffer squares should
-  // not lead to a square on the 64 bit board.
-  for (idx = 0; idx < BOARD_SQ_NUM; ++idx) {
-    board120to64[idx] = 64;
-  }
-
-  // Now we setup actual useful values.
-  for (rankIter = RANK_1; rankIter <= RANK_8; ++rankIter) {
-    for (fileIter = FILE_A; fileIter <= FILE_H; ++fileIter) {
-      suqareIter = FileRank2SQ(fileIter, rankIter);
-
-      board64to120[square64] = suqareIter;
-      board120to64[suqareIter] = square64;
-
-      square64 += 1;
-    }
-  }
-}
-
-void printBoardCoordConvArrays() {
-  printf("board120to64 =>\n");
-
-  unsigned char idx = 0;
-
-  for (idx = 0; idx < BOARD_SQ_NUM; ++idx) {
-    if (idx % 10 == 0) {
-      printf("\n");
-    }
-
-    printf("%5d", board120to64[idx]);
-  }
-
-  printf("\n\n");
-  printf("board64to120 =>\n");
-
-  for (idx = 0; idx < 64; ++idx) {
-    if (idx % 8 == 0) {
-      printf("\n");
-    }
-
-    printf("%5d", board64to120[idx]);
-  }
-
-  printf("\n\n");
-}
+unsigned char board64to120[64] = {
+   21,   22,   23,   24,   25,   26,   27,   28,
+   31,   32,   33,   34,   35,   36,   37,   38,
+   41,   42,   43,   44,   45,   46,   47,   48,
+   51,   52,   53,   54,   55,   56,   57,   58,
+   61,   62,   63,   64,   65,   66,   67,   68,
+   71,   72,   73,   74,   75,   76,   77,   78,
+   81,   82,   83,   84,   85,   86,   87,   88,
+   91,   92,   93,   94,   95,   96,   97,   98
+};
+unsigned char board120to64[120] = {
+   99,   99,   99,   99,   99,   99,   99,   99,   99,   99,
+   99,   99,   99,   99,   99,   99,   99,   99,   99,   99,
+   99,    0,    1,    2,    3,    4,    5,    6,    7,   99,
+   99,    8,    9,   10,   11,   12,   13,   14,   15,   99,
+   99,   16,   17,   18,   19,   20,   21,   22,   23,   99,
+   99,   24,   25,   26,   27,   28,   29,   30,   31,   99,
+   99,   32,   33,   34,   35,   36,   37,   38,   39,   99,
+   99,   40,   41,   42,   43,   44,   45,   46,   47,   99,
+   99,   48,   49,   50,   51,   52,   53,   54,   55,   99,
+   99,   56,   57,   58,   59,   60,   61,   62,   63,   99,
+   99,   99,   99,   99,   99,   99,   99,   99,   99,   99,
+   99,   99,   99,   99,   99,   99,   99,   99,   99,   99
+};
 
 void printBoard64(unsigned long long bBoard) {
   char rankIter = 0;
