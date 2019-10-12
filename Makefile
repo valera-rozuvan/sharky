@@ -25,3 +25,12 @@ obj/random_const.o: src/random_const.c src/random_const.h Makefile
 clean:
 	rm -rf build/sharky obj/*.o
 
+test: obj/tests.o obj/random_const_tests.o obj/random_const.o
+	gcc -o build/tests obj/tests.o obj/random_const_tests.o obj/random_const.o
+
+obj/tests.o: tests/tests.c tests/random_const_tests.h Makefile
+	gcc -c $(CFLAGS) tests/tests.c -o obj/tests.o
+
+obj/random_const_tests.o: tests/random_const_tests.c tests/random_const_tests.h Makefile
+	gcc -c $(CFLAGS) tests/random_const_tests.c -o obj/random_const_tests.o
+
