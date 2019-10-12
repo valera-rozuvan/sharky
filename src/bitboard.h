@@ -7,8 +7,6 @@
 extern unsigned long long setBitMask[64];
 extern unsigned long long clrBitMask[64];
 
-void initBitMasks();
-
 unsigned char count_1s(unsigned long long b);
 unsigned char pop_1st_bit(unsigned long long *bb);
 

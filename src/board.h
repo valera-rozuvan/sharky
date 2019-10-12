@@ -22,7 +22,7 @@ typedef struct {
 } UNDO_MOVE;
 
 typedef struct {
-  unsigned char pieces[BOARD_SQ_NUM];
+  unsigned char pieces[120];
 
   // Pawn bit mask.
   //
