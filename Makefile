@@ -2,7 +2,8 @@
 # https://stackoverflow.com/questions/1814270/gcc-g-option-to-place-all-object-files-into-separate-directory
 
 # CFLAGS =
-CFLAGS = -DVASSERT_ENABLE
+#   -pedantic
+CFLAGS = -DVASSERT_ENABLE -Wall -Wextra -Werror -std=c99 -pedantic
 
 MAIN_OBJECTS = \
 	obj/board_routines.o \
@@ -38,7 +39,8 @@ clean:
 TESTS_OBJECTS = \
         obj/random_const_tests.o \
         obj/board_routines_tests.o \
-        obj/bitboard_tests.o
+        obj/bitboard_tests.o \
+        obj/zobrist_hashing_tests.o
 
 test: obj/tests.o $(TESTS_OBJECTS) $(MAIN_OBJECTS)
 	gcc -o build/tests obj/tests.o $(TESTS_OBJECTS) $(MAIN_OBJECTS)
@@ -54,3 +56,6 @@ obj/board_routines_tests.o: tests/board_routines_tests.c tests/board_routines_te
 
 obj/bitboard_tests.o: tests/bitboard_tests.c tests/bitboard_tests.h
 	gcc -c $(CFLAGS) tests/bitboard_tests.c -o obj/bitboard_tests.o
+
+obj/zobrist_hashing_tests.o: tests/zobrist_hashing_tests.c tests/zobrist_hashing_tests.h
+	gcc -c $(CFLAGS) tests/zobrist_hashing_tests.c -o obj/zobrist_hashing_tests.o

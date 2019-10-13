@@ -11,6 +11,7 @@ extern unsigned char board120to64[120];
 void printBoard64(unsigned long long bBoard);
 void printBoard(BOARD *cBoard);
 
+void setupEmptyPosition(BOARD *cBoard);
 void setupInitialPosition(BOARD *cBoard);
 
 #endif // __BOARD_ROUTINES_H__

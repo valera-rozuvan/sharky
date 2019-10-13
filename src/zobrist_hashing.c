@@ -1,6 +1,7 @@
 #include "board.h"
 #include "board_routines.h"
 #include "random_const.h"
+#include "bitboard.h"
 
 const short randomConstArrOffset_piece[13] = {
   0,   // EMPTY - we don't care.
@@ -44,7 +45,7 @@ unsigned long long generateFullHash(BOARD *cBoard)
 {
   unsigned char idx = 0;
   unsigned char piece = 0;
-  unsigned char randomConstArrIdx = 0;
+  unsigned short randomConstArrIdx = 0;
 
   unsigned long long positionHash = 0ULL;
 
@@ -66,16 +67,16 @@ unsigned long long generateFullHash(BOARD *cBoard)
   }
 
   // Castling rights.
-  if (cBoard->castlingPerm & (1 << WKCastling)) {
+  if (CHECK_BIT(cBoard->castlingPerm, WKCastling)) {
     positionHash ^= RANDOM_CONST[randomConstArrOffset_castling[WKCastling]];
   }
-  if (cBoard->castlingPerm & (1 << WQCastling)) {
+  if (CHECK_BIT(cBoard->castlingPerm, WQCastling)) {
     positionHash ^= RANDOM_CONST[randomConstArrOffset_castling[WQCastling]];
   }
-  if (cBoard->castlingPerm & (1 << BKCastling)) {
+  if (CHECK_BIT(cBoard->castlingPerm, BKCastling)) {
     positionHash ^= RANDOM_CONST[randomConstArrOffset_castling[BKCastling]];
   }
-  if (cBoard->castlingPerm & (1 << BQCastling)) {
+  if (CHECK_BIT(cBoard->castlingPerm, BQCastling)) {
     positionHash ^= RANDOM_CONST[randomConstArrOffset_castling[BQCastling]];
   }
 
