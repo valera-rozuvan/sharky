@@ -8,7 +8,8 @@ MAIN_OBJECTS = \
 	obj/board_routines.o \
 	obj/vassert.o \
 	obj/bitboard.o \
-	obj/random_const.o
+	obj/random_const.o \
+	obj/zobrist_hashing.o
 
 all: obj/sharky.o $(MAIN_OBJECTS)
 	gcc -o build/sharky obj/sharky.o $(MAIN_OBJECTS)
@@ -27,6 +28,9 @@ obj/bitboard.o: src/bitboard.c src/bitboard.h
 
 obj/random_const.o: src/random_const.c src/random_const.h
 	gcc -c $(CFLAGS) src/random_const.c -o obj/random_const.o
+
+obj/zobrist_hashing.o: src/zobrist_hashing.c src/zobrist_hashing.h
+	gcc -c $(CFLAGS) src/zobrist_hashing.c -o obj/zobrist_hashing.o
 
 clean:
 	rm -rf build/sharky build/tests obj/*.o

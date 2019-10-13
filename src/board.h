@@ -55,7 +55,7 @@ typedef struct {
   unsigned char fiftyMove;
 
   // How many half moves are we in the current search.
-  unsigned char ply;
+  unsigned char searchPly;
 
   // How many half moves has been made in the game so far.
   unsigned int historyPly;
