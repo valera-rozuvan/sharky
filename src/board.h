@@ -1,6 +1,8 @@
 #ifndef __BOARD_H__
 #define __BOARD_H__
 
+#include "defs.h"
+
 /*
  * Information used to undo a move.
  * This will allow to revert a board to a previous
@@ -15,7 +17,7 @@ typedef struct {
 
   // All below properties are part of the board state.
   unsigned char castlingPerm;
-  unsigned char enPassantSq;
+  unsigned char enPassantFile;
   unsigned char fiftyMove;
 
   unsigned long long positionKey;
@@ -45,8 +47,8 @@ typedef struct {
   // Current side to move.
   unsigned char side;
 
-  // En passant square. If no en passant this move, set to NO_SQ.
-  unsigned char enPassantSq;
+  // En passant file. If no en passant capture available, set to NO_EN_PASSANT.
+  unsigned char enPassantFile;
 
   // Fifty move counter. When this hits 100, the game is a draw.
   // 100 - because we are using half moves, not full moves.
@@ -88,4 +90,3 @@ typedef struct {
 } BOARD;
 
 #endif // __BOARD_H__
-

@@ -137,4 +137,3 @@ void bitboard_tests()
   countTests();
   popTests();
 }
-

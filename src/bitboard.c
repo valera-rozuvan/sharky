@@ -64,6 +64,7 @@ unsigned long long setBitMask[64] = {
   4611686018427387904ULL,
   9223372036854775808ULL
 };
+
 unsigned long long clrBitMask[64] = {
   18446744073709551614ULL,
   18446744073709551613ULL,
@@ -135,9 +136,10 @@ unsigned long long clrBitMask[64] = {
  * Below 2 functions, and the constant array, are taken from:
  *   https://www.chessprogramming.org/Looking_for_Magics
  */
-unsigned char count_1s(unsigned long long b) {
+unsigned char count_1s(unsigned long long bb)
+{
   unsigned char r;
-  for(r = 0; b; r++, b &= b - 1);
+  for(r = 0; bb; r++, bb &= bb - 1);
   return r;
 }
 
@@ -148,7 +150,8 @@ const unsigned char BitTable[64] = {
   58, 20, 37, 17, 36, 8
 };
 
-unsigned char pop_1st_bit(unsigned long long *bb) {
+unsigned char pop_1st_bit(unsigned long long *bb)
+{
   unsigned long long b = *bb ^ (*bb - 1);
   unsigned int fold = (unsigned) ((b & 0xffffffff) ^ (b >> 32));
 
@@ -156,4 +159,3 @@ unsigned char pop_1st_bit(unsigned long long *bb) {
 
   return BitTable[(fold * 0x783a9b23) >> 26];
 }
-

@@ -4,4 +4,3 @@
 void bitboard_tests();
 
 #endif // __BITBOARD_TESTS_H__
-

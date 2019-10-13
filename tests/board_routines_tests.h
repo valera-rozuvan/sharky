@@ -4,4 +4,3 @@
 void board_routines_tests();
 
 #endif // __BOARD_ROUTINES_TESTS_H__
-

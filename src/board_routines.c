@@ -103,6 +103,7 @@
 #include "defs.h"
 #include "board.h"
 #include "board_routines.h"
+#include "bitboard.h"
 
 unsigned char board64to120[64] = {
    21,   22,   23,   24,   25,   26,   27,   28,
@@ -159,3 +160,102 @@ void printBoard64(unsigned long long bBoard) {
   printf("\n");
 }
 
+const char* boardPieceStr[13] = {
+  ".",
+  "P", "N", "B", "R", "Q", "K",
+  "p", "n", "b", "r", "q", "k"
+};
+
+void printBoard(BOARD *cBoard) {
+  char rankIter = 0;
+  char fileIter = 0;
+  unsigned char sq120 = 0;
+
+  rankIter = RANK_8;
+  do {
+    fileIter = FILE_A;
+
+    do {
+      sq120 = FileRank2SQ(fileIter, rankIter);
+
+      if (cBoard->pieces[sq120] >= 13) {
+        printf("?");
+      } else {
+        printf("%s", boardPieceStr[cBoard->pieces[sq120]]);
+      }
+
+      fileIter += 1;
+    } while (fileIter <= FILE_H);
+
+    printf("\n");
+    rankIter -= 1;
+  } while (rankIter >= RANK_1);
+
+  printf("\n");
+}
+
+void setupInitialPosition(BOARD *cBoard)
+{
+  unsigned char idx = 0;
+
+  for (idx = 0; idx < 120; idx += 1) {
+    cBoard->pieces[idx] = NO_SQ;
+  }
+
+  for (idx = 0; idx < 64; idx += 1) {
+    cBoard->pieces[board64to120[idx]] = EMPTY;
+  }
+
+  cBoard->pieces[A1] = wR;
+  cBoard->pieces[B1] = wN;
+  cBoard->pieces[C1] = wB;
+  cBoard->pieces[D1] = wQ;
+  cBoard->pieces[E1] = wK;
+  cBoard->pieces[F1] = wB;
+  cBoard->pieces[G1] = wN;
+  cBoard->pieces[H1] = wR;
+
+  cBoard->pieces[A2] = wP;
+  cBoard->pieces[B2] = wP;
+  cBoard->pieces[C2] = wP;
+  cBoard->pieces[D2] = wP;
+  cBoard->pieces[E2] = wP;
+  cBoard->pieces[F2] = wP;
+  cBoard->pieces[G2] = wP;
+  cBoard->pieces[H2] = wP;
+
+  cBoard->pieces[A7] = bP;
+  cBoard->pieces[B7] = bP;
+  cBoard->pieces[C7] = bP;
+  cBoard->pieces[D7] = bP;
+  cBoard->pieces[E7] = bP;
+  cBoard->pieces[F7] = bP;
+  cBoard->pieces[G7] = bP;
+  cBoard->pieces[H7] = bP;
+
+  cBoard->pieces[A8] = bR;
+  cBoard->pieces[B8] = bN;
+  cBoard->pieces[C8] = bB;
+  cBoard->pieces[D8] = bQ;
+  cBoard->pieces[E8] = bK;
+  cBoard->pieces[F8] = bB;
+  cBoard->pieces[G8] = bN;
+  cBoard->pieces[H8] = bR;
+
+  cBoard->castlingPerm = 0ULL;
+
+  SET_BIT(cBoard->castlingPerm, WKCastling);
+  SET_BIT(cBoard->castlingPerm, WQCastling);
+  SET_BIT(cBoard->castlingPerm, BKCastling);
+  SET_BIT(cBoard->castlingPerm, BQCastling);
+
+  cBoard->side = WHITE;
+
+  cBoard->enPassantFile = NO_EN_PASSANT;
+
+  cBoard->fiftyMove = 0;
+  cBoard->ply = 0;
+  cBoard->historyPly = 0;
+
+  cBoard->positionKey = 0ULL;
+}
