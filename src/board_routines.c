@@ -195,6 +195,28 @@ void printBoard(BOARD *cBoard) {
   printf("\n");
 }
 
+void setupEmptyPosition(BOARD *cBoard)
+{
+  unsigned char idx = 0;
+
+  for (idx = 0; idx < 120; idx += 1) {
+    cBoard->pieces[idx] = NO_SQ;
+  }
+
+  for (idx = 0; idx < 64; idx += 1) {
+    cBoard->pieces[board64to120[idx]] = EMPTY;
+  }
+
+  cBoard->castlingPerm = 0ULL;
+  cBoard->side = WHITE;
+  cBoard->enPassantFile = NO_EN_PASSANT;
+  cBoard->fiftyMove = 0;
+  cBoard->searchPly = 0;
+  cBoard->historyPly = 0;
+
+  cBoard->positionKey = generateFullHash(cBoard);
+}
+
 void setupInitialPosition(BOARD *cBoard)
 {
   unsigned char idx = 0;
