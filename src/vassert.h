@@ -35,4 +35,3 @@ void vassert_test();
 #endif // VASSERT_ENABLE
 
 #endif // __VASSERT_H__
-

@@ -40,4 +40,3 @@ void board_routines_tests()
   VASSERT_U_CHAR_EQ(board64to120[13], 36);
   VASSERT_U_CHAR_EQ(board120to64[42], 17);
 }
-

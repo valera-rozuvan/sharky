@@ -50,4 +50,3 @@ obj/board_routines_tests.o: tests/board_routines_tests.c tests/board_routines_te
 
 obj/bitboard_tests.o: tests/bitboard_tests.c tests/bitboard_tests.h
 	gcc -c $(CFLAGS) tests/bitboard_tests.c -o obj/bitboard_tests.o
-

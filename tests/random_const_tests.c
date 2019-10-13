@@ -22,4 +22,3 @@ void random_const_tests()
     }
   }
 }
-

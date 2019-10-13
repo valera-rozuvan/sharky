@@ -4,4 +4,3 @@
 void random_const_tests();
 
 #endif //__RANDOM_CONST_TESTS_H__
-

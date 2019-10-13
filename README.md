@@ -11,4 +11,3 @@ Your system needs to have `make` and `gcc` installed.
 1. To build, run `make`. Executable `sharky` will be in `./build` directory.
 2. To test, run `make test`. Executable `tests` will be in `./build` directory.
 3. To clean the project, run `make clean`.
-

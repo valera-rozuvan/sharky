@@ -3,6 +3,8 @@
 
 #define PROGRAM_NAME "Sharky"
 #define PROGRAM_VERSION "0.0.5"
+#define PROGRAM_LICENSE "MIT License"
+#define PROGRAM_COPYRIGHT "Copyright (c) 2019 Valera Rozuvan"
 
 // Maximum number of half moves per game.
 #define MAX_GAME_MOVES_NUM 1600
@@ -11,11 +13,12 @@
 enum {
   EMPTY,
   wP, wN, wB, wR, wQ, wK,
-  bP, bN, bB, bR, bQ, bW
+  bP, bN, bB, bR, bQ, bK
 };
 
-// Files and ranks.
-enum { FILE_A, FILE_B, FILE_C, FILE_D, FILE_E, FILE_F, FILE_G, FILE_H };
+// Files and ranks. For files, we have an extra entry NO_EN_PASSANT. Useful for indicating
+// that there is no en passant capture available.
+enum { FILE_A, FILE_B, FILE_C, FILE_D, FILE_E, FILE_F, FILE_G, FILE_H, NO_EN_PASSANT };
 enum { RANK_1, RANK_2, RANK_3, RANK_4, RANK_5, RANK_6, RANK_7, RANK_8 };
 
 // Piece colors.
@@ -39,7 +42,6 @@ enum {
 enum { FALSE, TRUE };
 
 // Castling information. Will be used to mark bits.
-enum { WKCastling = 1, WQCastling = 2, BKCastling = 4, BQCastling = 8 };
+enum { WKCastling, WQCastling, BKCastling, BQCastling };
 
 #endif // __DEFS_H__
-

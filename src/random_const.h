@@ -17,4 +17,3 @@
 extern unsigned long long RANDOM_CONST[RANDOM_CONST_LENGTH];
 
 #endif // __RANDOM_CONST_H__
-
