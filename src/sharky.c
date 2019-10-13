@@ -12,5 +12,7 @@ int main()
   setupInitialPosition(&bBoard);
   printBoard(&bBoard);
 
+  printf("Position hash: %llx\n", bBoard.positionKey);
+
   return 0;
 }

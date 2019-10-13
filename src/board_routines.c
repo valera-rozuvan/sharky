@@ -104,6 +104,7 @@
 #include "board.h"
 #include "board_routines.h"
 #include "bitboard.h"
+#include "zobrist_hashing.h"
 
 unsigned char board64to120[64] = {
    21,   22,   23,   24,   25,   26,   27,   28,
@@ -215,23 +216,13 @@ void setupInitialPosition(BOARD *cBoard)
   cBoard->pieces[G1] = wN;
   cBoard->pieces[H1] = wR;
 
-  cBoard->pieces[A2] = wP;
-  cBoard->pieces[B2] = wP;
-  cBoard->pieces[C2] = wP;
-  cBoard->pieces[D2] = wP;
-  cBoard->pieces[E2] = wP;
-  cBoard->pieces[F2] = wP;
-  cBoard->pieces[G2] = wP;
-  cBoard->pieces[H2] = wP;
+  for (idx = A2; idx <= H2; idx += 1) {
+    cBoard->pieces[idx] = wP;
+  }
 
-  cBoard->pieces[A7] = bP;
-  cBoard->pieces[B7] = bP;
-  cBoard->pieces[C7] = bP;
-  cBoard->pieces[D7] = bP;
-  cBoard->pieces[E7] = bP;
-  cBoard->pieces[F7] = bP;
-  cBoard->pieces[G7] = bP;
-  cBoard->pieces[H7] = bP;
+  for (idx = A7; idx <= H7; idx += 1) {
+    cBoard->pieces[idx] = bP;
+  }
 
   cBoard->pieces[A8] = bR;
   cBoard->pieces[B8] = bN;
@@ -254,8 +245,8 @@ void setupInitialPosition(BOARD *cBoard)
   cBoard->enPassantFile = NO_EN_PASSANT;
 
   cBoard->fiftyMove = 0;
-  cBoard->ply = 0;
+  cBoard->searchPly = 0;
   cBoard->historyPly = 0;
 
-  cBoard->positionKey = 0ULL;
+  cBoard->positionKey = generateFullHash(cBoard);
 }
