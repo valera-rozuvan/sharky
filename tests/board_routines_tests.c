@@ -5,9 +5,13 @@
 #include "../src/defs.h"
 #include "../src/board_routines.h"
 
+#include "tests.h"
+
 void board_routines_tests()
 {
   unsigned char idx = 0;
+
+  printf("Starting board_routines_tests...\n");
 
   for (idx = 0; idx < 64; idx += 1) {
     if (board64to120[idx] >= 120) {
@@ -15,6 +19,8 @@ void board_routines_tests()
       printf("board64to120[idx] = %hhu\n", board64to120[idx]);
 
       exit(1);
+    } else {
+      totalChecksPerformed += 1;
     }
   }
 
@@ -24,6 +30,8 @@ void board_routines_tests()
       printf("board120to64[idx] = %hhu\n", board120to64[idx]);
 
       exit(1);
+    } else {
+      totalChecksPerformed += 1;
     }
   }
 
@@ -34,9 +42,13 @@ void board_routines_tests()
       printf("board120to64[board64to120[idx]] = %hhu\n", board120to64[board64to120[idx]]);
 
       exit(1);
+    } else {
+      totalChecksPerformed += 1;
     }
   }
 
   VASSERT_U_CHAR_EQ(board64to120[13], 36);
   VASSERT_U_CHAR_EQ(board120to64[42], 17);
+
+  printf("Done!\n\n");
 }

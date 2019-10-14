@@ -7,6 +7,8 @@
 #include "../src/zobrist_hashing.h"
 #include "../src/bitboard.h"
 
+#include "tests.h"
+
 void testEmptyPosition()
 {
   BOARD bBoard;
@@ -17,6 +19,8 @@ void testEmptyPosition()
     printf("Empty position hash key is wrong! bBoard.positionKey = %llx\n", bBoard.positionKey);
 
     exit(1);
+  } else {
+    totalChecksPerformed += 1;
   }
 }
 
@@ -30,6 +34,8 @@ void testStartPosition()
     printf("Initial position hash key is wrong! bBoard.positionKey = %llx\n", bBoard.positionKey);
 
     exit(1);
+  } else {
+    totalChecksPerformed += 1;
   }
 }
 
@@ -119,6 +125,8 @@ void testIndividualPieces()
   if (hashCounter != RANDOM_CONST_LENGTH) {
     printf("Error! Not all random constants were used! hashCounter = %hu, RANDOM_CONST_LENGTH = %hu\n", hashCounter, RANDOM_CONST_LENGTH);
     exit(1);
+  } else {
+    totalChecksPerformed += 1;
   }
 
   for (idx1 = 0; idx1 < RANDOM_CONST_LENGTH; idx1 += 1) {
@@ -139,6 +147,8 @@ void testIndividualPieces()
         }
 
         exit(1);
+      } else {
+        totalChecksPerformed += 1;
       }
     }
   }
@@ -146,7 +156,11 @@ void testIndividualPieces()
 
 void zobrist_hashing_tests()
 {
+  printf("Starting zobrist_hashing_tests...\n");
+
   testEmptyPosition();
   testStartPosition();
   testIndividualPieces();
+
+  printf("Done!\n\n");
 }
