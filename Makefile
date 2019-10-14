@@ -45,7 +45,7 @@ TESTS_OBJECTS = \
 test: obj/tests.o $(TESTS_OBJECTS) $(MAIN_OBJECTS)
 	gcc -o build/tests obj/tests.o $(TESTS_OBJECTS) $(MAIN_OBJECTS)
 
-obj/tests.o: tests/tests.c
+obj/tests.o: tests/tests.c tests/tests.h
 	gcc -c $(CFLAGS) tests/tests.c -o obj/tests.o
 
 obj/random_const_tests.o: tests/random_const_tests.c tests/random_const_tests.h
