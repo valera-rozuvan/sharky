@@ -10,7 +10,8 @@ MAIN_OBJECTS = \
 	obj/vassert.o \
 	obj/bitboard.o \
 	obj/random_const.o \
-	obj/zobrist_hashing.o
+	obj/zobrist_hashing.o \
+	obj/fen.o
 
 all: obj/sharky.o $(MAIN_OBJECTS)
 	gcc -o build/sharky obj/sharky.o $(MAIN_OBJECTS)
@@ -33,6 +34,9 @@ obj/random_const.o: src/random_const.c src/random_const.h
 obj/zobrist_hashing.o: src/zobrist_hashing.c src/zobrist_hashing.h
 	gcc -c $(CFLAGS) src/zobrist_hashing.c -o obj/zobrist_hashing.o
 
+obj/fen.o: src/fen.c src/fen.h
+	gcc -c $(CFLAGS) src/fen.c -o obj/fen.o
+
 clean:
 	rm -rf build/sharky build/tests obj/*.o
 
@@ -40,7 +44,8 @@ TESTS_OBJECTS = \
         obj/random_const_tests.o \
         obj/board_routines_tests.o \
         obj/bitboard_tests.o \
-        obj/zobrist_hashing_tests.o
+        obj/zobrist_hashing_tests.o \
+        obj/fen_tests.o
 
 test: obj/tests.o $(TESTS_OBJECTS) $(MAIN_OBJECTS)
 	gcc -o build/tests obj/tests.o $(TESTS_OBJECTS) $(MAIN_OBJECTS)
@@ -59,3 +64,6 @@ obj/bitboard_tests.o: tests/bitboard_tests.c tests/bitboard_tests.h
 
 obj/zobrist_hashing_tests.o: tests/zobrist_hashing_tests.c tests/zobrist_hashing_tests.h
 	gcc -c $(CFLAGS) tests/zobrist_hashing_tests.c -o obj/zobrist_hashing_tests.o
+
+obj/fen_tests.o: tests/fen_tests.c tests/fen_tests.h
+	gcc -c $(CFLAGS) tests/fen_tests.c -o obj/fen_tests.o
