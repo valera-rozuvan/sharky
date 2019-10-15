@@ -2,8 +2,7 @@
 # https://stackoverflow.com/questions/1814270/gcc-g-option-to-place-all-object-files-into-separate-directory
 
 # CFLAGS =
-#   -pedantic
-CFLAGS = -DVASSERT_ENABLE -Wall -Wextra -Werror -std=c99 -pedantic
+CFLAGS = -DVASSERT_ENABLE -Wall -Wextra -Werror -std=gnu99 -pedantic
 
 MAIN_OBJECTS = \
 	obj/board_routines.o \
@@ -11,7 +10,8 @@ MAIN_OBJECTS = \
 	obj/bitboard.o \
 	obj/random_const.o \
 	obj/zobrist_hashing.o \
-	obj/fen.o
+	obj/fen.o \
+	obj/get_real_time.o
 
 all: obj/sharky.o $(MAIN_OBJECTS)
 	gcc -o build/sharky obj/sharky.o $(MAIN_OBJECTS)
@@ -36,6 +36,9 @@ obj/zobrist_hashing.o: src/zobrist_hashing.c src/zobrist_hashing.h
 
 obj/fen.o: src/fen.c src/fen.h
 	gcc -c $(CFLAGS) src/fen.c -o obj/fen.o
+
+obj/get_real_time.o: src/get_real_time.c src/get_real_time.h
+	gcc -c $(CFLAGS) src/get_real_time.c -o obj/get_real_time.o
 
 clean:
 	rm -rf build/sharky build/tests obj/*.o

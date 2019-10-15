@@ -1,6 +1,7 @@
 #include <stdio.h>
 
 #include "../src/vassert.h"
+#include "../src/get_real_time.h"
 
 #include "random_const_tests.h"
 #include "board_routines_tests.h"
@@ -13,6 +14,9 @@ unsigned short totalChecksPerformed = 0;
 
 int main()
 {
+  double startTime, endTime;
+  startTime = getRealTime();
+
   VASSERT_TEST();
 
   random_const_tests();
@@ -21,7 +25,10 @@ int main()
   zobrist_hashing_tests();
   fenTests();
 
+  endTime = getRealTime();
+
   printf("Total checks performed: %hu\n", totalChecksPerformed);
+  printf("Time taken: %f seconds\n", endTime - startTime);
 
   return 0;
 }
