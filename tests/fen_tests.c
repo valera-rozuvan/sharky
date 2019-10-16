@@ -38,12 +38,46 @@ void veryLongFenStrTest()
   }
 }
 
+void validFenStringTest()
+{
+  BOARD cBoard;
+  const char testFenStr[256] = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+  unsigned char result = 0;
+
+  result = setPositionFromFen(&cBoard, testFenStr);
+
+  if (result != 0) {
+    printf("Valid FEN string should pass.\n");
+    exit(1);
+  } else {
+    totalChecksPerformed += 1;
+  }
+}
+
+void invalidFenStringTest()
+{
+  BOARD cBoard;
+  const char testFenStr[256] = "rnbqkbnr/ppppp^&RTy7t7&*8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+  unsigned char result = 0;
+
+  result = setPositionFromFen(&cBoard, testFenStr);
+
+  if (result != 2) {
+    printf("Invalid FEN string should NOT pass.\n");
+    exit(1);
+  } else {
+    totalChecksPerformed += 1;
+  }
+}
+
 void fenTests()
 {
   printf("Starting fen_tests...\n");
 
   emptyFenStrTest();
   veryLongFenStrTest();
+  validFenStringTest();
+  invalidFenStringTest();
 
   printf("Done!\n\n");
 }
