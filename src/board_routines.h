@@ -3,7 +3,7 @@
 
 #include "board.h"
 
-#define FileRank2SQ(f, r) 21 + f + 10 * r
+#define FileRankTo120SQ(f, r) 21 + f + 10 * r
 
 extern unsigned char board64to120[64];
 extern unsigned char board120to64[120];
