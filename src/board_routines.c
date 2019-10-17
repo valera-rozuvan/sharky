@@ -142,7 +142,7 @@ void printBoard64(unsigned long long bBoard) {
     fileIter = FILE_A;
 
     do {
-      sq120 = FileRank2SQ(fileIter, rankIter);
+      sq120 = FileRankTo120SQ(fileIter, rankIter);
       sq64 = board120to64[sq120];
 
       if ((1ULL << sq64) & bBoard) {
@@ -177,7 +177,7 @@ void printBoard(BOARD *cBoard) {
     fileIter = FILE_A;
 
     do {
-      sq120 = FileRank2SQ(fileIter, rankIter);
+      sq120 = FileRankTo120SQ(fileIter, rankIter);
 
       if (cBoard->pieces[sq120] >= 13) {
         printf("?");

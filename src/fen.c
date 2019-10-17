@@ -1,5 +1,6 @@
 #include "board.h"
 #include "fen.h"
+#include "board_routines.h"
 
 /*
  *
@@ -53,47 +54,138 @@
  *
  */
 
-#define ALLOWED_FEN_SYMBOLS_LENGTH 34
-const char allowedFenSymbols[ALLOWED_FEN_SYMBOLS_LENGTH] = {
-  'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
-  '0', '1', '2', '3', '4', '5', '6', '7', '8',
-  ' ', '/', '-',
-  'P', 'N', 'B', 'R', 'Q', 'K',
-  'p', 'n', 'b', 'r', 'q', 'k',
-  'w', 'b'
-};
+unsigned char MAX_ALLOWED_FEN_STRING_LENGTH = 120;
+
+const char onlyAllowedFenSymbols[] = "abcdefgh012345678 /-PNBRQKpnbrqkwb";
+const char onlyChessPieceSymbols[] = "PNBRQKpnbrqk";
+const char onlyDigits1To8Symbols[] = "12345678";
+const char onlySideToMoveSymbols[] = "wb";
+
+unsigned char arrayContainsChar(const char *hayStack, char needle)
+{
+  unsigned short idx = 0;
+
+  do {
+    if (hayStack[idx] == needle) {
+      return 1;
+    }
+
+    idx += 1;
+  } while ((hayStack[idx] != '\0') && (idx < 1024));
+
+  return 0;
+}
+
+unsigned char pieceCharToPiece(char pieceCharRepr)
+{
+  if (pieceCharRepr == 'P') return wP;
+  if (pieceCharRepr == 'N') return wN;
+  if (pieceCharRepr == 'B') return wB;
+  if (pieceCharRepr == 'R') return wR;
+  if (pieceCharRepr == 'Q') return wQ;
+  if (pieceCharRepr == 'K') return wK;
+
+  if (pieceCharRepr == 'p') return bP;
+  if (pieceCharRepr == 'n') return bN;
+  if (pieceCharRepr == 'b') return bB;
+  if (pieceCharRepr == 'r') return bR;
+  if (pieceCharRepr == 'q') return bQ;
+  if (pieceCharRepr == 'k') return bK;
+
+  return EMPTY;
+}
+
+unsigned char digit1To8CharToNum(char digitCharRepr)
+{
+  if (digitCharRepr == '1') return 1;
+  if (digitCharRepr == '2') return 2;
+  if (digitCharRepr == '3') return 3;
+  if (digitCharRepr == '4') return 4;
+  if (digitCharRepr == '5') return 5;
+  if (digitCharRepr == '6') return 6;
+  if (digitCharRepr == '7') return 7;
+
+  return 8;
+}
+
+unsigned char sideCharToSide(char sideCharRepr)
+{
+  if (sideCharRepr == 'w') return WHITE;
+
+  return BLACK;
+}
 
 unsigned char setPositionFromFen(BOARD *cBoard, const char *fenStr)
 {
   unsigned char idx1 = 0;
   unsigned char idx2 = 0;
+  unsigned char currentFile = 0;
+  unsigned char currentRank = 0;
+  unsigned char numOfEmpty = 0;
 
-  for (idx1 = 0; idx1 < MAX_ALLOWED_FEN_STRING_LENGTH; idx1 += 1) {
-    if (fenStr[idx1] == 0) {
+  for (idx1 = 0; idx1 <= MAX_ALLOWED_FEN_STRING_LENGTH; idx1 += 1) {
+    if (fenStr[idx1] == '\0') {
       break;
     }
   }
 
-  if ((idx1 == 0) || (idx1 == MAX_ALLOWED_FEN_STRING_LENGTH)) {
+  if ((idx1 == 0) || (idx1 > MAX_ALLOWED_FEN_STRING_LENGTH)) {
     return 1;
   }
 
   idx1 = 0;
   do {
-    idx2 = 0;
-
-    for (idx2 = 0; idx2 < ALLOWED_FEN_SYMBOLS_LENGTH; idx2 += 1) {
-      if (fenStr[idx1] == allowedFenSymbols[idx2]) {
-        break;
-      }
-    }
-
-    if (idx2 == ALLOWED_FEN_SYMBOLS_LENGTH) {
+    if (arrayContainsChar(onlyAllowedFenSymbols, fenStr[idx1]) == 0) {
       return 2;
     }
 
     idx1 += 1;
-  } while (fenStr[idx1] != 0);
+  } while (fenStr[idx1] != '\0');
+
+  idx1 = 0;
+  currentFile = FILE_A;
+  currentRank = RANK_8;
+  do {
+    if (fenStr[idx1] == '\0') {
+      return 3;
+    } else if (fenStr[idx1] == '/') {
+      if (currentFile != FILE_H + 1) {
+        return 4;
+      }
+
+      idx1 += 1;
+      currentFile = FILE_A;
+      currentRank -= 1;
+
+      continue;
+    }
+
+    if (arrayContainsChar(onlyChessPieceSymbols, fenStr[idx1]) == 1) {
+      cBoard->pieces[FileRankTo120SQ(currentFile, currentRank)] = pieceCharToPiece(fenStr[idx1]);
+      currentFile += 1;
+    } else if (arrayContainsChar(onlyDigits1To8Symbols, fenStr[idx1]) == 1) {
+      numOfEmpty = digit1To8CharToNum(fenStr[idx1]);
+
+      for (idx2 = 0; idx2 < numOfEmpty; idx2 += 1) {
+        cBoard->pieces[FileRankTo120SQ(currentFile, currentRank)] = pieceCharToPiece(' ');
+        currentFile += 1;
+      }
+    } else {
+      return 5;
+    }
+
+    idx1 += 1;
+  } while (fenStr[idx1] != ' ');
+
+  if (currentRank != RANK_1) {
+    return 6;
+  }
+
+  idx1 += 1;
+  if (arrayContainsChar(onlySideToMoveSymbols, fenStr[idx1]) == 0) {
+    return 7;
+  }
+  cBoard->side = sideCharToSide(fenStr[idx1]);
 
   cBoard->fiftyMove = 0;
 

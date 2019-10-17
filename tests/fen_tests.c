@@ -3,13 +3,14 @@
 
 #include "../src/fen.h"
 #include "../src/board.h"
+#include "../src/board_routines.h"
 
 #include "tests.h"
 
 void emptyFenStrTest()
 {
   BOARD cBoard;
-  const char testFenStr[1] = "";
+  const char testFenStr[] = "";
   unsigned char result = 0;
 
   result = setPositionFromFen(&cBoard, testFenStr);
@@ -25,10 +26,23 @@ void emptyFenStrTest()
 void veryLongFenStrTest()
 {
   BOARD cBoard;
-  const char testFenStr[256] = "VYpQLF2mYJ6IYC0Wdb7IaXwEq8lIHDqC5GRhi79xAyqKncUUSuCBH3QV5JhhJ9iwHSVqI8yeClq8Qhn7QN4ExbOeQLLZza21Twz6bffVK0i8I4oHkglK5xhU0ooNKKYGfOHHnOWgedsqjkh0kJdsjPeJ16o2nnIl74EblCL0qQ952amx0t5Rzt4dGgWBZENeC63JdqtynTSbrTSeS2YevyTVDiBCVBgCK23v6uebzggwQzpA89FLHL0k6FOtQiM";
+  char *testFenStr = NULL;
   unsigned char result = 0;
+  unsigned char idx1 = 0;
+  unsigned char testFenStrLength = MAX_ALLOWED_FEN_STRING_LENGTH + 1;
+
+  // Size is plus 1 because last char in memory should be `\0` char.
+  testFenStr = (char*)malloc(sizeof(char) * (testFenStrLength + 1));
+
+  for (idx1 = 0; idx1 < testFenStrLength; idx1 += 1) {
+    // Initialize string, because otherwise there will be random data, which can include
+    // a prematurely placed `\0` char.
+    testFenStr[idx1] = 'a';
+  }
+  testFenStr[testFenStrLength] = '\0';
 
   result = setPositionFromFen(&cBoard, testFenStr);
+  free(testFenStr);
 
   if (result != 1) {
     printf("Very long FEN string should not pass FEN validation.\n");
@@ -41,10 +55,12 @@ void veryLongFenStrTest()
 void validFenStringTest()
 {
   BOARD cBoard;
-  const char testFenStr[256] = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+  const char testFenStr[] = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
   unsigned char result = 0;
 
   result = setPositionFromFen(&cBoard, testFenStr);
+
+  printBoard(&cBoard);
 
   if (result != 0) {
     printf("Valid FEN string should pass.\n");
@@ -54,16 +70,32 @@ void validFenStringTest()
   }
 }
 
-void invalidFenStringTest()
+void invalidSymbolsTest()
 {
   BOARD cBoard;
-  const char testFenStr[256] = "rnbqkbnr/ppppp^&RTy7t7&*8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+  const char testFenStr[] = "rnbqkbnr/ppppp^&RTy7t7&*8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
   unsigned char result = 0;
 
   result = setPositionFromFen(&cBoard, testFenStr);
 
   if (result != 2) {
-    printf("Invalid FEN string should NOT pass.\n");
+    printf("FEN string with invalid symbols should NOT pass.\n");
+    exit(1);
+  } else {
+    totalChecksPerformed += 1;
+  }
+}
+
+void stringWithMissingDataTest()
+{
+  BOARD cBoard;
+  const char testFenStr[] = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
+  unsigned char result = 0;
+
+  result = setPositionFromFen(&cBoard, testFenStr);
+
+  if (result != 3) {
+    printf("FEN string with missing data should NOT pass.\n");
     exit(1);
   } else {
     totalChecksPerformed += 1;
@@ -77,7 +109,8 @@ void fenTests()
   emptyFenStrTest();
   veryLongFenStrTest();
   validFenStringTest();
-  invalidFenStringTest();
+  invalidSymbolsTest();
+  stringWithMissingDataTest();
 
   printf("Done!\n\n");
 }
