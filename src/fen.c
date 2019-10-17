@@ -149,7 +149,7 @@ unsigned char setPositionFromFen(BOARD *cBoard, const char *fenStr)
     if (fenStr[idx1] == '\0') {
       return 3;
     } else if (fenStr[idx1] == '/') {
-      if (currentFile != FILE_H + 1) {
+      if ((currentFile != FILE_H + 1) || (currentRank == RANK_1)) {
         return 4;
       }
 
@@ -177,7 +177,7 @@ unsigned char setPositionFromFen(BOARD *cBoard, const char *fenStr)
     idx1 += 1;
   } while (fenStr[idx1] != ' ');
 
-  if (currentRank != RANK_1) {
+  if ((currentRank != RANK_1) || (currentFile != FILE_H + 1)) {
     return 6;
   }
 
