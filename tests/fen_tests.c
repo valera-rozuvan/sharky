@@ -1,27 +1,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include "../src/defs.h"
 #include "../src/fen.h"
 #include "../src/board.h"
 #include "../src/board_routines.h"
 
 #include "tests.h"
-
-void emptyFenStrTest()
-{
-  BOARD cBoard;
-  const char testFenStr[] = "";
-  unsigned char result = 0;
-
-  result = setPositionFromFen(&cBoard, testFenStr);
-
-  if (result != 1) {
-    printf("Empty FEN string should not pass FEN validation.\n");
-    exit(1);
-  } else {
-    totalChecksPerformed += 1;
-  }
-}
 
 void veryLongFenStrTest()
 {
@@ -70,32 +55,21 @@ void validFenStringTest()
   }
 }
 
-void invalidSymbolsTest()
+void checkErrorResultForFen(
+  unsigned char expectedError, const char testFenStr[], const char testErrorMessage[], unsigned char drawBoard
+)
 {
   BOARD cBoard;
-  const char testFenStr[] = "rnbqkbnr/ppppp^&RTy7t7&*8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
   unsigned char result = 0;
 
   result = setPositionFromFen(&cBoard, testFenStr);
 
-  if (result != 2) {
-    printf("FEN string with invalid symbols should NOT pass.\n");
-    exit(1);
-  } else {
-    totalChecksPerformed += 1;
+  if (drawBoard == TRUE) {
+    printBoard(&cBoard);
   }
-}
 
-void stringWithMissingDataTest()
-{
-  BOARD cBoard;
-  const char testFenStr[] = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
-  unsigned char result = 0;
-
-  result = setPositionFromFen(&cBoard, testFenStr);
-
-  if (result != 3) {
-    printf("FEN string with missing data should NOT pass.\n");
+  if (result != expectedError) {
+    printf("%s\n", testErrorMessage);
     exit(1);
   } else {
     totalChecksPerformed += 1;
@@ -106,11 +80,68 @@ void fenTests()
 {
   printf("Starting fen_tests...\n");
 
-  emptyFenStrTest();
   veryLongFenStrTest();
-  validFenStringTest();
-  invalidSymbolsTest();
-  stringWithMissingDataTest();
+
+  checkErrorResultForFen(
+    0,
+    "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+    "Valid FEN string should pass.",
+    TRUE
+  );
+  checkErrorResultForFen(
+    1,
+    "",
+    "Empty FEN string should not pass FEN validation.",
+    FALSE
+  );
+  checkErrorResultForFen(
+    2,
+    "rnbqkbnr/ppppp^&RTy7t7&*8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+    "FEN string with invalid symbols should NOT pass.",
+    FALSE
+  );
+  checkErrorResultForFen(
+    3,
+    "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR",
+    "FEN string with missing data should NOT pass.",
+    FALSE
+  );
+  checkErrorResultForFen(
+    4,
+    "rnbqkbnr/ppppppppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+    "FEN with too many files should NOT pass.",
+    FALSE
+  );
+  checkErrorResultForFen(
+    4,
+    "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR/RNBQKBNR w KQkq - 0 1",
+    "FEN with too many ranks should NOT pass.",
+    FALSE
+  );
+  checkErrorResultForFen(
+    5,
+    "rnbqkbnr/pppppppp/8/8/8/7w/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+    "FEN with invalid pieces symbols should NOT pass.",
+    FALSE
+  );
+  checkErrorResultForFen(
+    6,
+    "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBN w KQkq - 0 1",
+    "FEN with too few piece symbols in 1st rank should NOT pass.",
+    FALSE
+  );
+  checkErrorResultForFen(
+    6,
+    "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP w KQkq - 0 1",
+    "FEN with too few ranks should NOT pass.",
+    FALSE
+  );
+  checkErrorResultForFen(
+    7,
+    "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR K KQkq - 0 1",
+    "FEN with invalid symbol for side to move should NOT pass.",
+    FALSE
+  );
 
   printf("Done!\n\n");
 }
