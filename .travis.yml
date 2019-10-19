@@ -1,0 +1,5 @@
+language: c
+install: make get-deps
+compiler:
+  - gcc
+script: ./scripts/run_tests.sh
