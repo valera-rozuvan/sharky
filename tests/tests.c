@@ -8,6 +8,8 @@
 #include "bitboard_tests.h"
 #include "zobrist_hashing_tests.h"
 #include "fen_tests.h"
+#include "perft_tests.h"
+
 #include "tests.h"
 
 unsigned short totalChecksPerformed = 0;
