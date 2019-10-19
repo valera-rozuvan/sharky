@@ -44,11 +44,12 @@ clean:
 	rm -rf build/sharky build/tests obj/*.o
 
 TESTS_OBJECTS = \
-        obj/random_const_tests.o \
-        obj/board_routines_tests.o \
-        obj/bitboard_tests.o \
-        obj/zobrist_hashing_tests.o \
-        obj/fen_tests.o
+	obj/random_const_tests.o \
+	obj/board_routines_tests.o \
+	obj/bitboard_tests.o \
+	obj/zobrist_hashing_tests.o \
+	obj/fen_tests.o \
+	obj/perft_tests.o
 
 test: obj/tests.o $(TESTS_OBJECTS) $(MAIN_OBJECTS)
 	gcc -o build/tests obj/tests.o $(TESTS_OBJECTS) $(MAIN_OBJECTS)
@@ -70,3 +71,6 @@ obj/zobrist_hashing_tests.o: tests/zobrist_hashing_tests.c tests/zobrist_hashing
 
 obj/fen_tests.o: tests/fen_tests.c tests/fen_tests.h
 	gcc -c $(CFLAGS) tests/fen_tests.c -o obj/fen_tests.o
+
+obj/perft_tests.o: tests/perft_tests.c tests/perft_tests.h
+	gcc -c $(CFLAGS) tests/perft_tests.c -o obj/perft_tests.o

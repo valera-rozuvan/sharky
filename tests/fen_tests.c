@@ -6,6 +6,7 @@
 #include "../src/board.h"
 #include "../src/board_routines.h"
 
+#include "perft_tests.h"
 #include "tests.h"
 
 void veryLongFenStrTest()
@@ -76,6 +77,23 @@ void checkErrorResultForFen(
   }
 }
 
+void fenPerftTests()
+{
+  char testErrorMessage[100];
+  unsigned char idx = 0;
+
+  for (idx = 0; idx < PEFRT_FEN_STRINGS_LENGTH; idx += 1) {
+    snprintf(testErrorMessage, 36, "Valid perft FEN #%hhu should pass.", idx + 1);
+
+    checkErrorResultForFen(
+      0,
+      PEFRT_FEN_STRINGS[idx],
+      testErrorMessage,
+      FALSE
+    );
+  }
+}
+
 void fenTests()
 {
   printf("Starting fen_tests...\n");
@@ -142,6 +160,8 @@ void fenTests()
     "FEN with invalid symbol for side to move should NOT pass.",
     FALSE
   );
+
+  fenPerftTests();
 
   printf("Done!\n\n");
 }
