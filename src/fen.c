@@ -2,6 +2,7 @@
 #include "fen.h"
 #include "board_routines.h"
 #include "bitboard.h"
+#include "zobrist_hashing.h"
 
 /*
  *
@@ -271,7 +272,22 @@ unsigned char setPositionFromFen(BOARD *cBoard, const char *fenStr)
   }
 
   idx1 += 1;
-  cBoard->fiftyMove = 0;
+
+  if (fenStr[idx1] == '\0') {
+    cBoard->fiftyMove = 0;
+    cBoard->historyPly = 0;
+    cBoard->searchPly = 0;
+
+    cBoard->positionKey = generateFullHash(cBoard);
+  } else {
+    // TODO: Finish parsing FEN string. Properly set `historyPly`, and `historyPly`.
+
+    cBoard->fiftyMove = 0;
+    cBoard->historyPly = 0;
+    cBoard->searchPly = 0;
+
+    cBoard->positionKey = generateFullHash(cBoard);
+  }
 
   return 0;
 }
