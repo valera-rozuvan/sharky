@@ -39,7 +39,7 @@ const char *PEFRT_FEN_STRINGS[PEFRT_FEN_STRINGS_LENGTH] = {
   "rnbqk1nr/p1pp1ppp/1p6/2b1p1B1/8/1QPP4/PP2PPPP/RN2KBNR b KQkq - 2 4",
   "rnb1kbnr/ppp1pppp/8/3p4/1P6/P2P3q/2P1PPP1/RNBQKBNR b KQkq - 0 4",
   "n1n5/PPPk4/8/8/8/8/4Kppp/5N1N b - - 0 1",
-  "8/3K4/2p5/p2b2r1/5k2/8/8/1q6 b - 1 67",
+  "8/3K4/2p5/p2b2r1/5k2/8/8/1q6 b - - 1 67",
   "8/7p/p5pb/4k3/P1pPn3/8/P5PP/1rB2RK1 b - d3 0 28",
   "rnbqkb1r/ppppp1pp/7n/4Pp2/8/8/PPPP1PPP/RNBQKBNR w KQkq f6 0 3"
 };

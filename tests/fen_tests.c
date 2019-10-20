@@ -156,8 +156,74 @@ void fenTests()
   );
   checkErrorResultForFen(
     7,
+    "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR ",
+    "FEN which ends prematurely with a space after piece info should NOT pass.",
+    FALSE
+  );
+  checkErrorResultForFen(
+    8,
     "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR K KQkq - 0 1",
     "FEN with invalid symbol for side to move should NOT pass.",
+    FALSE
+  );
+  checkErrorResultForFen(
+    9,
+    "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w",
+    "FEN which ends prematurely after side to move should NOT pass.",
+    FALSE
+  );
+  checkErrorResultForFen(
+    9,
+    "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w/KQkq - 0 1",
+    "FEN without a space after side to move should NOT pass.",
+    FALSE
+  );
+  checkErrorResultForFen(
+    10,
+    "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w ",
+    "FEN which ends prematurely with a space after side to move should NOT pass.",
+    FALSE
+  );
+  checkErrorResultForFen(
+    10,
+    "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq",
+    "FEN which ends after castling perm should NOT pass.",
+    FALSE
+  );
+  checkErrorResultForFen(
+    11,
+    "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w rQkq - 0 1",
+    "FEN with invalid castling perm symbols should NOT pass.",
+    FALSE
+  );
+  checkErrorResultForFen(
+    12,
+    "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w -Qkq - 0 1",
+    "FEN with dash symbol in castling perm should NOT pass.",
+    FALSE
+  );
+  checkErrorResultForFen(
+    13,
+    "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq ",
+    "FEN without en passant information should NOT pass.",
+    FALSE
+  );
+  checkErrorResultForFen(
+    14,
+    "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq K3 0 1",
+    "FEN without valid en passant file symbol should NOT pass.",
+    FALSE
+  );
+  checkErrorResultForFen(
+    15,
+    "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq a",
+    "FEN without en passant rank symbol should NOT pass.",
+    FALSE
+  );
+  checkErrorResultForFen(
+    16,
+    "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq aq",
+    "FEN without valid en passant rank symbol should NOT pass.",
     FALSE
   );
 
