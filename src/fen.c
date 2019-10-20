@@ -1,6 +1,7 @@
 #include "board.h"
 #include "fen.h"
 #include "board_routines.h"
+#include "bitboard.h"
 
 /*
  *
@@ -60,6 +61,8 @@ const char onlyAllowedFenSymbols[] = "abcdefgh012345678 /-PNBRQKpnbrqkwb";
 const char onlyChessPieceSymbols[] = "PNBRQKpnbrqk";
 const char onlyDigits1To8Symbols[] = "12345678";
 const char onlySideToMoveSymbols[] = "wb";
+const char onlyCastlingRightsSymbols[] = "KQkq";
+const char onlyFileSymbols[] = "abcdefgh";
 
 unsigned char arrayContainsChar(const char *hayStack, char needle)
 {
@@ -108,11 +111,33 @@ unsigned char digit1To8CharToNum(char digitCharRepr)
   return 8;
 }
 
+unsigned char fileCharToFile(char fileChar)
+{
+  if (fileChar == 'a') return FILE_A;
+  if (fileChar == 'b') return FILE_B;
+  if (fileChar == 'c') return FILE_C;
+  if (fileChar == 'd') return FILE_D;
+  if (fileChar == 'e') return FILE_E;
+  if (fileChar == 'f') return FILE_F;
+  if (fileChar == 'g') return FILE_G;
+
+  return FILE_H;
+}
+
 unsigned char sideCharToSide(char sideCharRepr)
 {
   if (sideCharRepr == 'w') return WHITE;
 
   return BLACK;
+}
+
+unsigned char castlingPermCharToCastlingPerm(char castlingPermChar)
+{
+  if (castlingPermChar == 'K') return WKCastling;
+  if (castlingPermChar == 'Q') return WQCastling;
+  if (castlingPermChar == 'k') return BKCastling;
+
+  return BQCastling;
 }
 
 unsigned char setPositionFromFen(BOARD *cBoard, const char *fenStr)
@@ -182,11 +207,70 @@ unsigned char setPositionFromFen(BOARD *cBoard, const char *fenStr)
   }
 
   idx1 += 1;
-  if (arrayContainsChar(onlySideToMoveSymbols, fenStr[idx1]) == 0) {
+  if (fenStr[idx1] == '\0') {
     return 7;
+  }
+
+  if (arrayContainsChar(onlySideToMoveSymbols, fenStr[idx1]) == 0) {
+    return 8;
   }
   cBoard->side = sideCharToSide(fenStr[idx1]);
 
+  idx1 += 1;
+  if (fenStr[idx1] != ' ' || fenStr[idx1] == '\0') {
+    return 9;
+  }
+
+  idx1 += 1;
+  cBoard->castlingPerm = 0;
+  if (fenStr[idx1] == '-') {
+    idx1 += 1;
+  } else {
+    do {
+      if (fenStr[idx1] == '\0') {
+        return 10;
+      }
+
+      if (arrayContainsChar(onlyCastlingRightsSymbols, fenStr[idx1]) == 1) {
+        SET_BIT(cBoard->castlingPerm, castlingPermCharToCastlingPerm(fenStr[idx1]));
+      } else {
+        return 11;
+      }
+
+      idx1 += 1;
+    } while (fenStr[idx1] != ' ');
+  }
+
+  if (fenStr[idx1] != ' ' || fenStr[idx1] == '\0') {
+    return 12;
+  }
+
+  idx1 += 1;
+  cBoard->enPassantFile = NO_EN_PASSANT;
+  if (fenStr[idx1] == '-') {
+    idx1 += 1;
+  } else {
+    if (fenStr[idx1] == '\0') {
+      return 13;
+    }
+
+    if (arrayContainsChar(onlyFileSymbols, fenStr[idx1]) == 1) {
+      cBoard->enPassantFile = fileCharToFile(fenStr[idx1]);
+    } else {
+      return 14;
+    }
+
+    idx1 += 1;
+    if (fenStr[idx1] == '\0') {
+      return 15;
+    }
+
+    if (arrayContainsChar(onlyDigits1To8Symbols, fenStr[idx1]) == 0) {
+      return 16;
+    }
+  }
+
+  idx1 += 1;
   cBoard->fiftyMove = 0;
 
   return 0;
