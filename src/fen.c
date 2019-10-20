@@ -141,6 +141,13 @@ unsigned char castlingPermCharToCastlingPerm(char castlingPermChar)
   return BQCastling;
 }
 
+unsigned char setInitialPosReturnError(BOARD *cBoard, unsigned char errorCode)
+{
+  setupInitialPosition(cBoard);
+
+  return errorCode;
+}
+
 unsigned char setPositionFromFen(BOARD *cBoard, const char *fenStr)
 {
   unsigned char idx1 = 0;
@@ -149,6 +156,8 @@ unsigned char setPositionFromFen(BOARD *cBoard, const char *fenStr)
   unsigned char currentRank = 0;
   unsigned char numOfEmpty = 0;
 
+  setupEmptyPosition(cBoard);
+
   for (idx1 = 0; idx1 <= MAX_ALLOWED_FEN_STRING_LENGTH; idx1 += 1) {
     if (fenStr[idx1] == '\0') {
       break;
@@ -156,13 +165,13 @@ unsigned char setPositionFromFen(BOARD *cBoard, const char *fenStr)
   }
 
   if ((idx1 == 0) || (idx1 > MAX_ALLOWED_FEN_STRING_LENGTH)) {
-    return 1;
+    return setInitialPosReturnError(cBoard, 1);
   }
 
   idx1 = 0;
   do {
     if (arrayContainsChar(onlyAllowedFenSymbols, fenStr[idx1]) == 0) {
-      return 2;
+      return setInitialPosReturnError(cBoard, 2);
     }
 
     idx1 += 1;
@@ -173,10 +182,10 @@ unsigned char setPositionFromFen(BOARD *cBoard, const char *fenStr)
   currentRank = RANK_8;
   do {
     if (fenStr[idx1] == '\0') {
-      return 3;
+      return setInitialPosReturnError(cBoard, 3);
     } else if (fenStr[idx1] == '/') {
       if ((currentFile != FILE_H + 1) || (currentRank == RANK_1)) {
-        return 4;
+        return setInitialPosReturnError(cBoard, 4);
       }
 
       idx1 += 1;
@@ -197,45 +206,44 @@ unsigned char setPositionFromFen(BOARD *cBoard, const char *fenStr)
         currentFile += 1;
       }
     } else {
-      return 5;
+      return setInitialPosReturnError(cBoard, 5);
     }
 
     idx1 += 1;
   } while (fenStr[idx1] != ' ');
 
   if ((currentRank != RANK_1) || (currentFile != FILE_H + 1)) {
-    return 6;
+    return setInitialPosReturnError(cBoard, 6);
   }
 
   idx1 += 1;
   if (fenStr[idx1] == '\0') {
-    return 7;
+    return setInitialPosReturnError(cBoard, 7);
   }
 
   if (arrayContainsChar(onlySideToMoveSymbols, fenStr[idx1]) == 0) {
-    return 8;
+    return setInitialPosReturnError(cBoard, 8);
   }
   cBoard->side = sideCharToSide(fenStr[idx1]);
 
   idx1 += 1;
   if (fenStr[idx1] != ' ' || fenStr[idx1] == '\0') {
-    return 9;
+    return setInitialPosReturnError(cBoard, 9);
   }
 
   idx1 += 1;
-  cBoard->castlingPerm = 0;
   if (fenStr[idx1] == '-') {
     idx1 += 1;
   } else {
     do {
       if (fenStr[idx1] == '\0') {
-        return 10;
+        return setInitialPosReturnError(cBoard, 10);
       }
 
       if (arrayContainsChar(onlyCastlingRightsSymbols, fenStr[idx1]) == 1) {
         SET_BIT(cBoard->castlingPerm, castlingPermCharToCastlingPerm(fenStr[idx1]));
       } else {
-        return 11;
+        return setInitialPosReturnError(cBoard, 11);
       }
 
       idx1 += 1;
@@ -243,51 +251,43 @@ unsigned char setPositionFromFen(BOARD *cBoard, const char *fenStr)
   }
 
   if (fenStr[idx1] != ' ' || fenStr[idx1] == '\0') {
-    return 12;
+    return setInitialPosReturnError(cBoard, 12);
   }
 
   idx1 += 1;
-  cBoard->enPassantFile = NO_EN_PASSANT;
   if (fenStr[idx1] == '-') {
     idx1 += 1;
   } else {
     if (fenStr[idx1] == '\0') {
-      return 13;
+      return setInitialPosReturnError(cBoard, 13);
     }
 
     if (arrayContainsChar(onlyFileSymbols, fenStr[idx1]) == 1) {
       cBoard->enPassantFile = fileCharToFile(fenStr[idx1]);
     } else {
-      return 14;
+      return setInitialPosReturnError(cBoard, 14);
     }
 
     idx1 += 1;
     if (fenStr[idx1] == '\0') {
-      return 15;
+      return setInitialPosReturnError(cBoard, 15);
     }
 
     if (arrayContainsChar(onlyDigits1To8Symbols, fenStr[idx1]) == 0) {
-      return 16;
+      return setInitialPosReturnError(cBoard, 16);
     }
   }
 
   idx1 += 1;
 
-  if (fenStr[idx1] == '\0') {
-    cBoard->fiftyMove = 0;
-    cBoard->historyPly = 0;
-    cBoard->searchPly = 0;
-
-    cBoard->positionKey = generateFullHash(cBoard);
-  } else {
-    // TODO: Finish parsing FEN string. Properly set `historyPly`, and `historyPly`.
+  if (fenStr[idx1] != '\0') {
+    // TODO: Finish parsing FEN string. Properly set `fiftyMove`, and `historyPly`.
 
     cBoard->fiftyMove = 0;
     cBoard->historyPly = 0;
-    cBoard->searchPly = 0;
-
-    cBoard->positionKey = generateFullHash(cBoard);
   }
+
+  cBoard->positionKey = generateFullHash(cBoard);
 
   return 0;
 }

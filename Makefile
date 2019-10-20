@@ -2,7 +2,7 @@
 # https://stackoverflow.com/questions/1814270/gcc-g-option-to-place-all-object-files-into-separate-directory
 
 # CFLAGS =
-CFLAGS = -DVASSERT_ENABLE -Wall -Wextra -Werror -std=gnu99 -pedantic
+CFLAGS = -DVASSERT_ENABLE -O3 -Wall -Wextra -Werror -std=gnu99 -pedantic
 
 MAIN_OBJECTS = \
 	obj/board_routines.o \
