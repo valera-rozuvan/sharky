@@ -11,12 +11,12 @@
 
 void testEmptyPosition()
 {
-  BOARD bBoard;
+  BOARD cBoard;
 
-  setupEmptyPosition(&bBoard);
+  setupEmptyPosition(&cBoard);
 
-  if (bBoard.positionKey != 0x0ULL) {
-    printf("Empty position hash key is wrong! bBoard.positionKey = %llx\n", bBoard.positionKey);
+  if (cBoard.positionKey != 0x0ULL) {
+    printf("Empty position hash key is wrong! cBoard.positionKey = %llx\n", cBoard.positionKey);
 
     exit(1);
   } else {
@@ -26,12 +26,12 @@ void testEmptyPosition()
 
 void testStartPosition()
 {
-  BOARD bBoard;
+  BOARD cBoard;
 
-  setupInitialPosition(&bBoard);
+  setupInitialPosition(&cBoard);
 
-  if (bBoard.positionKey != 0xef03a45ed3c2355fULL) {
-    printf("Initial position hash key is wrong! bBoard.positionKey = %llx\n", bBoard.positionKey);
+  if (cBoard.positionKey != 0xef03a45ed3c2355fULL) {
+    printf("Initial position hash key is wrong! cBoard.positionKey = %llx\n", cBoard.positionKey);
 
     exit(1);
   } else {
@@ -60,66 +60,66 @@ void testIndividualPieces()
   unsigned char hashArr_piece[RANDOM_CONST_LENGTH];
   unsigned char hashArr_sqr64[RANDOM_CONST_LENGTH];
 
-  BOARD bBoard;
+  BOARD cBoard;
 
-  setupEmptyPosition(&bBoard);
+  setupEmptyPosition(&cBoard);
 
   for (idx1 = 0; idx1 < 12; idx1 += 1) {
     if ((pieceList[idx1] == wP) || (pieceList[idx1] == bP)) {
       for (idx2 = 8; idx2 <= 55; idx2 += 1) {
         sq120 = board64to120[idx2];
 
-        bBoard.pieces[sq120] = pieceList[idx1];
-        hashArr[hashCounter] = generateFullHash(&bBoard);
+        cBoard.pieces[sq120] = pieceList[idx1];
+        hashArr[hashCounter] = generateFullHash(&cBoard);
         hashArr_piece[hashCounter] = pieceList[idx1];
         hashArr_sqr64[hashCounter] = idx2;
         hashCounter += 1;
-        bBoard.pieces[sq120] = EMPTY;
+        cBoard.pieces[sq120] = EMPTY;
       }
     } else {
       for (idx2 = 0; idx2 <= 63; idx2 += 1) {
         sq120 = board64to120[idx2];
 
-        bBoard.pieces[sq120] = pieceList[idx1];
-        hashArr[hashCounter] = generateFullHash(&bBoard);
+        cBoard.pieces[sq120] = pieceList[idx1];
+        hashArr[hashCounter] = generateFullHash(&cBoard);
         hashArr_piece[hashCounter] = pieceList[idx1];
         hashArr_sqr64[hashCounter] = idx2;
         hashCounter += 1;
-        bBoard.pieces[sq120] = EMPTY;
+        cBoard.pieces[sq120] = EMPTY;
       }
     }
   }
 
-  bBoard.side = BLACK;
-  hashArr[hashCounter] = generateFullHash(&bBoard);
+  cBoard.side = BLACK;
+  hashArr[hashCounter] = generateFullHash(&cBoard);
   hashCounter += 1;
-  bBoard.side = WHITE;
+  cBoard.side = WHITE;
 
-  SET_BIT(bBoard.castlingPerm, WKCastling);
-  hashArr[hashCounter] = generateFullHash(&bBoard);
+  SET_BIT(cBoard.castlingPerm, WKCastling);
+  hashArr[hashCounter] = generateFullHash(&cBoard);
   hashCounter += 1;
-  CLEAR_BIT(bBoard.castlingPerm, WKCastling);
+  CLEAR_BIT(cBoard.castlingPerm, WKCastling);
 
-  SET_BIT(bBoard.castlingPerm, WQCastling);
-  hashArr[hashCounter] = generateFullHash(&bBoard);
+  SET_BIT(cBoard.castlingPerm, WQCastling);
+  hashArr[hashCounter] = generateFullHash(&cBoard);
   hashCounter += 1;
-  CLEAR_BIT(bBoard.castlingPerm, WQCastling);
+  CLEAR_BIT(cBoard.castlingPerm, WQCastling);
 
-  SET_BIT(bBoard.castlingPerm, BKCastling);
-  hashArr[hashCounter] = generateFullHash(&bBoard);
+  SET_BIT(cBoard.castlingPerm, BKCastling);
+  hashArr[hashCounter] = generateFullHash(&cBoard);
   hashCounter += 1;
-  CLEAR_BIT(bBoard.castlingPerm, BKCastling);
+  CLEAR_BIT(cBoard.castlingPerm, BKCastling);
 
-  SET_BIT(bBoard.castlingPerm, BQCastling);
-  hashArr[hashCounter] = generateFullHash(&bBoard);
+  SET_BIT(cBoard.castlingPerm, BQCastling);
+  hashArr[hashCounter] = generateFullHash(&cBoard);
   hashCounter += 1;
-  CLEAR_BIT(bBoard.castlingPerm, BQCastling);
+  CLEAR_BIT(cBoard.castlingPerm, BQCastling);
 
   for (idx1 = FILE_A; idx1 <= FILE_H; idx1 += 1) {
-    bBoard.enPassantFile = idx1;
-    hashArr[hashCounter] = generateFullHash(&bBoard);
+    cBoard.enPassantFile = idx1;
+    hashArr[hashCounter] = generateFullHash(&cBoard);
     hashCounter += 1;
-    bBoard.enPassantFile = NO_EN_PASSANT;
+    cBoard.enPassantFile = NO_EN_PASSANT;
   }
 
   if (hashCounter != RANDOM_CONST_LENGTH) {
