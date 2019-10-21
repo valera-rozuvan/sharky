@@ -38,24 +38,6 @@ void veryLongFenStrTest()
   }
 }
 
-void validFenStringTest()
-{
-  BOARD cBoard;
-  const char testFenStr[] = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
-  unsigned char result = 0;
-
-  result = setPositionFromFen(&cBoard, testFenStr);
-
-  printBoard(&cBoard);
-
-  if (result != 0) {
-    printf("Valid FEN string should pass.\n");
-    exit(1);
-  } else {
-    totalChecksPerformed += 1;
-  }
-}
-
 void checkErrorResultForFen(
   unsigned char expectedError, const char testFenStr[], const char testErrorMessage[],
   unsigned char drawBoard, unsigned long long expectedPositionKey
@@ -68,9 +50,8 @@ void checkErrorResultForFen(
 
   if (drawBoard == TRUE) {
     printBoard(&cBoard);
-    printf("Position hash: %llx\n", cBoard.positionKey);
 
-    if (cBoard.positionKey != expectedPositionKey ) {
+    if (cBoard.positionKey != expectedPositionKey) {
       printf("%s\n", testErrorMessage);
       exit(1);
     }

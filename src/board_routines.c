@@ -167,6 +167,25 @@ const char* boardPieceStr[13] = {
   "p", "n", "b", "r", "q", "k"
 };
 
+const char* sideToMoveStr(BOARD *cBoard)
+{
+  if (cBoard->side == WHITE) return "white";
+  if (cBoard->side == BLACK) return "black";
+
+  return "?";
+}
+
+const char *BIT_CASTLING_CHAR[] = {
+  "K", "Q", "k", "q"
+};
+
+const char* castlingPermStr(BOARD *cBoard, unsigned char bitToTest)
+{
+  if (CHECK_BIT(cBoard->castlingPerm, bitToTest)) return BIT_CASTLING_CHAR[bitToTest];
+
+  return "-";
+}
+
 void printBoard(BOARD *cBoard) {
   char rankIter = 0;
   char fileIter = 0;
@@ -176,13 +195,15 @@ void printBoard(BOARD *cBoard) {
   do {
     fileIter = FILE_A;
 
+    printf("%hhi ", rankIter + 1);
+
     do {
       sq120 = FileRankTo120SQ(fileIter, rankIter);
 
       if (cBoard->pieces[sq120] >= 13) {
         printf("?");
       } else {
-        printf("%s", boardPieceStr[cBoard->pieces[sq120]]);
+        printf("%3s", boardPieceStr[cBoard->pieces[sq120]]);
       }
 
       fileIter += 1;
@@ -192,7 +213,28 @@ void printBoard(BOARD *cBoard) {
     rankIter -= 1;
   } while (rankIter >= RANK_1);
 
-  printf("\n");
+  printf("\n  ");
+  fileIter = FILE_A;
+  do {
+    printf("%3c", 'a' + fileIter);
+
+    fileIter += 1;
+  } while (fileIter <= FILE_H);
+  printf("\n\n");
+
+  printf("Position hash: %llx\n", cBoard->positionKey);
+  printf("Side to move: %s\n", sideToMoveStr(cBoard));
+  if (cBoard->castlingPerm != 0) {
+    printf(
+      "Castling rights: %s%s%s%s\n",
+      castlingPermStr(cBoard, WKCastling),
+      castlingPermStr(cBoard, WQCastling),
+      castlingPermStr(cBoard, BKCastling),
+      castlingPermStr(cBoard, BQCastling)
+    );
+  }
+
+  // TODO: Print en passant file, if en passant capture is available.
 }
 
 void setupEmptyPosition(BOARD *cBoard)
