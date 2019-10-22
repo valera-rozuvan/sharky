@@ -56,12 +56,12 @@
  *
  */
 
-const char onlyAllowedFenSymbols[] = "abcdefgh012345678 /-PNBRQKpnbrqkwb";
-const char onlyChessPieceSymbols[] = "PNBRQKpnbrqk";
-const char onlyDigits1To8Symbols[] = "12345678";
-const char onlySideToMoveSymbols[] = "wb";
-const char onlyCastlingRightsSymbols[] = "KQkq";
-const char onlyFileSymbols[] = "abcdefgh";
+const char *onlyAllowedFenSymbols = "abcdefgh012345678 /-PNBRQKpnbrqkwb";
+const char *onlyChessPieceSymbols = "PNBRQKpnbrqk";
+const char *onlyDigits1To8Symbols = "12345678";
+const char *onlySideToMoveSymbols = "wb";
+const char *onlyCastlingRightsSymbols = "KQkq";
+const char *onlyFileSymbols = "abcdefgh";
 
 unsigned char arrayContainsChar(const char *hayStack, char needle)
 {
