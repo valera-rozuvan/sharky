@@ -161,7 +161,7 @@ void printBoard64(unsigned long long bBoard) {
   printf("\n");
 }
 
-const char* boardPieceStr[13] = {
+const char *boardPieceStr[13] = {
   ".",
   "P", "N", "B", "R", "Q", "K",
   "p", "n", "b", "r", "q", "k"
@@ -175,7 +175,7 @@ const char* sideToMoveStr(BOARD *cBoard)
   return "?";
 }
 
-const char *BIT_CASTLING_CHAR[] = {
+const char *BIT_CASTLING_CHAR[4] = {
   "K", "Q", "k", "q"
 };
 
