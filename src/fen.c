@@ -56,8 +56,6 @@
  *
  */
 
-unsigned char MAX_ALLOWED_FEN_STRING_LENGTH = 120;
-
 const char onlyAllowedFenSymbols[] = "abcdefgh012345678 /-PNBRQKpnbrqkwb";
 const char onlyChessPieceSymbols[] = "PNBRQKpnbrqk";
 const char onlyDigits1To8Symbols[] = "12345678";
