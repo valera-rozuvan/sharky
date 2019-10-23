@@ -6,6 +6,7 @@
 
 void moveGen_EMPTY(BOARD *cBoard, unsigned char square120)
 {
+  // We never call this function, so just have dummy code here.
   cBoard->pieces[square120] = EMPTY;
 }
 
@@ -102,6 +103,8 @@ void moveGen(BOARD *cBoard)
   for (square64 = 0; square64 < 64; square64 += 1) {
     square120 = board64to120[square64];
     piece = cBoard->pieces[square120];
+
+    if (piece == EMPTY) continue;
 
     (*MOVE_GEN[piece])(cBoard, square120);
   }
