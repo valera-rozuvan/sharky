@@ -1,6 +1,7 @@
 #include "defs.h"
 #include "board.h"
 #include "board_routines.h"
+#include "bitboard.h"
 
 /* ----------------- */
 
@@ -46,7 +47,38 @@ void moveGen_wK(BOARD *cBoard, unsigned char square120)
 
 void moveGen_bP(BOARD *cBoard, unsigned char square120)
 {
+  unsigned long long move = 0ULL;
+
   cBoard->pieces[square120] = bP;
+
+  if (square120 > 80) {
+    // The black pawn is on rank 7. We can do normal move and 2 square advance.
+
+    if (cBoard->pieces[square120 - 10] == EMPTY) {
+      move |= (0ULL | square120);
+      move |= (0ULL | (square120 - 10)) << 8;
+      move |= (0ULL | bP) << 16;
+
+      SET_BIT(move, 28);
+
+      cBoard->movesAvailable += 1;
+      cBoard->moves[cBoard->movesAvailable] = move;
+
+      // Can we advance 2 squares?
+      if (cBoard->pieces[square120 - 20] == EMPTY) {
+        move = 0ULL;
+
+        move |= (0ULL | square120);
+        move |= (0ULL | (square120 - 20)) << 8;
+        move |= (0ULL | bP) << 16;
+
+        SET_BIT(move, 28);
+
+        cBoard->movesAvailable += 1;
+        cBoard->moves[cBoard->movesAvailable] = move;
+      }
+    }
+  }
 }
 
 void moveGen_bN(BOARD *cBoard, unsigned char square120)

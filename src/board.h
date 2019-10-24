@@ -83,6 +83,9 @@ typedef struct {
   unsigned char majorPieces[3];
   unsigned char minorPieces[3];
 
+  unsigned long long moves[200];
+  unsigned char movesAvailable;
+
   // Move history. Allows for undoing moves.
   // Store information about current board position, before
   // making a new move.
