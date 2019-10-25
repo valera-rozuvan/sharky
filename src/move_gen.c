@@ -132,12 +132,25 @@ void moveGen(BOARD *cBoard)
   unsigned char square120;
   unsigned char square64;
 
-  for (square64 = 0; square64 < 64; square64 += 1) {
-    square120 = board64to120[square64];
-    piece = cBoard->pieces[square120];
+  if (cBoard->side == WHITE) {
+    for (square64 = 0; square64 < 64; square64 += 1) {
+      square120 = board64to120[square64];
+      piece = cBoard->pieces[square120];
 
-    if (piece == EMPTY) continue;
+      if (piece == EMPTY) continue;
+      if (piece > wK) continue;
 
-    (*MOVE_GEN[piece])(cBoard, square120);
+      (*MOVE_GEN[piece])(cBoard, square120);
+    }
+  } else {
+    for (square64 = 0; square64 < 64; square64 += 1) {
+      square120 = board64to120[square64];
+      piece = cBoard->pieces[square120];
+
+      if (piece == EMPTY) continue;
+      if (piece < bP) continue;
+
+      (*MOVE_GEN[piece])(cBoard, square120);
+    }
   }
 }
