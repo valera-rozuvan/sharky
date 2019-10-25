@@ -285,6 +285,11 @@ unsigned char setPositionFromFen(BOARD *cBoard, const char *fenStr)
     cBoard->historyPly = 0;
   }
 
+  for (idx1 = 0; idx1 < MAX_POSSIBLE_MOVES_IN_POSITION; idx1 += 1) {
+    cBoard->moves[idx1] = 0ULL;
+  }
+  cBoard->movesAvailable = 0;
+
   cBoard->positionKey = generateFullHash(cBoard);
 
   return 0;

@@ -61,8 +61,8 @@ void moveGen_bP(BOARD *cBoard, unsigned char square120)
 
       SET_BIT(move, 28);
 
-      cBoard->movesAvailable += 1;
       cBoard->moves[cBoard->movesAvailable] = move;
+      cBoard->movesAvailable += 1;
 
       // Can we advance 2 squares?
       if (cBoard->pieces[square120 - 20] == EMPTY) {
@@ -74,8 +74,8 @@ void moveGen_bP(BOARD *cBoard, unsigned char square120)
 
         SET_BIT(move, 28);
 
-        cBoard->movesAvailable += 1;
         cBoard->moves[cBoard->movesAvailable] = move;
+        cBoard->movesAvailable += 1;
       }
     }
   }

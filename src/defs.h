@@ -9,6 +9,10 @@
 // Maximum number of half moves per game.
 #define MAX_GAME_MOVES_NUM 1600
 
+// Maximum possible moves in a given chess position.
+// Not an exact number, but a limit.
+#define MAX_POSSIBLE_MOVES_IN_POSITION 220
+
 // Empty square, and pieces.
 enum {
   EMPTY,
