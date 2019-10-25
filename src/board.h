@@ -83,7 +83,7 @@ typedef struct {
   unsigned char majorPieces[3];
   unsigned char minorPieces[3];
 
-  unsigned long long moves[200];
+  unsigned long long moves[MAX_POSSIBLE_MOVES_IN_POSITION];
   unsigned char movesAvailable;
 
   // Move history. Allows for undoing moves.

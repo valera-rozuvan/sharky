@@ -237,6 +237,21 @@ void printBoard(BOARD *cBoard) {
   // TODO: Print en passant file, if en passant capture is available.
 }
 
+void printMoves(BOARD *cBoard)
+{
+  unsigned char idx = 0;
+
+  if (cBoard->moves[idx] == 0ULL) return;
+
+  do {
+    printf("Move %hhu: %llu ", idx + 1, cBoard->moves[idx]);
+
+    idx += 1;
+  } while (cBoard->moves[idx] != 0ULL);
+
+  printf("\n\n");
+}
+
 void setupEmptyPosition(BOARD *cBoard)
 {
   unsigned char idx = 0;
@@ -255,6 +270,11 @@ void setupEmptyPosition(BOARD *cBoard)
   cBoard->fiftyMove = 0;
   cBoard->searchPly = 0;
   cBoard->historyPly = 0;
+
+  for (idx = 0; idx < MAX_POSSIBLE_MOVES_IN_POSITION; idx += 1) {
+    cBoard->moves[idx] = 0ULL;
+  }
+  cBoard->movesAvailable = 0;
 
   cBoard->positionKey = generateFullHash(cBoard);
 }
@@ -311,6 +331,11 @@ void setupInitialPosition(BOARD *cBoard)
   cBoard->fiftyMove = 0;
   cBoard->searchPly = 0;
   cBoard->historyPly = 0;
+
+  for (idx = 0; idx < MAX_POSSIBLE_MOVES_IN_POSITION; idx += 1) {
+    cBoard->moves[idx] = 0ULL;
+  }
+  cBoard->movesAvailable = 0;
 
   cBoard->positionKey = generateFullHash(cBoard);
 }

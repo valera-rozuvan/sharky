@@ -14,6 +14,7 @@ int main()
   setupInitialPosition(&cBoard);
   moveGen(&cBoard);
   printBoard(&cBoard);
+  printMoves(&cBoard);
 
   return 0;
 }
