@@ -18,7 +18,7 @@ void moveGen_wP(BOARD *cBoard, unsigned char square120)
   unsigned long long move = 0ULL;
 
   if (square120 < 39) {
-    // The black pawn is on rank 7. We can do normal move and 2 square advance.
+    // The white pawn is on rank 2. We can do normal move and 2 square advance.
 
     if (cBoard->pieces[square120 + 10] == EMPTY) {
       move |= (0ULL | square120);
