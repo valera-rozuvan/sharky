@@ -268,13 +268,16 @@ void setupEmptyPosition(BOARD *cBoard)
   cBoard->side = WHITE;
   cBoard->enPassantFile = NO_EN_PASSANT;
   cBoard->fiftyMove = 0;
-  cBoard->searchPly = 0;
   cBoard->historyPly = 0;
 
   for (idx = 0; idx < MAX_POSSIBLE_MOVES_IN_POSITION; idx += 1) {
     cBoard->moves[idx] = 0ULL;
   }
   cBoard->movesAvailable = 0;
+
+  for (idx = 1; idx < 13; idx += 1) {
+    cBoard->numPieces[idx] = 0;
+  }
 
   cBoard->positionKey = generateFullHash(cBoard);
 }
@@ -329,13 +332,16 @@ void setupInitialPosition(BOARD *cBoard)
   cBoard->enPassantFile = NO_EN_PASSANT;
 
   cBoard->fiftyMove = 0;
-  cBoard->searchPly = 0;
   cBoard->historyPly = 0;
 
   for (idx = 0; idx < MAX_POSSIBLE_MOVES_IN_POSITION; idx += 1) {
     cBoard->moves[idx] = 0ULL;
   }
   cBoard->movesAvailable = 0;
+
+  for (idx = 1; idx < 13; idx += 1) {
+    cBoard->numPieces[idx] = 0;
+  }
 
   cBoard->positionKey = generateFullHash(cBoard);
 }

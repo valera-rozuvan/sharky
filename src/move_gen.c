@@ -15,7 +15,37 @@ void moveGen_EMPTY(BOARD *cBoard, unsigned char square120)
 
 void moveGen_wP(BOARD *cBoard, unsigned char square120)
 {
-  cBoard->pieces[square120] = wP;
+  unsigned long long move = 0ULL;
+
+  if (square120 < 39) {
+    // The black pawn is on rank 7. We can do normal move and 2 square advance.
+
+    if (cBoard->pieces[square120 + 10] == EMPTY) {
+      move |= (0ULL | square120);
+      move |= (0ULL | (square120 + 10)) << 8;
+      move |= (0ULL | wP) << 16;
+
+      SET_BIT(move, 28);
+
+      cBoard->moves[cBoard->movesAvailable] = move;
+      cBoard->movesAvailable += 1;
+
+      // Can we advance 2 squares?
+      if (cBoard->pieces[square120 + 20] == EMPTY) {
+        move = 0ULL;
+
+        move |= (0ULL | square120);
+        move |= (0ULL | (square120 + 20)) << 8;
+        move |= (0ULL | wP) << 16;
+
+        SET_BIT(move, 28);
+        SET_BIT(move, 29);
+
+        cBoard->moves[cBoard->movesAvailable] = move;
+        cBoard->movesAvailable += 1;
+      }
+    }
+  }
 }
 
 void moveGen_wN(BOARD *cBoard, unsigned char square120)
@@ -49,8 +79,6 @@ void moveGen_bP(BOARD *cBoard, unsigned char square120)
 {
   unsigned long long move = 0ULL;
 
-  cBoard->pieces[square120] = bP;
-
   if (square120 > 80) {
     // The black pawn is on rank 7. We can do normal move and 2 square advance.
 
@@ -73,6 +101,7 @@ void moveGen_bP(BOARD *cBoard, unsigned char square120)
         move |= (0ULL | bP) << 16;
 
         SET_BIT(move, 28);
+        SET_BIT(move, 29);
 
         cBoard->moves[cBoard->movesAvailable] = move;
         cBoard->movesAvailable += 1;
@@ -132,12 +161,17 @@ void moveGen(BOARD *cBoard)
   unsigned char square120;
   unsigned char square64;
 
+  for (piece = 1; piece < 13; piece += 1) {
+    cBoard->numPieces[piece] = 0;
+  }
+
   if (cBoard->side == WHITE) {
     for (square64 = 0; square64 < 64; square64 += 1) {
       square120 = board64to120[square64];
       piece = cBoard->pieces[square120];
 
       if (piece == EMPTY) continue;
+      cBoard->numPieces[piece] += 1;
       if (piece > wK) continue;
 
       (*MOVE_GEN[piece])(cBoard, square120);
@@ -148,6 +182,7 @@ void moveGen(BOARD *cBoard)
       piece = cBoard->pieces[square120];
 
       if (piece == EMPTY) continue;
+      cBoard->numPieces[piece] += 1;
       if (piece < bP) continue;
 
       (*MOVE_GEN[piece])(cBoard, square120);
