@@ -13,38 +13,173 @@ void moveGen_EMPTY(BOARD *cBoard, unsigned char square120)
 
 /* ----------------- */
 
-void moveGen_wP(BOARD *cBoard, unsigned char square120)
+void moveGen_wP_normal_advance(BOARD *cBoard, unsigned char square120)
 {
   unsigned long long move = 0ULL;
 
-  if (square120 < 39) {
-    // The white pawn is on rank 2. We can do normal move and 2 square advance.
+  if (cBoard->pieces[square120 + 10] == EMPTY) {
+    move = 0ULL;
 
-    if (cBoard->pieces[square120 + 10] == EMPTY) {
+    move |= (0ULL | square120);
+    move |= (0ULL | (square120 + 10)) << 8;
+    move |= (0ULL | wP) << 16;
+
+    cBoard->moves[cBoard->movesAvailable] = move;
+    cBoard->movesAvailable += 1;
+  }
+}
+
+void moveGen_wP_promote_advance(BOARD *cBoard, unsigned char square120)
+{
+  unsigned long long move = 0ULL;
+  unsigned char promotedPiece = 0;
+
+  if (cBoard->pieces[square120 + 10] == EMPTY) {
+    for (promotedPiece = wN; promotedPiece < wK; promotedPiece += 1) {
+      move = 0ULL;
+
       move |= (0ULL | square120);
       move |= (0ULL | (square120 + 10)) << 8;
-      move |= (0ULL | wP) << 16;
+      move |= (0ULL | promotedPiece) << 16;
 
-      SET_BIT(move, 28);
+      SET_BIT(move, MOVE_BIT_PROMOTION);
 
       cBoard->moves[cBoard->movesAvailable] = move;
       cBoard->movesAvailable += 1;
-
-      // Can we advance 2 squares?
-      if (cBoard->pieces[square120 + 20] == EMPTY) {
-        move = 0ULL;
-
-        move |= (0ULL | square120);
-        move |= (0ULL | (square120 + 20)) << 8;
-        move |= (0ULL | wP) << 16;
-
-        SET_BIT(move, 28);
-        SET_BIT(move, 29);
-
-        cBoard->moves[cBoard->movesAvailable] = move;
-        cBoard->movesAvailable += 1;
-      }
     }
+  }
+}
+
+void moveGen_wP_double_advance(BOARD *cBoard, unsigned char square120)
+{
+  unsigned long long move = 0ULL;
+
+  if ((cBoard->pieces[square120 + 10] == EMPTY) && (cBoard->pieces[square120 + 20] == EMPTY)) {
+    move = 0ULL;
+
+    move |= (0ULL | square120);
+    move |= (0ULL | (square120 + 20)) << 8;
+    move |= (0ULL | wP) << 16;
+
+    SET_BIT(move, MOVE_BIT_PWN_ADVANCE_2_SQ);
+
+    cBoard->moves[cBoard->movesAvailable] = move;
+    cBoard->movesAvailable += 1;
+  }
+}
+
+void moveGen_wP_normal_capture(BOARD *cBoard, unsigned char square120)
+{
+  unsigned long long move = 0ULL;
+
+  if ((cBoard->pieces[square120 + 9] > wK) && (cBoard->pieces[square120 + 9] != NO_SQ)) {
+    move = 0ULL;
+
+    move |= (0ULL | square120);
+    move |= (0ULL | (square120 + 9)) << 8;
+    move |= (0ULL | wP) << 16;
+    move |= (0ULL | cBoard->pieces[square120 + 9]) << 20;
+
+    SET_BIT(move, MOVE_BIT_CAPTURE);
+
+    cBoard->moves[cBoard->movesAvailable] = move;
+    cBoard->movesAvailable += 1;
+  }
+  if ((cBoard->pieces[square120 + 11] > wK) && (cBoard->pieces[square120 + 11] != NO_SQ)) {
+    move = 0ULL;
+
+    move |= (0ULL | square120);
+    move |= (0ULL | (square120 + 11)) << 8;
+    move |= (0ULL | wP) << 16;
+    move |= (0ULL | cBoard->pieces[square120 + 11]) << 20;
+
+    SET_BIT(move, MOVE_BIT_CAPTURE);
+
+    cBoard->moves[cBoard->movesAvailable] = move;
+    cBoard->movesAvailable += 1;
+  }
+}
+
+void moveGen_wP_promote_capture(BOARD *cBoard, unsigned char square120)
+{
+  unsigned long long move = 0ULL;
+  unsigned char promotedPiece = 0;
+
+  if ((cBoard->pieces[square120 + 9] > wK) && (cBoard->pieces[square120 + 9] != NO_SQ)) {
+    for (promotedPiece = wN; promotedPiece < wK; promotedPiece += 1) {
+      move = 0ULL;
+
+      move |= (0ULL | square120);
+      move |= (0ULL | (square120 + 9)) << 8;
+      move |= (0ULL | promotedPiece) << 16;
+      move |= (0ULL | cBoard->pieces[square120 + 9]) << 20;
+
+      SET_BIT(move, MOVE_BIT_CAPTURE);
+      SET_BIT(move, MOVE_BIT_PROMOTION);
+
+      cBoard->moves[cBoard->movesAvailable] = move;
+      cBoard->movesAvailable += 1;
+    }
+  }
+  if ((cBoard->pieces[square120 + 11] > wK) && (cBoard->pieces[square120 + 11] != NO_SQ)) {
+    for (promotedPiece = wN; promotedPiece < wK; promotedPiece += 1) {
+      move = 0ULL;
+
+      move |= (0ULL | square120);
+      move |= (0ULL | (square120 + 11)) << 8;
+      move |= (0ULL | promotedPiece) << 16;
+      move |= (0ULL | cBoard->pieces[square120 + 11]) << 20;
+
+      SET_BIT(move, MOVE_BIT_CAPTURE);
+      SET_BIT(move, MOVE_BIT_PROMOTION);
+
+      cBoard->moves[cBoard->movesAvailable] = move;
+      cBoard->movesAvailable += 1;
+    }
+  }
+}
+
+void moveGen_wP_en_passant_capture(BOARD *cBoard, unsigned char square120)
+{
+  unsigned long long move = 0ULL;
+  unsigned char enPassantSq120 = 0;
+
+  if (cBoard->enPassantFile == NO_EN_PASSANT) return;
+
+  enPassantSq120 = FileRankTo120SQ(cBoard->enPassantFile, RANK_6);
+
+  move = 0ULL;
+
+  move |= (0ULL | square120);
+  move |= (0ULL | enPassantSq120) << 8;
+  move |= (0ULL | wP) << 16;
+
+  SET_BIT(move, MOVE_BIT_CAPTURE);
+  SET_BIT(move, MOVE_BIT_EN_PASSANT_CAPTURE);
+
+  cBoard->moves[cBoard->movesAvailable] = move;
+  cBoard->movesAvailable += 1;
+}
+
+void moveGen_wP(BOARD *cBoard, unsigned char square120)
+{
+  if (square120 < 39) {
+    moveGen_wP_normal_advance(cBoard, square120);
+    moveGen_wP_double_advance(cBoard, square120);
+    moveGen_wP_normal_capture(cBoard, square120);
+  } else if (square120 < 59) {
+    moveGen_wP_normal_advance(cBoard, square120);
+    moveGen_wP_normal_capture(cBoard, square120);
+  } else if (square120 < 69) {
+    moveGen_wP_normal_advance(cBoard, square120);
+    moveGen_wP_normal_capture(cBoard, square120);
+    moveGen_wP_en_passant_capture(cBoard, square120);
+  } else if (square120 < 79) {
+    moveGen_wP_normal_advance(cBoard, square120);
+    moveGen_wP_normal_capture(cBoard, square120);
+  } else {
+    moveGen_wP_promote_advance(cBoard, square120);
+    moveGen_wP_promote_capture(cBoard, square120);
   }
 }
 
