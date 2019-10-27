@@ -12,7 +12,9 @@ MAIN_OBJECTS = \
 	obj/zobrist_hashing.o \
 	obj/fen.o \
 	obj/get_real_time.o \
-	obj/move_gen.o
+	obj/move_gen.o \
+	obj/move_gen_white.o \
+	obj/move_gen_black.o
 
 all: obj/sharky.o $(MAIN_OBJECTS)
 	gcc -o build/sharky obj/sharky.o $(MAIN_OBJECTS)
@@ -43,6 +45,12 @@ obj/get_real_time.o: src/get_real_time.c src/get_real_time.h
 
 obj/move_gen.o: src/move_gen.c src/move_gen.h
 	gcc -c $(CFLAGS) src/move_gen.c -o obj/move_gen.o
+
+obj/move_gen_white.o: src/move_gen_white.c src/move_gen_white.h
+	gcc -c $(CFLAGS) src/move_gen_white.c -o obj/move_gen_white.o
+
+obj/move_gen_black.o: src/move_gen_black.c src/move_gen_black.h
+	gcc -c $(CFLAGS) src/move_gen_black.c -o obj/move_gen_black.o
 
 clean:
 	rm -rf build/sharky build/tests obj/*.o
