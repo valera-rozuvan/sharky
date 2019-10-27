@@ -233,25 +233,29 @@ void moveGen_wN(BOARD *cBoard, unsigned char square120)
   }
 }
 
-void moveGen_wB(BOARD *cBoard, unsigned char square120)
+void moveGen_white_sliding_piece(
+  BOARD *cBoard, unsigned char square120,
+  unsigned char piece, unsigned char (*moveDisplacements)[], unsigned char moveDisplacementsCount
+)
 {
   unsigned long long move = 0ULL;
   unsigned char toSquare120 = 0;
   unsigned char idx1 = 0;
   unsigned char idx2 = 0;
+  unsigned char maxMovesInDirection = 10;
 
-  unsigned char moveDisplacements[4] = { -11, -9, 11, 9 };
+  if (piece == wK) maxMovesInDirection = 1;
 
-  for (idx1 = 0; idx1 < 4; idx1 += 1) {
-    toSquare120 = square120 + moveDisplacements[idx1];
+  for (idx1 = 0; idx1 < moveDisplacementsCount; idx1 += 1) {
+    toSquare120 = square120 + (*moveDisplacements)[idx1];
 
-    for (idx2 = 0; idx2 < 10; idx2 += 1) {
+    for (idx2 = 0; idx2 < maxMovesInDirection; idx2 += 1) {
       if (cBoard->pieces[toSquare120] == EMPTY) {
         move = 0ULL;
 
         move |= (0ULL | square120);
         move |= (0ULL | toSquare120) << 8;
-        move |= (0ULL | wB) << 16;
+        move |= (0ULL | piece) << 16;
 
         cBoard->moves[cBoard->movesAvailable] = move;
         cBoard->movesAvailable += 1;
@@ -262,7 +266,7 @@ void moveGen_wB(BOARD *cBoard, unsigned char square120)
 
         move |= (0ULL | square120);
         move |= (0ULL | toSquare120) << 8;
-        move |= (0ULL | wB) << 16;
+        move |= (0ULL | piece) << 16;
         move |= (0ULL | cBoard->pieces[toSquare120]) << 20;
 
         SET_BIT(move, MOVE_BIT_CAPTURE);
@@ -275,24 +279,33 @@ void moveGen_wB(BOARD *cBoard, unsigned char square120)
         break;
       }
 
-      toSquare120 += moveDisplacements[idx1];
+      toSquare120 += (*moveDisplacements)[idx1];
     }
   }
 }
 
+void moveGen_wB(BOARD *cBoard, unsigned char square120)
+{
+  unsigned char moveDisplacements[4] = { -11, -9, 11, 9 };
+  moveGen_white_sliding_piece(cBoard, square120, wB, &moveDisplacements, 4);
+}
+
 void moveGen_wR(BOARD *cBoard, unsigned char square120)
 {
-  cBoard->pieces[square120] = wR;
+  unsigned char moveDisplacements[4] = { -10, -1, 10, 1 };
+  moveGen_white_sliding_piece(cBoard, square120, wR, &moveDisplacements, 4);
 }
 
 void moveGen_wQ(BOARD *cBoard, unsigned char square120)
 {
-  cBoard->pieces[square120] = wQ;
+  unsigned char moveDisplacements[8] = { -11, -9, 11, 9, -10, -1, 10, 1 };
+  moveGen_white_sliding_piece(cBoard, square120, wQ, &moveDisplacements, 8);
 }
 
 void moveGen_wK(BOARD *cBoard, unsigned char square120)
 {
-  cBoard->pieces[square120] = wK;
+  unsigned char moveDisplacements[8] = { -11, -9, 11, 9, -10, -1, 10, 1 };
+  moveGen_white_sliding_piece(cBoard, square120, wK, &moveDisplacements, 8);
 }
 
 /* ----------------- */
