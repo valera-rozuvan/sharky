@@ -185,7 +185,45 @@ void moveGen_wP(BOARD *cBoard, unsigned char square120)
 
 void moveGen_wN(BOARD *cBoard, unsigned char square120)
 {
-  cBoard->pieces[square120] = wN;
+  unsigned long long move = 0ULL;
+  unsigned char idx = 0;
+
+  unsigned char toSquare120[8] = {
+    square120 - 12, // - (65 - 53)
+    square120 - 21, // - (65 - 44)
+    square120 - 19, // - (65 - 46)
+    square120 - 8,  // - (65 - 57)
+
+    square120 + 12, // - (65 - 77)
+    square120 + 21, // - (65 - 86)
+    square120 + 19, // - (65 - 84)
+    square120 + 8   // - (65 - 73)
+  };
+
+  for (idx = 0; idx < 8; idx += 1) {
+    if (cBoard->pieces[toSquare120[idx]] == EMPTY) {
+      move = 0ULL;
+
+      move |= (0ULL | square120);
+      move |= (0ULL | toSquare120[idx]) << 8;
+      move |= (0ULL | wN) << 16;
+
+      cBoard->moves[cBoard->movesAvailable] = move;
+      cBoard->movesAvailable += 1;
+    } else if ((cBoard->pieces[toSquare120[idx]] > wK) && (cBoard->pieces[toSquare120[idx]] != NO_SQ)) {
+      move = 0ULL;
+
+      move |= (0ULL | square120);
+      move |= (0ULL | toSquare120[idx]) << 8;
+      move |= (0ULL | wN) << 16;
+      move |= (0ULL | cBoard->pieces[toSquare120[idx]]) << 20;
+
+      SET_BIT(move, MOVE_BIT_CAPTURE);
+
+      cBoard->moves[cBoard->movesAvailable] = move;
+      cBoard->movesAvailable += 1;
+    }
+  }
 }
 
 void moveGen_wB(BOARD *cBoard, unsigned char square120)
