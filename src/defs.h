@@ -48,4 +48,17 @@ enum { FALSE, TRUE };
 // Castling information. Will be used to mark bits.
 enum { WKCastling, WQCastling, BKCastling, BQCastling };
 
+// Bits set in a move, representing various details about the move.
+enum {
+  MOVE_BIT_Q_CASTLE = 25,
+  MOVE_BIT_K_CASTLE = 26,
+  MOVE_BIT_CAPTURE = 27,
+  MOVE_BIT_PROMOTION = 28,
+  MOVE_BIT_EN_PASSANT_CAPTURE = 29,
+  MOVE_BIT_PWN_ADVANCE_2_SQ = 30,
+
+  // If the below bit is set, the move is illegal - i.e. leads to king capture.
+  MOVE_BIT_ILLEGAL = 31
+};
+
 #endif // __DEFS_H__

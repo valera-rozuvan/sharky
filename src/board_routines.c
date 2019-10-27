@@ -250,7 +250,7 @@ const char *SQUARE_NAMES[64] = {
 
 void formatMove(unsigned long long move, char fmtdMove[10])
 {
-  if (CHECK_BIT(move, 31) == TRUE) {
+  if (CHECK_BIT(move, MOVE_BIT_ILLEGAL) == TRUE) {
     return;
   }
 
