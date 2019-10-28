@@ -291,7 +291,7 @@ unsigned char check_black_castling_path_for_attacked_squares(BOARD *cBoard, unsi
   if (cBoard->pieces[square120 - 19] == wN) return TRUE;
   if (cBoard->pieces[square120 - 8] == wN) return TRUE;
 
-  // 3. Are horizontal sliding white pieces attacking?
+  // 3. Are horizontal or vertical sliding white pieces attacking?
   moveDisplacements[0] = 1;
   moveDisplacements[1] = -1;
   moveDisplacements[2] = -10;
