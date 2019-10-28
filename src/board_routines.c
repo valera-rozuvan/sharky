@@ -248,16 +248,39 @@ const char *SQUARE_NAMES[64] = {
   "a8", "b8", "c8", "d8", "e8", "f8", "g8", "h8"
 };
 
-void formatMove(unsigned long long move, char fmtdMove[10])
+unsigned char chessMoveToStr(unsigned long long move, char fmtdMove[10])
 {
-  if (CHECK_BIT(move, MOVE_BIT_ILLEGAL) == TRUE) {
-    return;
+  if (CHECK_BIT(move, MOVE_BIT_ILLEGAL)) {
+    return FALSE;
   }
 
   unsigned char fromSq64 = board120to64[move & 0xFFULL];
   unsigned char toSq64 = board120to64[(move >> 8) & 0xFFULL];
 
-  snprintf(fmtdMove, 5, "%s%s", SQUARE_NAMES[fromSq64], SQUARE_NAMES[toSq64]);
+  // Only used for showing promoted piece, if applicable.
+  unsigned char promotedPiece = (move >> 16) & 0xFFULL;
+  CLEAR_BIT(promotedPiece, 4);
+  CLEAR_BIT(promotedPiece, 5);
+  CLEAR_BIT(promotedPiece, 6);
+  CLEAR_BIT(promotedPiece, 7);
+
+  if (CHECK_BIT(move, MOVE_BIT_K_CASTLE)) {
+    snprintf(fmtdMove, 4, "%s", "0-0");
+  } else if (CHECK_BIT(move, MOVE_BIT_Q_CASTLE)) {
+    snprintf(fmtdMove, 6, "%s", "0-0-0");
+  } else if ((CHECK_BIT(move, MOVE_BIT_CAPTURE)) && (!CHECK_BIT(move, MOVE_BIT_EN_PASSANT_CAPTURE))) {
+    snprintf(fmtdMove, 6, "%s%s%s", SQUARE_NAMES[fromSq64], "x", SQUARE_NAMES[toSq64]);
+  } else if ((CHECK_BIT(move, MOVE_BIT_CAPTURE)) && (CHECK_BIT(move, MOVE_BIT_EN_PASSANT_CAPTURE))) {
+    snprintf(fmtdMove, 10, "%s%s%s%s", SQUARE_NAMES[fromSq64], "x", SQUARE_NAMES[toSq64], "e.p.");
+  } else if ((!CHECK_BIT(move, MOVE_BIT_CAPTURE)) && (CHECK_BIT(move, MOVE_BIT_PROMOTION))) {
+    snprintf(fmtdMove, 7, "%s%s%s%s", SQUARE_NAMES[fromSq64], SQUARE_NAMES[toSq64], "=", boardPieceStr[promotedPiece]);
+  } else if ((CHECK_BIT(move, MOVE_BIT_CAPTURE)) && (CHECK_BIT(move, MOVE_BIT_PROMOTION))) {
+    snprintf(fmtdMove, 8, "%s%s%s%s%s", SQUARE_NAMES[fromSq64], "x", SQUARE_NAMES[toSq64], "=", boardPieceStr[promotedPiece]);
+  } else {
+    snprintf(fmtdMove, 5, "%s%s", SQUARE_NAMES[fromSq64], SQUARE_NAMES[toSq64]);
+  }
+
+  return TRUE;
 }
 
 void printMoves(BOARD *cBoard)
@@ -273,12 +296,14 @@ void printMoves(BOARD *cBoard)
 
   printf("Moves available: ");
 
+  idx = 0;
   do {
-    formatMove(cBoard->moves[idx], fmtdMove);
-    printf("%s; ", fmtdMove);
+    if (chessMoveToStr(cBoard->moves[idx], fmtdMove) == TRUE) {
+      printf("%s; ", fmtdMove);
+    }
 
     idx += 1;
-  } while (cBoard->moves[idx] != 0ULL);
+  } while (idx < cBoard->movesAvailable);
 
   printf("\n\n");
 }
