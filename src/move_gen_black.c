@@ -274,6 +274,125 @@ void moveGen_black_sliding_piece(
   }
 }
 
+unsigned char check_black_castling_path_for_attacked_squares(BOARD *cBoard, unsigned char square120)
+{
+  unsigned char moveDisplacements[3] = { 0, 0, 0 };
+  unsigned char idx1 = 0;
+  unsigned char idx2 = 0;
+  unsigned char checkSquare120 = 0;
+
+  // 1. Are white pawns attacking?
+  if (cBoard->pieces[square120 - 9] == wP) return TRUE;
+  if (cBoard->pieces[square120 - 11] == wP) return TRUE;
+
+  // 2. Are white knights attacking?
+  if (cBoard->pieces[square120 - 12] == wN) return TRUE;
+  if (cBoard->pieces[square120 - 21] == wN) return TRUE;
+  if (cBoard->pieces[square120 - 19] == wN) return TRUE;
+  if (cBoard->pieces[square120 - 8] == wN) return TRUE;
+
+  // 3. Are horizontal sliding white pieces attacking?
+  moveDisplacements[0] = 1;
+  moveDisplacements[1] = -1;
+  moveDisplacements[2] = -10;
+
+  for (idx1 = 0; idx1 < 3; idx1 += 1) {
+    checkSquare120 = square120 + moveDisplacements[idx1];
+
+    for (idx2 = 0; idx2 < 10; idx2 += 1) {
+      if (cBoard->pieces[checkSquare120] == NO_SQ) break;
+      if ((cBoard->pieces[checkSquare120] >= bP) && (cBoard->pieces[checkSquare120] <= bK)) break;
+      if ((cBoard->pieces[checkSquare120] == wR) || (cBoard->pieces[checkSquare120] == wQ)) return TRUE;
+      if ((cBoard->pieces[checkSquare120] >= wP) && (cBoard->pieces[checkSquare120] <= wK)) break;
+
+      checkSquare120 += moveDisplacements[idx1];
+    }
+  }
+
+  // 4. Are diagonal sliding white pieces attacking?
+  moveDisplacements[0] = -9;
+  moveDisplacements[1] = -11;
+
+  for (idx1 = 0; idx1 < 2; idx1 += 1) {
+    checkSquare120 = square120 + moveDisplacements[idx1];
+
+    for (idx2 = 0; idx2 < 10; idx2 += 1) {
+      if (cBoard->pieces[checkSquare120] == NO_SQ) break;
+      if ((cBoard->pieces[checkSquare120] >= bP) && (cBoard->pieces[checkSquare120] <= bK)) break;
+      if ((cBoard->pieces[checkSquare120] == wB) || (cBoard->pieces[checkSquare120] == wQ)) return TRUE;
+      if ((cBoard->pieces[checkSquare120] >= wP) && (cBoard->pieces[checkSquare120] <= wK)) break;
+
+      checkSquare120 += moveDisplacements[idx1];
+    }
+  }
+
+  // 5. Is white king attacking?
+  if (cBoard->pieces[square120 + 1] == wK) return TRUE;
+  if (cBoard->pieces[square120 - 1] == wK) return TRUE;
+  if (cBoard->pieces[square120 - 9] == wK) return TRUE;
+  if (cBoard->pieces[square120 - 10] == wK) return TRUE;
+  if (cBoard->pieces[square120 - 11] == wK) return TRUE;
+
+  return FALSE;
+}
+
+void moveGen_black_king_castle_king_side(BOARD *cBoard, unsigned char square120)
+{
+  unsigned long long move = 0ULL;
+
+  if (CHECK_BIT(cBoard->castlingPerm, BKCastling) == FALSE) return;
+
+  // King is on E8 square. Check that squares between him and the king side rook are empty.
+  if (cBoard->pieces[F8] != EMPTY) return;
+  if (cBoard->pieces[G8] != EMPTY) return;
+
+  // Check that kings square, square where he will pass, and his new squares are not attacked.
+  if (check_black_castling_path_for_attacked_squares(cBoard, E8) == TRUE) return;
+  if (check_black_castling_path_for_attacked_squares(cBoard, F8) == TRUE) return;
+  if (check_black_castling_path_for_attacked_squares(cBoard, G8) == TRUE) return;
+
+  // If we got to this point, then we can make a king side castle move.
+  move = 0ULL;
+
+  move |= (0ULL | square120);
+  move |= (0ULL | G8) << 8;
+  move |= (0ULL | bK) << 16;
+
+  SET_BIT(move, MOVE_BIT_K_CASTLE);
+
+  cBoard->moves[cBoard->movesAvailable] = move;
+  cBoard->movesAvailable += 1;
+}
+
+void moveGen_black_king_castle_queen_side(BOARD *cBoard, unsigned char square120)
+{
+  unsigned long long move = 0ULL;
+
+  if (CHECK_BIT(cBoard->castlingPerm, BQCastling) == FALSE) return;
+
+  // King is on E8 square. Check that squares between him and the queen side rook are empty.
+  if (cBoard->pieces[B8] != EMPTY) return;
+  if (cBoard->pieces[C8] != EMPTY) return;
+  if (cBoard->pieces[D8] != EMPTY) return;
+
+  // Check that kings square, square where he will pass, and his new squares are not attacked.
+  if (check_black_castling_path_for_attacked_squares(cBoard, E8) == TRUE) return;
+  if (check_black_castling_path_for_attacked_squares(cBoard, D8) == TRUE) return;
+  if (check_black_castling_path_for_attacked_squares(cBoard, C8) == TRUE) return;
+
+  // If we got to this point, then we can make a queen side castle move.
+  move = 0ULL;
+
+  move |= (0ULL | square120);
+  move |= (0ULL | C8) << 8;
+  move |= (0ULL | bK) << 16;
+
+  SET_BIT(move, MOVE_BIT_Q_CASTLE);
+
+  cBoard->moves[cBoard->movesAvailable] = move;
+  cBoard->movesAvailable += 1;
+}
+
 void moveGen_bB(BOARD *cBoard, unsigned char square120)
 {
   unsigned char moveDisplacements[4] = { -11, -9, 11, 9 };
@@ -296,4 +415,6 @@ void moveGen_bK(BOARD *cBoard, unsigned char square120)
 {
   unsigned char moveDisplacements[8] = { -11, -9, 11, 9, -10, -1, 10, 1 };
   moveGen_black_sliding_piece(cBoard, square120, bK, &moveDisplacements, 8);
+  moveGen_black_king_castle_king_side(cBoard, square120);
+  moveGen_black_king_castle_queen_side(cBoard, square120);
 }
