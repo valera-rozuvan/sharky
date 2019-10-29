@@ -248,7 +248,7 @@ const char *SQUARE_NAMES[64] = {
   "a8", "b8", "c8", "d8", "e8", "f8", "g8", "h8"
 };
 
-unsigned char chessMoveToStr(unsigned long long move, char fmtdMove[10])
+unsigned char chessMoveToStr(unsigned long long move, char fmtdMove[MAX_MOVE_STR_LENGTH])
 {
   if (CHECK_BIT(move, MOVE_BIT_ILLEGAL)) {
     return FALSE;
@@ -286,7 +286,7 @@ unsigned char chessMoveToStr(unsigned long long move, char fmtdMove[10])
 void printMoves(BOARD *cBoard)
 {
   unsigned char idx = 0;
-  char fmtdMove[10] = "";
+  char fmtdMove[MAX_MOVE_STR_LENGTH] = "";
 
   if (cBoard->movesAvailable == 0) {
     printf("Moves available: none\n");
