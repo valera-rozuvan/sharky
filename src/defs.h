@@ -42,9 +42,6 @@ enum {
   NO_SQ = 99
 };
 
-// Booleans.
-enum { FALSE, TRUE };
-
 // Castling information. Will be used to mark bits.
 enum { WKCastling, WQCastling, BKCastling, BQCastling };
 

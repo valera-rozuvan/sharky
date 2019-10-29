@@ -251,7 +251,7 @@ const char *SQUARE_NAMES[64] = {
 unsigned char chessMoveToStr(unsigned long long move, char fmtdMove[MAX_MOVE_STR_LENGTH])
 {
   if (CHECK_BIT(move, MOVE_BIT_ILLEGAL)) {
-    return FALSE;
+    return 0;
   }
 
   unsigned char fromSq64 = board120to64[move & 0xFFULL];
@@ -280,7 +280,7 @@ unsigned char chessMoveToStr(unsigned long long move, char fmtdMove[MAX_MOVE_STR
     snprintf(fmtdMove, 5, "%s%s", SQUARE_NAMES[fromSq64], SQUARE_NAMES[toSq64]);
   }
 
-  return TRUE;
+  return 1;
 }
 
 void printMoves(BOARD *cBoard)
@@ -298,7 +298,7 @@ void printMoves(BOARD *cBoard)
 
   idx = 0;
   do {
-    if (chessMoveToStr(cBoard->moves[idx], fmtdMove) == TRUE) {
+    if (chessMoveToStr(cBoard->moves[idx], fmtdMove) == 1) {
       printf("%s; ", fmtdMove);
     }
 
