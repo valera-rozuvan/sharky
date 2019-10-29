@@ -11,6 +11,8 @@ extern unsigned char board120to64[120];
 void printBoard64(unsigned long long bBoard);
 void printBoard(BOARD *cBoard);
 
+#define MAX_MOVE_STR_LENGTH 11
+
 unsigned char chessMoveToStr(unsigned long long move, char fmtdMove[10]);
 void printMoves(BOARD *cBoard);
 

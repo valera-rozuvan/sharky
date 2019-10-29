@@ -61,7 +61,8 @@ TESTS_OBJECTS = \
 	obj/bitboard_tests.o \
 	obj/zobrist_hashing_tests.o \
 	obj/fen_tests.o \
-	obj/perft_tests.o
+	obj/perft_tests.o \
+	obj/move_gen_tests.o
 
 test: obj/tests.o $(TESTS_OBJECTS) $(MAIN_OBJECTS)
 	gcc -o build/tests obj/tests.o $(TESTS_OBJECTS) $(MAIN_OBJECTS)
@@ -86,3 +87,6 @@ obj/fen_tests.o: tests/fen_tests.c tests/fen_tests.h
 
 obj/perft_tests.o: tests/perft_tests.c tests/perft_tests.h
 	gcc -c $(CFLAGS) tests/perft_tests.c -o obj/perft_tests.o
+
+obj/move_gen_tests.o: tests/move_gen_tests.c tests/move_gen_tests.h
+	gcc -c $(CFLAGS) tests/move_gen_tests.c -o obj/move_gen_tests.o
