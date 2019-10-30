@@ -13,7 +13,7 @@ void printBoard(BOARD *cBoard);
 
 #define MAX_MOVE_STR_LENGTH 11
 
-unsigned char chessMoveToStr(unsigned long long move, char fmtdMove[10]);
+void chessMoveToStr(unsigned long long move, char fmtdMove[10]);
 void printMoves(BOARD *cBoard);
 
 void setupEmptyPosition(BOARD *cBoard);

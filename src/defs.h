@@ -11,7 +11,7 @@
 
 // Maximum possible moves in a given chess position.
 // Not an exact number, but a limit.
-#define MAX_POSSIBLE_MOVES_IN_POSITION 220
+#define MAX_POSSIBLE_MOVES_IN_POSITION 230
 
 // Empty square, and pieces.
 enum {

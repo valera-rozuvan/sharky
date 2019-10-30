@@ -30,6 +30,9 @@ void (*MOVE_GEN[13])(BOARD *cBoard, unsigned char square120) = {
   moveGen_bK
 };
 
+/*
+ * Generates pseudo-legal moves for a given chess position.
+ */
 void moveGen(BOARD *cBoard)
 {
   unsigned char piece;
@@ -39,6 +42,10 @@ void moveGen(BOARD *cBoard)
   for (piece = 1; piece < 13; piece += 1) {
     cBoard->numPieces[piece] = 0;
   }
+
+  // Set move count to zero. We don't initialize cBoard->moves array because
+  // newly generated moves will overwrite the old ones (if any).
+  cBoard->movesAvailable = 0;
 
   if (cBoard->side == WHITE) {
     for (square64 = 0; square64 < 64; square64 += 1) {
