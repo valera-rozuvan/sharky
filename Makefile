@@ -63,7 +63,7 @@ TESTS_OBJECTS = \
 	obj/fen_tests.o \
 	obj/perft_tests.o \
 	obj/move_gen_tests.o \
-	obj/move_gen_tests_data.o
+	obj/move_gen_data_tests.o
 
 test: obj/tests.o $(TESTS_OBJECTS) $(MAIN_OBJECTS)
 	gcc -o build/tests obj/tests.o $(TESTS_OBJECTS) $(MAIN_OBJECTS)
@@ -92,5 +92,5 @@ obj/perft_tests.o: tests/perft_tests.c tests/perft_tests.h
 obj/move_gen_tests.o: tests/move_gen_tests.c tests/move_gen_tests.h
 	gcc -c $(CFLAGS) tests/move_gen_tests.c -o obj/move_gen_tests.o
 
-obj/move_gen_tests_data.o: tests/move_gen_tests_data.c tests/move_gen_tests_data.h
-	gcc -c $(CFLAGS) tests/move_gen_tests_data.c -o obj/move_gen_tests_data.o
+obj/move_gen_data_tests.o: tests/move_gen_data_tests.c tests/move_gen_data_tests.h
+	gcc -c $(CFLAGS) tests/move_gen_data_tests.c -o obj/move_gen_data_tests.o

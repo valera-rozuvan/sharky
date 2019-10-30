@@ -8,12 +8,14 @@
 #include "../src/board_routines.h"
 #include "../src/move_gen.h"
 
-#include "move_gen_tests_data.h"
+#include "move_gen_data_tests.h"
 #include "tests.h"
 
 unsigned char arrayOfStrContainsStr(const char **hayStack, const unsigned char hayStackSize, const char *needle)
 {
   unsigned char idx = 0;
+
+  if (hayStackSize == 0) return 0;
 
   do {
     if (hayStack[idx] == NULL) {
@@ -30,7 +32,7 @@ unsigned char arrayOfStrContainsStr(const char **hayStack, const unsigned char h
   return 0;
 }
 
-void testFenPos(const BOARD *cBoard, const char *fenPos, const char *movesToCheck[])
+void testFenPos(const BOARD *cBoard, const char *fenPos, const char **movesToCheck)
 {
   unsigned char idx = 0;
 

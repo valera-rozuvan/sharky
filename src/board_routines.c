@@ -248,12 +248,8 @@ const char *SQUARE_NAMES[64] = {
   "a8", "b8", "c8", "d8", "e8", "f8", "g8", "h8"
 };
 
-unsigned char chessMoveToStr(unsigned long long move, char fmtdMove[MAX_MOVE_STR_LENGTH])
+void chessMoveToStr(unsigned long long move, char fmtdMove[MAX_MOVE_STR_LENGTH])
 {
-  if (CHECK_BIT(move, MOVE_BIT_ILLEGAL)) {
-    return 0;
-  }
-
   unsigned char fromSq64 = board120to64[move & 0xFFULL];
   unsigned char toSq64 = board120to64[(move >> 8) & 0xFFULL];
 
@@ -279,12 +275,12 @@ unsigned char chessMoveToStr(unsigned long long move, char fmtdMove[MAX_MOVE_STR
   } else {
     snprintf(fmtdMove, 5, "%s%s", SQUARE_NAMES[fromSq64], SQUARE_NAMES[toSq64]);
   }
-
-  return 1;
 }
 
 void printMoves(BOARD *cBoard)
 {
+  unsigned long long move = 0ULL;
+  unsigned char legalMovesCount = 0;
   unsigned char idx = 0;
   char fmtdMove[MAX_MOVE_STR_LENGTH] = "";
 
@@ -298,12 +294,23 @@ void printMoves(BOARD *cBoard)
 
   idx = 0;
   do {
-    if (chessMoveToStr(cBoard->moves[idx], fmtdMove) == 1) {
-      printf("%s; ", fmtdMove);
+    move = cBoard->moves[idx];
+
+    if (CHECK_BIT(move, MOVE_BIT_ILLEGAL)) {
+      idx += 1;
+      continue;
     }
 
+    chessMoveToStr(move, fmtdMove);
+    printf("%s; ", fmtdMove);
+
+    legalMovesCount += 1;
     idx += 1;
-  } while (idx < cBoard->movesAvailable);
+  } while ((idx < cBoard->movesAvailable) && (idx < MAX_POSSIBLE_MOVES_IN_POSITION));
+
+  if (legalMovesCount == 0) {
+    printf("none");
+  }
 
   printf("\n\n");
 }
@@ -326,14 +333,12 @@ void setupEmptyPosition(BOARD *cBoard)
   cBoard->fiftyMove = 0;
   cBoard->historyPly = 0;
 
-  for (idx = 0; idx < MAX_POSSIBLE_MOVES_IN_POSITION; idx += 1) {
-    cBoard->moves[idx] = 0ULL;
-  }
-  cBoard->movesAvailable = 0;
+  // We don't initialize cBoard->moves array because it will be populated by
+  // moveGen() function at each run of the function. Also, the
+  // variable cBoard->movesAvailable will be set and updated there.
 
-  for (idx = 1; idx < 13; idx += 1) {
-    cBoard->numPieces[idx] = 0;
-  }
+  // We don't initialize the cBoard->numPieces array because it's done by
+  // moveGen() function at each run of the function.
 
   cBoard->positionKey = generateFullHash(cBoard);
 }
@@ -390,14 +395,12 @@ void setupInitialPosition(BOARD *cBoard)
   cBoard->fiftyMove = 0;
   cBoard->historyPly = 0;
 
-  for (idx = 0; idx < MAX_POSSIBLE_MOVES_IN_POSITION; idx += 1) {
-    cBoard->moves[idx] = 0ULL;
-  }
-  cBoard->movesAvailable = 0;
+  // We don't initialize cBoard->moves array because it will be populated by
+  // moveGen() function at each run of the function. Also, the
+  // variable cBoard->movesAvailable will be set and updated there.
 
-  for (idx = 1; idx < 13; idx += 1) {
-    cBoard->numPieces[idx] = 0;
-  }
+  // We don't initialize the cBoard->numPieces array because it's done by
+  // moveGen() function at each run of the function.
 
   cBoard->positionKey = generateFullHash(cBoard);
 }

@@ -1,10 +1,10 @@
-#ifndef __MOVE_GEN_TESTS_DATA_H__
-#define __MOVE_GEN_TESTS_DATA_H__
+#ifndef __MOVE_GEN_DATA_TESTS_H__
+#define __MOVE_GEN_DATA_TESTS_H__
 
-#define FEN_POS_TO_CHECK_LENGTH 14
+#define FEN_POS_TO_CHECK_LENGTH 29
 #define MAX_POSSIBLE_MOVES_IN_POS_TO_CHECK 17
 
 extern const char *fenPosToCheck[FEN_POS_TO_CHECK_LENGTH];
 extern const char *movesToCheckForPos[FEN_POS_TO_CHECK_LENGTH][MAX_POSSIBLE_MOVES_IN_POS_TO_CHECK];
 
-#endif // __MOVE_GEN_TESTS_DATA_H__
+#endif // __MOVE_GEN_DATA_TESTS_H__
