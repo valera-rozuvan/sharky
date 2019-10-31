@@ -14,7 +14,8 @@ MAIN_OBJECTS = \
 	obj/get_real_time.o \
 	obj/move_gen.o \
 	obj/move_gen_white.o \
-	obj/move_gen_black.o
+	obj/move_gen_black.o \
+	obj/do_move.o
 
 all: obj/sharky.o $(MAIN_OBJECTS)
 	gcc -o build/sharky obj/sharky.o $(MAIN_OBJECTS)
@@ -51,6 +52,9 @@ obj/move_gen_white.o: src/move_gen_white.c src/move_gen_white.h
 
 obj/move_gen_black.o: src/move_gen_black.c src/move_gen_black.h
 	gcc -c $(CFLAGS) src/move_gen_black.c -o obj/move_gen_black.o
+
+obj/do_move.o: src/do_move.c src/do_move.h
+	gcc -c $(CFLAGS) src/do_move.c -o obj/do_move.o
 
 clean:
 	rm -rf build/sharky build/tests obj/*.o
