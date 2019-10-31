@@ -255,10 +255,6 @@ void chessMoveToStr(unsigned long long move, char fmtdMove[MAX_MOVE_STR_LENGTH])
 
   // Only used for showing promoted piece, if applicable.
   unsigned char promotedPiece = (move >> 16) & 0xFFULL;
-  CLEAR_BIT(promotedPiece, 4);
-  CLEAR_BIT(promotedPiece, 5);
-  CLEAR_BIT(promotedPiece, 6);
-  CLEAR_BIT(promotedPiece, 7);
 
   if (CHECK_BIT(move, MOVE_BIT_K_CASTLE)) {
     snprintf(fmtdMove, 4, "%s", "0-0");
