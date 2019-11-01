@@ -17,10 +17,5 @@ int main()
   printBoard(&cBoard);
   printMoves(&cBoard);
 
-  doMove(&cBoard, cBoard.moves[0]);
-  moveGen(&cBoard);
-  printBoard(&cBoard);
-  printMoves(&cBoard);
-
   return 0;
 }

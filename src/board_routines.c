@@ -107,28 +107,44 @@
 #include "zobrist_hashing.h"
 
 unsigned char board64to120[64] = {
-   21,   22,   23,   24,   25,   26,   27,   28,
-   31,   32,   33,   34,   35,   36,   37,   38,
-   41,   42,   43,   44,   45,   46,   47,   48,
-   51,   52,   53,   54,   55,   56,   57,   58,
-   61,   62,   63,   64,   65,   66,   67,   68,
-   71,   72,   73,   74,   75,   76,   77,   78,
-   81,   82,   83,   84,   85,   86,   87,   88,
-   91,   92,   93,   94,   95,   96,   97,   98
+  21, 22, 23, 24, 25, 26, 27, 28,
+  31, 32, 33, 34, 35, 36, 37, 38,
+  41, 42, 43, 44, 45, 46, 47, 48,
+  51, 52, 53, 54, 55, 56, 57, 58,
+  61, 62, 63, 64, 65, 66, 67, 68,
+  71, 72, 73, 74, 75, 76, 77, 78,
+  81, 82, 83, 84, 85, 86, 87, 88,
+  91, 92, 93, 94, 95, 96, 97, 98
 };
+
 unsigned char board120to64[120] = {
-   99,   99,   99,   99,   99,   99,   99,   99,   99,   99,
-   99,   99,   99,   99,   99,   99,   99,   99,   99,   99,
-   99,    0,    1,    2,    3,    4,    5,    6,    7,   99,
-   99,    8,    9,   10,   11,   12,   13,   14,   15,   99,
-   99,   16,   17,   18,   19,   20,   21,   22,   23,   99,
-   99,   24,   25,   26,   27,   28,   29,   30,   31,   99,
-   99,   32,   33,   34,   35,   36,   37,   38,   39,   99,
-   99,   40,   41,   42,   43,   44,   45,   46,   47,   99,
-   99,   48,   49,   50,   51,   52,   53,   54,   55,   99,
-   99,   56,   57,   58,   59,   60,   61,   62,   63,   99,
-   99,   99,   99,   99,   99,   99,   99,   99,   99,   99,
-   99,   99,   99,   99,   99,   99,   99,   99,   99,   99
+ 99, 99, 99, 99, 99, 99, 99, 99, 99, 99,
+ 99, 99, 99, 99, 99, 99, 99, 99, 99, 99,
+ 99,  0,  1,  2,  3,  4,  5,  6,  7, 99,
+ 99,  8,  9, 10, 11, 12, 13, 14, 15, 99,
+ 99, 16, 17, 18, 19, 20, 21, 22, 23, 99,
+ 99, 24, 25, 26, 27, 28, 29, 30, 31, 99,
+ 99, 32, 33, 34, 35, 36, 37, 38, 39, 99,
+ 99, 40, 41, 42, 43, 44, 45, 46, 47, 99,
+ 99, 48, 49, 50, 51, 52, 53, 54, 55, 99,
+ 99, 56, 57, 58, 59, 60, 61, 62, 63, 99,
+ 99, 99, 99, 99, 99, 99, 99, 99, 99, 99,
+ 99, 99, 99, 99, 99, 99, 99, 99, 99, 99
+};
+
+unsigned char board120toFile[120] = {
+  99, 99,     99,     99,     99,     99,     99,     99,     99,     99,
+  99, 99,     99,     99,     99,     99,     99,     99,     99,     99,
+  99, FILE_A, FILE_B, FILE_C, FILE_D, FILE_E, FILE_F, FILE_G, FILE_H, 99,
+  99, FILE_A, FILE_B, FILE_C, FILE_D, FILE_E, FILE_F, FILE_G, FILE_H, 99,
+  99, FILE_A, FILE_B, FILE_C, FILE_D, FILE_E, FILE_F, FILE_G, FILE_H, 99,
+  99, FILE_A, FILE_B, FILE_C, FILE_D, FILE_E, FILE_F, FILE_G, FILE_H, 99,
+  99, FILE_A, FILE_B, FILE_C, FILE_D, FILE_E, FILE_F, FILE_G, FILE_H, 99,
+  99, FILE_A, FILE_B, FILE_C, FILE_D, FILE_E, FILE_F, FILE_G, FILE_H, 99,
+  99, FILE_A, FILE_B, FILE_C, FILE_D, FILE_E, FILE_F, FILE_G, FILE_H, 99,
+  99, FILE_A, FILE_B, FILE_C, FILE_D, FILE_E, FILE_F, FILE_G, FILE_H, 99,
+  99, 99,     99,     99,     99,     99,     99,     99,     99,     99,
+  99, 99,     99,     99,     99,     99,     99,     99,     99,     99
 };
 
 void printBoard64(unsigned long long bBoard) {
@@ -222,6 +238,8 @@ void printBoard(BOARD *cBoard) {
   } while (fileIter <= FILE_H);
   printf("\n\n");
 
+  printf("# half moves: %hu\n", cBoard->historyPly);
+  printf("# fiftyMove: %hhu\n", cBoard->fiftyMove);
   printf("Position hash: %llx\n", cBoard->positionKey);
   printf("Side to move: %s\n", sideToMoveStr(cBoard));
   if (cBoard->castlingPerm != 0) {
@@ -255,6 +273,11 @@ void chessMoveToStr(unsigned long long move, char fmtdMove[MAX_MOVE_STR_LENGTH])
 
   // Only used for showing promoted piece, if applicable.
   unsigned char promotedPiece = (move >> 16) & 0xFFULL;
+
+  CLEAR_BIT(promotedPiece, 4);
+  CLEAR_BIT(promotedPiece, 5);
+  CLEAR_BIT(promotedPiece, 6);
+  CLEAR_BIT(promotedPiece, 7);
 
   if (CHECK_BIT(move, MOVE_BIT_K_CASTLE)) {
     snprintf(fmtdMove, 4, "%s", "0-0");

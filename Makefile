@@ -3,6 +3,7 @@
 
 # CFLAGS =
 CFLAGS = -DVASSERT_ENABLE -O3 -Wall -Wextra -Werror -std=gnu99 -pedantic
+# CFLAGS = -DVASSERT_ENABLE -g -Wall -Wextra -Werror -std=gnu99 -pedantic
 
 MAIN_OBJECTS = \
 	obj/board_routines.o \
@@ -67,7 +68,8 @@ TESTS_OBJECTS = \
 	obj/fen_tests.o \
 	obj/perft_tests.o \
 	obj/move_gen_tests.o \
-	obj/move_gen_data_tests.o
+	obj/move_gen_data_tests.o \
+	obj/do_move_tests.o
 
 test: obj/tests.o $(TESTS_OBJECTS) $(MAIN_OBJECTS)
 	gcc -o build/tests obj/tests.o $(TESTS_OBJECTS) $(MAIN_OBJECTS)
@@ -98,3 +100,6 @@ obj/move_gen_tests.o: tests/move_gen_tests.c tests/move_gen_tests.h
 
 obj/move_gen_data_tests.o: tests/move_gen_data_tests.c tests/move_gen_data_tests.h
 	gcc -c $(CFLAGS) tests/move_gen_data_tests.c -o obj/move_gen_data_tests.o
+
+obj/do_move_tests.o: tests/do_move_tests.c tests/do_move_tests.h
+	gcc -c $(CFLAGS) tests/do_move_tests.c -o obj/do_move_tests.o
