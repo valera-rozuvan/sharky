@@ -42,7 +42,7 @@ typedef struct {
   unsigned char fiftyMove;
 
   // How many half moves has been made in the game so far.
-  unsigned int historyPly;
+  unsigned short historyPly;
 
   // Current position hash. Unique key.
   unsigned long long positionKey;

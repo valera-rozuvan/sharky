@@ -10,6 +10,7 @@
 #include "fen_tests.h"
 #include "perft_tests.h"
 #include "move_gen_tests.h"
+#include "do_move_tests.h"
 
 #include "tests.h"
 
@@ -28,6 +29,7 @@ int main()
   zobrist_hashing_tests();
   fenTests();
   moveGenTests();
+  doMoveTests();
 
   endTime = getRealTime();
 

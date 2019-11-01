@@ -2,6 +2,6 @@
 set -ev
 
 make test
-./build/tests
+./build/tests > /dev/null
 
 exit 0
