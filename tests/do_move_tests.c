@@ -27,7 +27,7 @@ void doMoveTests()
 
   srand(time(0));
 
-  for (repeatCount = 0; repeatCount < 5000; repeatCount += 1) {
+  for (repeatCount = 0; repeatCount < 32000; repeatCount += 1) {
     setupInitialPosition(&cBoard);
     moveGen(&cBoard);
     printBoard(&cBoard);
