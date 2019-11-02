@@ -9,7 +9,11 @@
 void doMove(BOARD *cBoard, unsigned long long move)
 {
   UNDO_MOVE undoMove = {
-    .move = move, .castlingPerm = 0, .enPassantFile = 0, .fiftyMove = 0, .positionKey = 0
+    .move = move,
+    .castlingPerm = cBoard->castlingPerm,
+    .enPassantFile = cBoard->enPassantFile,
+    .fiftyMove = cBoard->fiftyMove,
+    .positionKey = cBoard->positionKey
   };
 
   unsigned char fromSq120 = move & 0xFFULL;
@@ -17,6 +21,8 @@ void doMove(BOARD *cBoard, unsigned long long move)
 
   unsigned char fromPiece = (move >> 16) & 0xFFULL;
   // unsigned char toPiece = (move >> 20) & 0xFFULL;
+
+  cBoard->history[cBoard->historyPly] = undoMove;
 
   CLEAR_BIT(fromPiece, 4);
   CLEAR_BIT(fromPiece, 5);
@@ -35,6 +41,8 @@ void doMove(BOARD *cBoard, unsigned long long move)
 
   if (CHECK_BIT(move, MOVE_BIT_PWN_ADVANCE_2_SQ)) {
     cBoard->enPassantFile = board120toFile[fromSq120];
+  } else {
+    cBoard->enPassantFile = NO_EN_PASSANT;
   }
 
   if (cBoard->side == WHITE) {
@@ -99,12 +107,80 @@ void doMove(BOARD *cBoard, unsigned long long move)
 
   cBoard->positionKey = generateFullHash(cBoard);
 
-  undoMove.castlingPerm = cBoard->castlingPerm;
-  undoMove.enPassantFile = cBoard->enPassantFile;
-  undoMove.fiftyMove = cBoard->fiftyMove;
-  undoMove.positionKey = cBoard->positionKey;
-
-  cBoard->history[cBoard->historyPly] = undoMove;
-
   cBoard->historyPly += 1;
+}
+
+void undoMove(BOARD *cBoard)
+{
+  unsigned long long move = 0ULL;
+
+  unsigned char fromSq120 = 0;
+  unsigned char toSq120 = 0;
+
+  unsigned char fromPiece = 0;
+  unsigned char toPiece = 0;
+
+  if (cBoard->historyPly == 0) return;
+
+  cBoard->historyPly -= 1;
+
+  cBoard->castlingPerm = cBoard->history[cBoard->historyPly].castlingPerm;
+  cBoard->enPassantFile = cBoard->history[cBoard->historyPly].enPassantFile;
+  cBoard->fiftyMove = cBoard->history[cBoard->historyPly].fiftyMove;
+  cBoard->positionKey = cBoard->history[cBoard->historyPly].positionKey;
+
+  move = cBoard->history[cBoard->historyPly].move;
+
+  fromSq120 = move & 0xFFULL;
+  toSq120 = (move >> 8) & 0xFFULL;
+
+  fromPiece = (move >> 16) & 0xFFULL;
+  toPiece = (move >> 20) & 0xFFULL;
+
+  CLEAR_BIT(fromPiece, 4);
+  CLEAR_BIT(fromPiece, 5);
+  CLEAR_BIT(fromPiece, 6);
+  CLEAR_BIT(fromPiece, 7);
+
+  CLEAR_BIT(toPiece, 4);
+  CLEAR_BIT(toPiece, 5);
+  CLEAR_BIT(toPiece, 6);
+  CLEAR_BIT(toPiece, 7);
+
+  cBoard->pieces[fromSq120] = fromPiece;
+  cBoard->pieces[toSq120] = EMPTY;
+
+  if (cBoard->side == BLACK) {
+    cBoard->side = WHITE;
+
+    if (CHECK_BIT(move, MOVE_BIT_EN_PASSANT_CAPTURE)) {
+      cBoard->pieces[toSq120 + 10] = bP;
+    } else if (CHECK_BIT(move, MOVE_BIT_CAPTURE)) {
+      cBoard->pieces[toSq120] = toPiece;
+    } else if (CHECK_BIT(move, MOVE_BIT_PROMOTION)) {
+      cBoard->pieces[fromSq120] = wP;
+    } else if (CHECK_BIT(move, MOVE_BIT_K_CASTLE)) {
+      cBoard->pieces[H1] = wR;
+      cBoard->pieces[F1] = EMPTY;
+    } else if (CHECK_BIT(move, MOVE_BIT_Q_CASTLE)) {
+      cBoard->pieces[A1] = wR;
+      cBoard->pieces[D1] = EMPTY;
+    }
+  } else if (cBoard->side == WHITE) {
+    cBoard->side = BLACK;
+
+    if (CHECK_BIT(move, MOVE_BIT_EN_PASSANT_CAPTURE)) {
+      cBoard->pieces[toSq120 - 10] = wP;
+    } else if (CHECK_BIT(move, MOVE_BIT_CAPTURE)) {
+      cBoard->pieces[toSq120] = toPiece;
+    } else if (CHECK_BIT(move, MOVE_BIT_PROMOTION)) {
+      cBoard->pieces[fromSq120] = bP;
+    } else if (CHECK_BIT(move, MOVE_BIT_K_CASTLE)) {
+      cBoard->pieces[H8] = bR;
+      cBoard->pieces[F8] = EMPTY;
+    } else if (CHECK_BIT(move, MOVE_BIT_Q_CASTLE)) {
+      cBoard->pieces[A8] = bR;
+      cBoard->pieces[D8] = EMPTY;
+    }
+  }
 }

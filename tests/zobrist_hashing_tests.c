@@ -7,7 +7,10 @@
 #include "../src/zobrist_hashing.h"
 #include "../src/bitboard.h"
 
+#include "zobrist_hashing_tests.h"
 #include "tests.h"
+
+unsigned long long INITIAL_POSITION_ZOBRIST_KEY = 0xef03a45ed3c2355fULL;
 
 void testEmptyPosition()
 {
@@ -30,7 +33,7 @@ void testStartPosition()
 
   setupInitialPosition(&cBoard);
 
-  if (cBoard.positionKey != 0xef03a45ed3c2355fULL) {
+  if (cBoard.positionKey != INITIAL_POSITION_ZOBRIST_KEY) {
     printf("Initial position hash key is wrong! cBoard.positionKey = %llx\n", cBoard.positionKey);
 
     exit(1);
