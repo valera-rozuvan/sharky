@@ -4,9 +4,14 @@
 #include "defs.h"
 #include "bitboard.h"
 #include "board_routines.h"
+#include "zobrist_hashing.h"
 
 void doMove(BOARD *cBoard, unsigned long long move)
 {
+  UNDO_MOVE undoMove = {
+    .move = move, .castlingPerm = 0, .enPassantFile = 0, .fiftyMove = 0, .positionKey = 0
+  };
+
   unsigned char fromSq120 = move & 0xFFULL;
   unsigned char toSq120 = (move >> 8) & 0xFFULL;
 
@@ -91,6 +96,15 @@ void doMove(BOARD *cBoard, unsigned long long move)
 
     cBoard->side = WHITE;
   }
+
+  cBoard->positionKey = generateFullHash(cBoard);
+
+  undoMove.castlingPerm = cBoard->castlingPerm;
+  undoMove.enPassantFile = cBoard->enPassantFile;
+  undoMove.fiftyMove = cBoard->fiftyMove;
+  undoMove.positionKey = cBoard->positionKey;
+
+  cBoard->history[cBoard->historyPly] = undoMove;
 
   cBoard->historyPly += 1;
 }
