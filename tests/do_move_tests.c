@@ -8,7 +8,9 @@
 #include "../src/fen.h"
 #include "../src/board.h"
 #include "../src/board_routines.h"
+#include "../src/zobrist_hashing.h"
 
+#include "zobrist_hashing_tests.h"
 #include "tests.h"
 
 unsigned char randomR(unsigned char min, unsigned char max)
@@ -27,7 +29,7 @@ void doMoveTests()
 
   srand(time(0));
 
-  for (repeatCount = 0; repeatCount < 32000; repeatCount += 1) {
+  for (repeatCount = 0; repeatCount < 16000; repeatCount += 1) {
     setupInitialPosition(&cBoard);
     moveGen(&cBoard);
     printBoard(&cBoard);
@@ -40,6 +42,15 @@ void doMoveTests()
       printBoard(&cBoard);
       printMoves(&cBoard);
     } while ((cBoard.movesAvailable > 0) && (cBoard.fiftyMove < 100));
+
+    do {
+      undoMove(&cBoard);
+    } while (cBoard.historyPly > 0);
+
+    if (generateFullHash(&cBoard) != INITIAL_POSITION_ZOBRIST_KEY) {
+      printf("After undoing all moves, starting position is invalid!\n");
+      exit(1);
+    }
 
     totalChecksPerformed += 1;
   }

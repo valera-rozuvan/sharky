@@ -202,6 +202,10 @@ const char* castlingPermStr(BOARD *cBoard, unsigned char bitToTest)
   return "-";
 }
 
+const char *FILE_NAMES[8] = {
+  "A", "B", "C", "D", "E", "F", "G", "H"
+};
+
 void printBoard(BOARD *cBoard) {
   char rankIter = 0;
   char fileIter = 0;
@@ -240,6 +244,9 @@ void printBoard(BOARD *cBoard) {
 
   printf("# half moves: %hu\n", cBoard->historyPly);
   printf("# fiftyMove: %hhu\n", cBoard->fiftyMove);
+  if (cBoard->enPassantFile != NO_EN_PASSANT) {
+    printf("En passant file: %s\n", FILE_NAMES[cBoard->enPassantFile]);
+  }
   printf("Position hash: %llx\n", cBoard->positionKey);
   printf("Side to move: %s\n", sideToMoveStr(cBoard));
   if (cBoard->castlingPerm != 0) {
@@ -251,8 +258,6 @@ void printBoard(BOARD *cBoard) {
       castlingPermStr(cBoard, BQCastling)
     );
   }
-
-  // TODO: Print en passant file, if en passant capture is available.
 }
 
 const char *SQUARE_NAMES[64] = {
