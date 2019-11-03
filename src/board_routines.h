@@ -9,7 +9,6 @@ extern unsigned char board64to120[64];
 extern unsigned char board120to64[120];
 extern unsigned char board120toFile[120];
 
-void printBoard64(unsigned long long bBoard);
 void printBoard(BOARD *cBoard);
 
 #define MAX_MOVE_STR_LENGTH 11
