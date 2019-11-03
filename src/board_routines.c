@@ -147,36 +147,6 @@ unsigned char board120toFile[120] = {
   99, 99,     99,     99,     99,     99,     99,     99,     99,     99
 };
 
-void printBoard64(unsigned long long bBoard) {
-  char rankIter = 0;
-  char fileIter = 0;
-  unsigned char sq120 = 0;
-  unsigned char sq64 = 0;
-
-  rankIter = RANK_8;
-  do {
-    fileIter = FILE_A;
-
-    do {
-      sq120 = FileRankTo120SQ(fileIter, rankIter);
-      sq64 = board120to64[sq120];
-
-      if ((1ULL << sq64) & bBoard) {
-        printf("X");
-      } else {
-        printf("-");
-      }
-
-      fileIter += 1;
-    } while (fileIter <= FILE_H);
-
-    printf("\n");
-    rankIter -= 1;
-  } while (rankIter >= RANK_1);
-
-  printf("\n");
-}
-
 const char *boardPieceStr[13] = {
   ".",
   "P", "N", "B", "R", "Q", "K",
