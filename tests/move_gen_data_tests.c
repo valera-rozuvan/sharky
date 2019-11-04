@@ -80,7 +80,13 @@ const char *fenPosToCheck[FEN_POS_TO_CHECK_LENGTH] = {
   "4k2r/2N5/8/8/8/8/8/4K3 b k - 0 1",
   "4k2r/8/3N4/8/8/8/8/4K3 b k - 0 1",
   "4k2r/8/5N2/8/8/8/8/4K3 b k - 0 1",
-  "4k2r/6N1/8/8/8/8/8/4K3 b k - 0 1"
+  "4k2r/6N1/8/8/8/8/8/4K3 b k - 0 1",
+
+  // In all below positions the black king can't king-side castle - since passing square is attacked by knight.
+  "4k2r/3N4/8/8/8/8/8/4K3 b k - 0 1",
+  "4k2r/8/4N3/8/8/8/8/4K3 b k - 0 1",
+  "4k2r/8/6N1/8/8/8/8/4K3 b k - 0 1",
+  "4k2r/7N/8/8/8/8/8/4K3 b k - 0 1"
 
 };
 const char *movesToCheckForPos[FEN_POS_TO_CHECK_LENGTH][MAX_POSSIBLE_MOVES_IN_POS_TO_CHECK] = {
@@ -161,6 +167,12 @@ const char *movesToCheckForPos[FEN_POS_TO_CHECK_LENGTH][MAX_POSSIBLE_MOVES_IN_PO
   { "e8d8", "e8d7", "e8e7", "e8f7", "e8f8", "h8g8", "h8f8", "h8h7", "h8h6", "h8h5", "h8h4", "h8h3", "h8h2", "h8h1", NULL },
   { "e8d8", "e8d7", "e8e7", "e8f7", "e8f8", "h8g8", "h8f8", "h8h7", "h8h6", "h8h5", "h8h4", "h8h3", "h8h2", "h8h1", NULL },
   { "e8d8", "e8d7", "e8e7", "e8f7", "e8f8", "h8g8", "h8f8", "h8h7", "h8h6", "h8h5", "h8h4", "h8h3", "h8h2", "h8h1", NULL },
-  { "e8d8", "e8d7", "e8e7", "e8f7", "e8f8", "h8g8", "h8f8", "h8h7", "h8h6", "h8h5", "h8h4", "h8h3", "h8h2", "h8h1", NULL }
+  { "e8d8", "e8d7", "e8e7", "e8f7", "e8f8", "h8g8", "h8f8", "h8h7", "h8h6", "h8h5", "h8h4", "h8h3", "h8h2", "h8h1", NULL },
+
+  // In all below positions the black king can't king-side castle - since passing square is attacked by knight.
+  { "e8d8", "e8xd7", "e8e7", "e8f7", "e8f8", "h8g8", "h8f8", "h8h7", "h8h6", "h8h5", "h8h4", "h8h3", "h8h2", "h8h1", NULL },
+  { "e8d8", "e8d7", "e8e7", "e8f7", "e8f8", "h8g8", "h8f8", "h8h7", "h8h6", "h8h5", "h8h4", "h8h3", "h8h2", "h8h1", NULL },
+  { "e8d8", "e8d7", "e8e7", "e8f7", "e8f8", "h8g8", "h8f8", "h8h7", "h8h6", "h8h5", "h8h4", "h8h3", "h8h2", "h8h1", NULL },
+  { "e8d8", "e8d7", "e8e7", "e8f7", "e8f8", "h8g8", "h8f8", "h8xh7", NULL }
 
 };
