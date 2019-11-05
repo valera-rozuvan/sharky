@@ -398,3 +398,32 @@ void setupInitialPosition(BOARD *cBoard)
 
   cBoard->positionKey = generateFullHash(cBoard);
 }
+
+unsigned char checkDrawByRepetition(BOARD *cBoard)
+{
+  unsigned long long latestHash = 0ULL;
+  unsigned char repeatHashCount = 0;
+  unsigned short idx = 0;
+
+  if (cBoard->historyPly < 6) {
+    return 0;
+  }
+
+  latestHash = cBoard->positionKey;
+  repeatHashCount = 1;
+  idx = cBoard->historyPly;
+
+  do {
+    idx -= 1;
+
+    if (cBoard->history[idx].positionKey == latestHash) {
+      repeatHashCount += 1;
+    }
+
+    if (repeatHashCount == 3) {
+      return 1;
+    }
+  } while (idx != 0);
+
+  return 0;
+}

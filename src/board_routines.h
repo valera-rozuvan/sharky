@@ -19,4 +19,6 @@ void printMoves(BOARD *cBoard);
 void setupEmptyPosition(BOARD *cBoard);
 void setupInitialPosition(BOARD *cBoard);
 
+unsigned char checkDrawByRepetition(BOARD *cBoard);
+
 #endif // __BOARD_ROUTINES_H__

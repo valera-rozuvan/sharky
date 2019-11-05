@@ -61,7 +61,7 @@ obj/do_move.o: src/do_move.c src/do_move.h
 	gcc -c $(CFLAGS) src/do_move.c -o obj/do_move.o ${GPROF}
 
 clean:
-	rm -rf build/sharky build/tests obj/*.o
+	rm -rf build/sharky build/tests build/perft obj/*.o
 
 TESTS_OBJECTS = \
 	obj/random_const_tests.o \
@@ -106,3 +106,11 @@ obj/move_gen_data_tests.o: tests/move_gen_data_tests.c tests/move_gen_data_tests
 
 obj/do_move_tests.o: tests/do_move_tests.c tests/do_move_tests.h
 	gcc -c $(CFLAGS) tests/do_move_tests.c -o obj/do_move_tests.o ${GPROF}
+
+PERFT_OBJECTS =
+
+perft: obj/perft.o $(PERFT_OBJECTS) $(MAIN_OBJECTS)
+	gcc -o build/perft obj/perft.o $(PERFT_OBJECTS) $(MAIN_OBJECTS) ${GPROF}
+
+obj/perft.o: perft/perft.c perft/perft.h
+	gcc -c $(CFLAGS) perft/perft.c -o obj/perft.o ${GPROF}

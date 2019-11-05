@@ -4,5 +4,6 @@
 #include "board.h"
 
 void moveGen(BOARD *cBoard);
+void removeIllegalMoves(BOARD *cBoard);
 
 #endif // __MOVE_GEN_H__
