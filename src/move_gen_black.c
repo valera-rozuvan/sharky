@@ -1,3 +1,5 @@
+#include <stdio.h>
+
 #include "defs.h"
 #include "board.h"
 #include "board_routines.h"
@@ -135,6 +137,8 @@ void moveGen_bP_en_passant_capture(BOARD *cBoard, unsigned char square120)
   unsigned char enPassantSq120 = 0;
 
   if (cBoard->enPassantFile == NO_EN_PASSANT) return;
+
+  if ((board120toFile[square120] - cBoard->enPassantFile != 1) && (cBoard->enPassantFile - board120toFile[square120] != 1)) return;
 
   enPassantSq120 = FileRankTo120SQ(cBoard->enPassantFile, RANK_3);
 
