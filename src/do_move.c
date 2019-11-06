@@ -20,7 +20,7 @@ void doMove(BOARD *cBoard, unsigned long long move)
   unsigned char toSq120 = (move >> 8) & 0xFFULL;
 
   unsigned char fromPiece = (move >> 16) & 0xFFULL;
-  // unsigned char toPiece = (move >> 20) & 0xFFULL;
+  unsigned char toPiece = (move >> 20) & 0xFFULL;
 
   cBoard->history[cBoard->historyPly] = undoMove;
 
@@ -29,10 +29,10 @@ void doMove(BOARD *cBoard, unsigned long long move)
   CLEAR_BIT(fromPiece, 6);
   CLEAR_BIT(fromPiece, 7);
 
-  // CLEAR_BIT(toPiece, 4);
-  // CLEAR_BIT(toPiece, 5);
-  // CLEAR_BIT(toPiece, 6);
-  // CLEAR_BIT(toPiece, 7);
+  CLEAR_BIT(toPiece, 4);
+  CLEAR_BIT(toPiece, 5);
+  CLEAR_BIT(toPiece, 6);
+  CLEAR_BIT(toPiece, 7);
 
   // printf("fromSq120 = %hhu, toSq120 = %hhu, fromPiece = %hhu, toPiece = %hhu\n", fromSq120, toSq120, fromPiece, toPiece);
 
@@ -54,6 +54,14 @@ void doMove(BOARD *cBoard, unsigned long long move)
     } else if (CHECK_BIT(move, MOVE_BIT_Q_CASTLE)) {
       cBoard->pieces[A1] = EMPTY;
       cBoard->pieces[D1] = wR;
+    }
+
+    if (toPiece == bR) {
+      if (toSq120 == H8) {
+        CLEAR_BIT(cBoard->castlingPerm, BKCastling);
+      } else if (toSq120 == A8) {
+        CLEAR_BIT(cBoard->castlingPerm, BQCastling);
+      }
     }
 
     if ((fromPiece == wP) || (CHECK_BIT(move, MOVE_BIT_CAPTURE))) {
@@ -83,6 +91,14 @@ void doMove(BOARD *cBoard, unsigned long long move)
     } else if (CHECK_BIT(move, MOVE_BIT_Q_CASTLE)) {
       cBoard->pieces[A8] = EMPTY;
       cBoard->pieces[D8] = bR;
+    }
+
+    if (toPiece == wR) {
+      if (toSq120 == H1) {
+        CLEAR_BIT(cBoard->castlingPerm, WKCastling);
+      } else if (toSq120 == A1) {
+        CLEAR_BIT(cBoard->castlingPerm, WQCastling);
+      }
     }
 
     if ((fromPiece == bP) || (CHECK_BIT(move, MOVE_BIT_CAPTURE))) {
@@ -154,9 +170,13 @@ void undoMove(BOARD *cBoard)
     cBoard->side = WHITE;
 
     if (CHECK_BIT(move, MOVE_BIT_EN_PASSANT_CAPTURE)) {
-      cBoard->pieces[toSq120 + 10] = bP;
+      cBoard->pieces[toSq120 - 10] = bP;
     } else if (CHECK_BIT(move, MOVE_BIT_CAPTURE)) {
       cBoard->pieces[toSq120] = toPiece;
+
+      if (CHECK_BIT(move, MOVE_BIT_PROMOTION)) {
+        cBoard->pieces[fromSq120] = wP;
+      }
     } else if (CHECK_BIT(move, MOVE_BIT_PROMOTION)) {
       cBoard->pieces[fromSq120] = wP;
     } else if (CHECK_BIT(move, MOVE_BIT_K_CASTLE)) {
@@ -170,9 +190,13 @@ void undoMove(BOARD *cBoard)
     cBoard->side = BLACK;
 
     if (CHECK_BIT(move, MOVE_BIT_EN_PASSANT_CAPTURE)) {
-      cBoard->pieces[toSq120 - 10] = wP;
+      cBoard->pieces[toSq120 + 10] = wP;
     } else if (CHECK_BIT(move, MOVE_BIT_CAPTURE)) {
       cBoard->pieces[toSq120] = toPiece;
+
+      if (CHECK_BIT(move, MOVE_BIT_PROMOTION)) {
+        cBoard->pieces[fromSq120] = bP;
+      }
     } else if (CHECK_BIT(move, MOVE_BIT_PROMOTION)) {
       cBoard->pieces[fromSq120] = bP;
     } else if (CHECK_BIT(move, MOVE_BIT_K_CASTLE)) {

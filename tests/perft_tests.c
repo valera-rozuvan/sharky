@@ -41,5 +41,8 @@ const char *PEFRT_FEN_STRINGS[PEFRT_FEN_STRINGS_LENGTH] = {
   "n1n5/PPPk4/8/8/8/8/4Kppp/5N1N b - - 0 1",
   "8/3K4/2p5/p2b2r1/5k2/8/8/1q6 b - - 1 67",
   "8/7p/p5pb/4k3/P1pPn3/8/P5PP/1rB2RK1 b - d3 0 28",
-  "rnbqkb1r/ppppp1pp/7n/4Pp2/8/8/PPPP1PPP/RNBQKBNR w KQkq f6 0 3"
+  "rnbqkb1r/ppppp1pp/7n/4Pp2/8/8/PPPP1PPP/RNBQKBNR w KQkq f6 0 3",
+
+  // From chess wiki perft results page.
+  "rnbq1k1r/pp1Pbppp/2p5/8/2B5/8/PPP1NnPP/RNBQK2R w KQ - 1 8"
 };

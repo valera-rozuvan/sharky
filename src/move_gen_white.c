@@ -342,7 +342,7 @@ void moveGen_white_king_castle_king_side(BOARD *cBoard, unsigned char square120)
 {
   unsigned long long move = 0ULL;
 
-  if (CHECK_BIT(cBoard->castlingPerm, WKCastling) == 0) return;
+  if (!CHECK_BIT(cBoard->castlingPerm, WKCastling)) return;
 
   // King is on E1 square. Check that squares between him and the king side rook are empty.
   if (cBoard->pieces[F1] != EMPTY) return;
@@ -370,7 +370,7 @@ void moveGen_white_king_castle_queen_side(BOARD *cBoard, unsigned char square120
 {
   unsigned long long move = 0ULL;
 
-  if (CHECK_BIT(cBoard->castlingPerm, WQCastling) == 0) return;
+  if (!CHECK_BIT(cBoard->castlingPerm, WQCastling)) return;
 
   // King is on E1 square. Check that squares between him and the queen side rook are empty.
   if (cBoard->pieces[B1] != EMPTY) return;
