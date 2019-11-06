@@ -121,8 +121,6 @@ void doMove(BOARD *cBoard, unsigned long long move)
     cBoard->side = WHITE;
   }
 
-  cBoard->positionKey = generateFullHash(cBoard);
-
   cBoard->historyPly += 1;
 }
 
