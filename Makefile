@@ -6,7 +6,7 @@ CFLAGS = -DVASSERT_ENABLE -O3 -Wall -Wextra -Werror -std=gnu99 -pedantic
 # CFLAGS = -DVASSERT_ENABLE -g -Wall -Wextra -Werror -std=gnu99 -pedantic
 
 GPROF =
-#GPROF = -pg
+# GPROF = -pg
 
 MAIN_OBJECTS = \
 	obj/board_routines.o \

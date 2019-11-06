@@ -1,5 +1,3 @@
-#include <stdio.h>
-
 #include "defs.h"
 #include "board.h"
 #include "board_routines.h"
@@ -344,7 +342,7 @@ void moveGen_black_king_castle_king_side(BOARD *cBoard, unsigned char square120)
 {
   unsigned long long move = 0ULL;
 
-  if (CHECK_BIT(cBoard->castlingPerm, BKCastling) == 0) return;
+  if (!CHECK_BIT(cBoard->castlingPerm, BKCastling)) return;
 
   // King is on E8 square. Check that squares between him and the king side rook are empty.
   if (cBoard->pieces[F8] != EMPTY) return;
@@ -372,7 +370,7 @@ void moveGen_black_king_castle_queen_side(BOARD *cBoard, unsigned char square120
 {
   unsigned long long move = 0ULL;
 
-  if (CHECK_BIT(cBoard->castlingPerm, BQCastling) == 0) return;
+  if (!CHECK_BIT(cBoard->castlingPerm, BQCastling)) return;
 
   // King is on E8 square. Check that squares between him and the queen side rook are empty.
   if (cBoard->pieces[B8] != EMPTY) return;

@@ -284,7 +284,7 @@ void printMoves(BOARD *cBoard)
     return;
   }
 
-  printf("Moves available: ");
+  printf("Moves available[%hu]: ", cBoard->legalMovesAvailable);
 
   idx = 0;
   do {
