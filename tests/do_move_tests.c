@@ -38,6 +38,7 @@ void playRandomGames(const char *perftPos)
     do {
       randNum = randomR(0, cBoard.movesAvailable - 1);
       doMove(&cBoard, cBoard.moves[randNum]);
+      cBoard.positionKey = generateFullHash(&cBoard);
       moveGen(&cBoard);
       printBoard(&cBoard);
       printMoves(&cBoard);

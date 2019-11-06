@@ -6,6 +6,7 @@
 #include "../src/move_gen.h"
 #include "../src/do_move.h"
 #include "../src/fen.h"
+#include "../src/zobrist_hashing.h"
 
 unsigned long long countMoves(BOARD *cBoard, unsigned char bailout, unsigned char printInfo)
 {
@@ -42,6 +43,7 @@ unsigned long long countMoves(BOARD *cBoard, unsigned char bailout, unsigned cha
       }
 
       doMove(cBoard, movesCopy[idx]);
+      cBoard->positionKey = generateFullHash(cBoard);
       countForMove = countMoves(cBoard, bailout - 1, 0);
       count += countForMove;
       undoMove(cBoard);
