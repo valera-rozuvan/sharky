@@ -1,8 +1,8 @@
-# sharky
+# sharky chess engine
 
 [![Build Status](https://travis-ci.org/valera-rozuvan/sharky.svg?branch=master)](https://travis-ci.org/valera-rozuvan/sharky)
 
-sharky chess engine
+![sharky chess engine](logo/sharky-chess-logo.png "sharky chess engine")
 
 ## Prerequisites
 
