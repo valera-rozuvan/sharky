@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "../src/vassert.h"
 #include "../src/random_const.h"
 
 #include "tests.h"
