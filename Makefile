@@ -2,15 +2,14 @@
 # https://stackoverflow.com/questions/1814270/gcc-g-option-to-place-all-object-files-into-separate-directory
 
 # CFLAGS =
-CFLAGS = -DVASSERT_ENABLE -O3 -Wall -Wextra -Werror -std=gnu99 -pedantic
-# CFLAGS = -DVASSERT_ENABLE -g -Wall -Wextra -Werror -std=gnu99 -pedantic
+CFLAGS = -O3 -Wall -Wextra -Werror -std=gnu99 -pedantic
+# CFLAGS = -g -Wall -Wextra -Werror -std=gnu99 -pedantic
 
 GPROF =
 # GPROF = -pg
 
 MAIN_OBJECTS = \
 	obj/board_routines.o \
-	obj/vassert.o \
 	obj/bitboard.o \
 	obj/random_const.o \
 	obj/zobrist_hashing.o \
@@ -29,9 +28,6 @@ obj/sharky.o: src/sharky.c
 
 obj/board_routines.o: src/board_routines.c src/board_routines.h
 	gcc -c $(CFLAGS) src/board_routines.c -o obj/board_routines.o ${GPROF}
-
-obj/vassert.o: src/vassert.c src/vassert.h
-	gcc -c $(CFLAGS) src/vassert.c -o obj/vassert.o ${GPROF}
 
 obj/bitboard.o: src/bitboard.c src/bitboard.h
 	gcc -c $(CFLAGS) src/bitboard.c -o obj/bitboard.o ${GPROF}

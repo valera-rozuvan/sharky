@@ -1,6 +1,5 @@
 #include <stdio.h>
 
-#include "../src/vassert.h"
 #include "../src/get_real_time.h"
 
 #include "random_const_tests.h"
@@ -20,8 +19,6 @@ int main()
 {
   double startTime, endTime;
   startTime = getRealTime();
-
-  VASSERT_TEST();
 
   random_const_tests();
   board_routines_tests();

@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "../src/vassert.h"
 #include "../src/defs.h"
 #include "../src/board_routines.h"
 
@@ -46,9 +45,6 @@ void board_routines_tests()
       totalChecksPerformed += 1;
     }
   }
-
-  VASSERT_U_CHAR_EQ(board64to120[13], 36);
-  VASSERT_U_CHAR_EQ(board120to64[42], 17);
 
   printf("Done!\n\n");
 }
