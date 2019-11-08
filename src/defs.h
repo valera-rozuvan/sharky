@@ -4,7 +4,8 @@
 #define PROGRAM_NAME "Sharky"
 #define PROGRAM_VERSION "0.0.5"
 #define PROGRAM_LICENSE "MIT License"
-#define PROGRAM_COPYRIGHT "Copyright (c) 2019 Valera Rozuvan"
+#define PROGRAM_COPYRIGHT "Copyright (c) 2019"
+#define PROGRAM_AUTHOR "Valera Rozuvan"
 
 // Maximum number of half moves per game.
 #define MAX_GAME_MOVES_NUM 1600

@@ -18,7 +18,9 @@ MAIN_OBJECTS = \
 	obj/move_gen.o \
 	obj/move_gen_white.o \
 	obj/move_gen_black.o \
-	obj/do_move.o
+	obj/do_move.o \
+	obj/uci.o \
+	obj/human.o
 
 all: obj/sharky.o $(MAIN_OBJECTS)
 	gcc -o build/sharky obj/sharky.o $(MAIN_OBJECTS) ${GPROF}
@@ -55,6 +57,12 @@ obj/move_gen_black.o: src/move_gen_black.c src/move_gen_black.h
 
 obj/do_move.o: src/do_move.c src/do_move.h
 	gcc -c $(CFLAGS) src/do_move.c -o obj/do_move.o ${GPROF}
+
+obj/uci.o: src/uci.c src/uci.h
+	gcc -c $(CFLAGS) src/uci.c -o obj/uci.o ${GPROF}
+
+obj/human.o: src/human.c src/human.h
+	gcc -c $(CFLAGS) src/human.c -o obj/human.o ${GPROF}
 
 clean:
 	rm -rf build/sharky build/tests build/perft obj/*.o
