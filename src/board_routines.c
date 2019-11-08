@@ -181,6 +181,8 @@ void printBoard(BOARD *cBoard) {
   char fileIter = 0;
   unsigned char sq120 = 0;
 
+  printf("\n");
+
   rankIter = RANK_8;
   do {
     fileIter = FILE_A;
