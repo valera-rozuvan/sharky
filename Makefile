@@ -20,7 +20,8 @@ MAIN_OBJECTS = \
 	obj/move_gen_black.o \
 	obj/do_move.o \
 	obj/uci.o \
-	obj/human.o
+	obj/human.o \
+	obj/utils.o
 
 all: obj/sharky.o $(MAIN_OBJECTS)
 	gcc -o build/sharky obj/sharky.o $(MAIN_OBJECTS) ${GPROF}
@@ -60,6 +61,9 @@ obj/do_move.o: src/do_move.c src/do_move.h
 
 obj/uci.o: src/uci.c src/uci.h
 	gcc -c $(CFLAGS) src/uci.c -o obj/uci.o ${GPROF}
+
+obj/utils.o: src/utils.c src/utils.h
+	gcc -c $(CFLAGS) src/utils.c -o obj/utils.o ${GPROF}
 
 obj/human.o: src/human.c src/human.h
 	gcc -c $(CFLAGS) src/human.c -o obj/human.o ${GPROF}

@@ -1,5 +1,5 @@
-#ifndef __ARCHS_H__
-#define __ARCHS_H__
+#ifndef __DEFS_ARCH_H__
+#define __DEFS_ARCH_H__
 
 // AMD64
 #ifdef __amd64__
@@ -168,4 +168,4 @@
 #define PROGRAM_ARCH "PowerPC"
 #endif
 
-#endif // __ARCHS_H__
+#endif // __DEFS_ARCH_H__
