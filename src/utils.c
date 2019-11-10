@@ -35,15 +35,16 @@ char *stripStr(char *text) {
 
   c = d = 0;
   length = strlen(text);
+  if (length == 0) length = 1;
   start = (char*)malloc(length + 1);
+
+  if (start == NULL)
+    exit(EXIT_FAILURE);
 
   if (length == 1) {
     *(start) = '\0';
     return start;
   }
-
-  if (start == NULL)
-    exit(EXIT_FAILURE);
 
   while (*(text + c) != '\0') {
     if (*(text + c) != ' ') {
