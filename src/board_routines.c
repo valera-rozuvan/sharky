@@ -153,6 +153,12 @@ const char *boardPieceStr[13] = {
   "p", "n", "b", "r", "q", "k"
 };
 
+const char *boardPieceWithoutColorStr[13] = {
+  ".",
+  "p", "n", "b", "r", "q", "k",
+  "p", "n", "b", "r", "q", "k"
+};
+
 const char* sideToMoveStr(BOARD *cBoard)
 {
   if (cBoard->side == WHITE) return "white";
@@ -242,6 +248,32 @@ const char *SQUARE_NAMES[64] = {
   "a7", "b7", "c7", "d7", "e7", "f7", "g7", "h7",
   "a8", "b8", "c8", "d8", "e8", "f8", "g8", "h8"
 };
+
+void chessMoveToAlgebraicStr(unsigned long long move, char fmtdMove[MAX_MOVE_STR_LENGTH])
+{
+  unsigned char fromSq64 = board120to64[move & 0xFFULL];
+  unsigned char toSq64 = board120to64[(move >> 8) & 0xFFULL];
+
+  // Only used for showing promoted piece, if applicable.
+  unsigned char promotedPiece = 0ULL;
+
+  if (CHECK_BIT(move, MOVE_BIT_K_CASTLE)) {
+    snprintf(fmtdMove, 4, "%s", "0-0");
+  } else if (CHECK_BIT(move, MOVE_BIT_Q_CASTLE)) {
+    snprintf(fmtdMove, 6, "%s", "0-0-0");
+  } else if (CHECK_BIT(move, MOVE_BIT_PROMOTION)) {
+    promotedPiece = (move >> 16) & 0xFFULL;
+
+    CLEAR_BIT(promotedPiece, 4);
+    CLEAR_BIT(promotedPiece, 5);
+    CLEAR_BIT(promotedPiece, 6);
+    CLEAR_BIT(promotedPiece, 7);
+
+    snprintf(fmtdMove, 6, "%s%s%s", SQUARE_NAMES[fromSq64], SQUARE_NAMES[toSq64], boardPieceWithoutColorStr[promotedPiece]);
+  } else {
+    snprintf(fmtdMove, 5, "%s%s", SQUARE_NAMES[fromSq64], SQUARE_NAMES[toSq64]);
+  }
+}
 
 void chessMoveToStr(unsigned long long move, char fmtdMove[MAX_MOVE_STR_LENGTH])
 {
