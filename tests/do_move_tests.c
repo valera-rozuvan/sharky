@@ -9,16 +9,11 @@
 #include "../src/board.h"
 #include "../src/board_routines.h"
 #include "../src/zobrist_hashing.h"
+#include "../src/utils.h"
 
 #include "perft_tests.h"
 #include "zobrist_hashing_tests.h"
 #include "tests.h"
-
-unsigned char randomR(unsigned char min, unsigned char max)
-{
-  double x = (double)rand() / RAND_MAX;
-  return (max - min + 1) * x + min;
-}
 
 void playRandomGames(const char *perftPos)
 {

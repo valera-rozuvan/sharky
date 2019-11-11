@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <time.h>
 
 #include "defs.h"
 #include "human.h"
@@ -11,6 +12,8 @@ int main()
 {
   char userInput[256] = "";
   char *processedInput;
+
+  srand(time(0));
 
   printf("%s v%s\n\n%s\n%s %s\n\n", PROGRAM_NAME, PROGRAM_VERSION, PROGRAM_LICENSE, PROGRAM_COPYRIGHT, PROGRAM_AUTHOR);
   printf("Enter 'human' or 'uci': ");

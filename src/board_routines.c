@@ -257,10 +257,14 @@ void chessMoveToAlgebraicStr(unsigned long long move, char fmtdMove[MAX_MOVE_STR
   // Only used for showing promoted piece, if applicable.
   unsigned char promotedPiece = 0ULL;
 
-  if (CHECK_BIT(move, MOVE_BIT_K_CASTLE)) {
-    snprintf(fmtdMove, 4, "%s", "0-0");
-  } else if (CHECK_BIT(move, MOVE_BIT_Q_CASTLE)) {
-    snprintf(fmtdMove, 6, "%s", "0-0-0");
+  if ((CHECK_BIT(move, MOVE_BIT_K_CASTLE)) && (toSq64 == 6)) {
+    snprintf(fmtdMove, 5, "%s", "e1g1");
+  } else if ((CHECK_BIT(move, MOVE_BIT_K_CASTLE)) && (toSq64 == 62)) {
+    snprintf(fmtdMove, 5, "%s", "e8g8");
+  } else if ((CHECK_BIT(move, MOVE_BIT_Q_CASTLE)) && (toSq64 == 2)) {
+    snprintf(fmtdMove, 5, "%s", "e1c1");
+  } else if ((CHECK_BIT(move, MOVE_BIT_Q_CASTLE)) && (toSq64 == 58)) {
+    snprintf(fmtdMove, 5, "%s", "e8c8");
   } else if (CHECK_BIT(move, MOVE_BIT_PROMOTION)) {
     promotedPiece = (move >> 16) & 0xFFULL;
 
