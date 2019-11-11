@@ -11,9 +11,10 @@ extern unsigned char board120toFile[120];
 
 void printBoard(BOARD *cBoard);
 
-#define MAX_MOVE_STR_LENGTH 11
+#define MAX_MOVE_STR_LENGTH 10
 
-void chessMoveToStr(unsigned long long move, char fmtdMove[10]);
+void chessMoveToAlgebraicStr(unsigned long long move, char fmtdMove[MAX_MOVE_STR_LENGTH]);
+void chessMoveToStr(unsigned long long move, char fmtdMove[MAX_MOVE_STR_LENGTH]);
 void printMoves(BOARD *cBoard);
 
 void setupEmptyPosition(BOARD *cBoard);
