@@ -2,6 +2,12 @@
 #include <string.h>
 #include <time.h>
 
+unsigned char randomR(unsigned char min, unsigned char max)
+{
+  double x = (double)rand() / RAND_MAX;
+  return (max - min + 1) * x + min;
+}
+
 void sleepMs(int sleepInMs)
 {
   struct timespec t;
