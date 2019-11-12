@@ -45,8 +45,7 @@ unsigned long long algebraicChessMoveStrToMove(BOARD *cBoard, char *buf)
 
 void uciSetupStartPosition(BOARD *cBoard, char *buf)
 {
-  char nextMove[MAX_MOVE_STR_LENGTH] = "";
-  unsigned char idx = 0;
+  unsigned long long nextMove = 0ULL;
 
   setupInitialPosition(cBoard);
   moveGen(cBoard);
@@ -56,43 +55,20 @@ void uciSetupStartPosition(BOARD *cBoard, char *buf)
     return;
   }
 
-  for (idx = 0; idx < MAX_MOVE_STR_LENGTH; idx += 1) {
-    if ((buf[idx] == ' ') || (buf[idx] == '\n') || (buf[idx] == '\0')) {
-      nextMove[idx] = '\0';
+  do {
+    if (*buf == ' ') buf++;
 
-      break;
-    } else {
-      nextMove[idx] = buf[idx];
-    }
-  }
+    nextMove = algebraicChessMoveStrToMove(cBoard, buf);
+    if (nextMove == 0ULL) break;
 
-  doMove(cBoard, algebraicChessMoveStrToMove(cBoard, nextMove));
-  generateFullHash(cBoard);
-  moveGen(cBoard);
-  removeIllegalMoves(cBoard);
-
-  while ((buf = strchr(buf, ' ')))
-  {
-    while (*buf == ' ') buf++;
-
-    for (idx = 0; idx < MAX_MOVE_STR_LENGTH; idx += 1) {
-      if ((buf[idx] == ' ') || (buf[idx] == '\n') || (buf[idx] == '\0')) {
-        nextMove[idx] = '\0';
-
-        break;
-      } else {
-        nextMove[idx] = buf[idx];
-      }
-    }
-
-    doMove(cBoard, algebraicChessMoveStrToMove(cBoard, buf));
+    doMove(cBoard, nextMove);
     generateFullHash(cBoard);
     moveGen(cBoard);
     removeIllegalMoves(cBoard);
-  }
+  } while ((buf = strchr(buf, ' ')));
 }
 
-void printBestMove(BOARD *cBoard)
+void printRandomMove(BOARD *cBoard)
 {
   char fmtdMove[MAX_MOVE_STR_LENGTH] = "";
   unsigned char idx1 = 0, idx2 = 0;
@@ -155,7 +131,7 @@ void uci()
       // Always send the best move when engine stops searching.
 
       // TODO: Actually send the best move ;)
-      printBestMove(&cBoard);
+      printRandomMove(&cBoard);
     } else if (compareStrFF(&buffer, "quit")) {
       break;
     } else if (compareStrFF(&buffer, "ucinewgame")) {
@@ -175,7 +151,7 @@ void uci()
     } else if (compareStrFF(&buffer, "uci")) {
       uciOK();
     } else if (compareStrFF(&buffer, "go")) {
-      printBestMove(&cBoard);
+      printRandomMove(&cBoard);
     }
 
     free(readBuffer);
