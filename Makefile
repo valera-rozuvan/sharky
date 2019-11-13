@@ -5,6 +5,8 @@
 CFLAGS = -O3 -Wall -Wextra -Werror -std=gnu99 -pedantic
 # CFLAGS = -g -Wall -Wextra -Werror -std=gnu99 -pedantic
 
+LFLAGS = -pthread
+
 GPROF =
 # GPROF = -pg
 
@@ -21,10 +23,12 @@ MAIN_OBJECTS = \
 	obj/do_move.o \
 	obj/uci.o \
 	obj/human.o \
-	obj/utils.o
+	obj/utils.o \
+	obj/search.o \
+	obj/threads.o
 
 all: obj/sharky.o $(MAIN_OBJECTS)
-	gcc -o build/sharky obj/sharky.o $(MAIN_OBJECTS) ${GPROF}
+	gcc -o build/sharky ${LFLAGS} obj/sharky.o $(MAIN_OBJECTS) ${GPROF}
 
 obj/sharky.o: src/sharky.c
 	gcc -c $(CFLAGS) src/sharky.c -o obj/sharky.o ${GPROF}
@@ -68,6 +72,12 @@ obj/utils.o: src/utils.c src/utils.h
 obj/human.o: src/human.c src/human.h
 	gcc -c $(CFLAGS) src/human.c -o obj/human.o ${GPROF}
 
+obj/search.o: src/search.c src/search.h
+	gcc -c $(CFLAGS) src/search.c -o obj/search.o ${GPROF}
+
+obj/threads.o: src/threads.c src/threads.h
+	gcc -c $(CFLAGS) src/threads.c -o obj/threads.o ${GPROF}
+
 clean:
 	rm -rf build/sharky build/tests build/perft obj/*.o
 
@@ -83,7 +93,7 @@ TESTS_OBJECTS = \
 	obj/do_move_tests.o
 
 test: obj/tests.o $(TESTS_OBJECTS) $(MAIN_OBJECTS)
-	gcc -o build/tests obj/tests.o $(TESTS_OBJECTS) $(MAIN_OBJECTS) ${GPROF}
+	gcc -o build/tests ${LFLAGS} obj/tests.o $(TESTS_OBJECTS) $(MAIN_OBJECTS) ${GPROF}
 
 obj/tests.o: tests/tests.c tests/tests.h
 	gcc -c $(CFLAGS) tests/tests.c -o obj/tests.o ${GPROF}
@@ -118,7 +128,7 @@ obj/do_move_tests.o: tests/do_move_tests.c tests/do_move_tests.h
 PERFT_OBJECTS =
 
 perft: obj/perft.o $(PERFT_OBJECTS) $(MAIN_OBJECTS)
-	gcc -o build/perft obj/perft.o $(PERFT_OBJECTS) $(MAIN_OBJECTS) ${GPROF}
+	gcc -o build/perft ${LFLAGS}  obj/perft.o $(PERFT_OBJECTS) $(MAIN_OBJECTS) ${GPROF}
 
 obj/perft.o: perft/perft.c perft/perft.h
 	gcc -c $(CFLAGS) perft/perft.c -o obj/perft.o ${GPROF}

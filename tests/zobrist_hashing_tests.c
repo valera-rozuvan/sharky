@@ -21,7 +21,7 @@ void testEmptyPosition()
   if (cBoard.positionKey != 0x0ULL) {
     printf("Empty position hash key is wrong! cBoard.positionKey = %llx\n", cBoard.positionKey);
 
-    exit(1);
+    exit(EXIT_FAILURE);
   } else {
     totalChecksPerformed += 1;
   }
@@ -36,7 +36,7 @@ void testStartPosition()
   if (cBoard.positionKey != INITIAL_POSITION_ZOBRIST_KEY) {
     printf("Initial position hash key is wrong! cBoard.positionKey = %llx\n", cBoard.positionKey);
 
-    exit(1);
+    exit(EXIT_FAILURE);
   } else {
     totalChecksPerformed += 1;
   }
@@ -127,7 +127,7 @@ void testIndividualPieces()
 
   if (hashCounter != RANDOM_CONST_LENGTH) {
     printf("Error! Not all random constants were used! hashCounter = %hu, RANDOM_CONST_LENGTH = %hu\n", hashCounter, RANDOM_CONST_LENGTH);
-    exit(1);
+    exit(EXIT_FAILURE);
   } else {
     totalChecksPerformed += 1;
   }
@@ -149,7 +149,7 @@ void testIndividualPieces()
           printf("hashArr_sqr64[idx2] = %hhu\n", hashArr_sqr64[idx2]);
         }
 
-        exit(1);
+        exit(EXIT_FAILURE);
       } else {
         totalChecksPerformed += 1;
       }

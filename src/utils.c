@@ -16,18 +16,22 @@ void sleepMs(int sleepInMs)
   nanosleep(&t, NULL);
 }
 
+/*
+ * Does the `buf` start with `str`?
+ */
 int startsWithStr(char *buf, const char *str)
 {
   return !strncmp(buf, str, strlen(str));
 }
 
 /*
- * Compare string, and fast forward to the end of compared block (if match).
+ * Does the `buf` start with `str`?
+ * Fast forward `buf` to the end of compared `str` (if match).
  */
-int compareStrFF(char **buf, const char *cmpStr)
+int startsWithStrFF(char **buf, const char *str)
 {
-  if (startsWithStr(*buf, cmpStr)) {
-    *buf += strlen(cmpStr) + 1;
+  if (startsWithStr(*buf, str)) {
+    *buf += strlen(str) + 1;
 
     return 1;
   }
@@ -35,12 +39,12 @@ int compareStrFF(char **buf, const char *cmpStr)
   return 0;
 }
 
-char *stripStr(char *text) {
+char *stripStr(char *str) {
   int length, c, d;
   char *start;
 
   c = d = 0;
-  length = strlen(text);
+  length = strlen(str);
   if (length == 0) length = 1;
   start = (char*)malloc(length + 1);
 
@@ -52,26 +56,26 @@ char *stripStr(char *text) {
     return start;
   }
 
-  while (*(text + c) != '\0') {
-    if (*(text + c) != ' ') {
+  while (*(str + c) != '\0') {
+    if (*(str + c) != ' ') {
       break;
     }
     c++;
   }
 
-  while (*(text + c) != '\0') {
-    if (*(text + c) == ' ') {
+  while (*(str + c) != '\0') {
+    if (*(str + c) == ' ') {
        int temp = c + 1;
-       if (*(text + temp) != '\0') {
-          while (*(text + temp) == ' ' && *(text + temp) != '\0') {
-             if (*(text + temp) == ' ') {
+       if (*(str + temp) != '\0') {
+          while (*(str + temp) == ' ' && *(str + temp) != '\0') {
+             if (*(str + temp) == ' ') {
                 c++;
              }
              temp++;
           }
        }
     }
-    *(start + d) = *(text + c);
+    *(start + d) = *(str + c);
     c++;
     d++;
   }

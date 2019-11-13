@@ -55,6 +55,8 @@ typedef struct {
   unsigned char movesAvailable;
   unsigned char legalMovesAvailable;
 
+  unsigned long long bestMove;
+
   // Move history. Allows for undoing moves.
   // Store information about current board position, before
   // making a new move.

@@ -10,8 +10,9 @@
 #include "move_gen.h"
 #include "bitboard.h"
 #include "do_move.h"
-#include "utils.h"
 #include "zobrist_hashing.h"
+#include "search.h"
+#include "threads.h"
 
 #define READ_BUFFER_SIZE 8192
 
@@ -51,7 +52,7 @@ void uciSetupStartPosition(BOARD *cBoard, char *buf)
   moveGen(cBoard);
   removeIllegalMoves(cBoard);
 
-  if (!compareStrFF(&buf, "moves")) {
+  if (!startsWithStrFF(&buf, "moves")) {
     return;
   }
 
@@ -68,48 +69,16 @@ void uciSetupStartPosition(BOARD *cBoard, char *buf)
   } while ((buf = strchr(buf, ' ')));
 }
 
-void printRandomMove(BOARD *cBoard)
-{
-  char fmtdMove[MAX_MOVE_STR_LENGTH] = "";
-  unsigned char idx1 = 0, idx2 = 0;
-
-  if (cBoard->movesAvailable == 0) {
-    printf("bestmove 0000\n");
-    return;
-  } else if (cBoard->movesAvailable == 1) {
-    if (CHECK_BIT(cBoard->moves[0], MOVE_BIT_ILLEGAL)) {
-      printf("bestmove 0000\n");
-      return;
-    } else {
-      chessMoveToAlgebraicStr(cBoard->moves[0], fmtdMove);
-      printf("bestmove %s\n", fmtdMove);
-      return;
-    }
-  } else {
-    do {
-      if (idx2 >= cBoard->movesAvailable * 30) break;
-
-      idx1 = randomR(0, cBoard->movesAvailable - 1);
-      idx2 += 1;
-    } while (CHECK_BIT(cBoard->moves[idx1], MOVE_BIT_ILLEGAL));
-
-    if (idx2 >= cBoard->movesAvailable * 30) {
-      printf("bestmove 0000\n");
-    } else {
-      chessMoveToAlgebraicStr(cBoard->moves[idx1], fmtdMove);
-      printf("bestmove %s\n", fmtdMove);
-    }
-  }
-}
-
 void uci()
 {
   BOARD cBoard;
   char *buffer = NULL, *readBuffer = NULL, rawBuffer[READ_BUFFER_SIZE] = "";
+  unsigned char isSearching = 0;
+  THREAD_PARAMS threadParams;
+  SEARCH_THREAD_FN_PARAMS searchThreadFnParams;
 
-  setupInitialPosition(&cBoard);
-  moveGen(&cBoard);
-  removeIllegalMoves(&cBoard);
+  searchThreadFnParams.cBoard = &cBoard;
+  searchThreadFnParams.threadParams = &threadParams;
 
   uciOK();
 
@@ -125,40 +94,66 @@ void uci()
     readBuffer = stripStr(rawBuffer);
     buffer = readBuffer;
 
-    if (compareStrFF(&buffer, "isready")) {
-      printf("readyok\n");
-    } else if (compareStrFF(&buffer, "stop")) {
-      // Always send the best move when engine stops searching.
+    switch (buffer[0]) {
+      case 'i':
+        if (strcmp(buffer, "isready") == 0) {
+          printf("readyok\n");
+        }
+        break;
 
-      // TODO: Actually send the best move ;)
-      printRandomMove(&cBoard);
-    } else if (compareStrFF(&buffer, "quit")) {
-      break;
-    } else if (compareStrFF(&buffer, "ucinewgame")) {
-      setupInitialPosition(&cBoard);
-      moveGen(&cBoard);
-      removeIllegalMoves(&cBoard);
-    } else if (compareStrFF(&buffer, "position fen")) {
-      setPositionFromFen(&cBoard, buffer);
-      moveGen(&cBoard);
-      removeIllegalMoves(&cBoard);
-    } else if (compareStrFF(&buffer, "position startpos")) {
-      uciSetupStartPosition(&cBoard, buffer);
-    } else if (compareStrFF(&buffer, "print moves")) {
-      printMoves(&cBoard);
-    } else if (compareStrFF(&buffer, "print")) {
-      printBoard(&cBoard);
-    } else if (compareStrFF(&buffer, "uci")) {
-      uciOK();
-    } else if (compareStrFF(&buffer, "go")) {
-      printRandomMove(&cBoard);
+      case 'g':
+        if (startsWithStrFF(&buffer, "go")) {
+          if (isSearching == 1) {
+            stopThread(&threadParams);
+          }
+
+          startThread(&search, &searchThreadFnParams, &threadParams);
+          isSearching = 1;
+        }
+        break;
+
+      case 's':
+        if (strcmp(buffer, "stop") == 0) {
+          if (isSearching == 1) {
+            stopThread(&threadParams);
+          } else {
+            printBestMove(&cBoard);
+          }
+
+          isSearching = 0;
+        }
+        break;
+
+      case 'u':
+        if (strcmp(buffer, "ucinewgame") == 0) {
+          setupInitialPosition(&cBoard);
+          moveGen(&cBoard);
+          removeIllegalMoves(&cBoard);
+        } else if (strcmp(buffer, "uci") == 0) {
+          uciOK();
+        }
+        break;
+
+      case 'p':
+        if (startsWithStrFF(&buffer, "position")) {
+          if (startsWithStrFF(&buffer, "startpos")) {
+            uciSetupStartPosition(&cBoard, buffer);
+          } else if (startsWithStrFF(&buffer, "fen")) {
+            setPositionFromFen(&cBoard, buffer);
+            moveGen(&cBoard);
+            removeIllegalMoves(&cBoard);
+          }
+        }
+        break;
+
+      case 'q':
+        if (strcmp(buffer, "quit") == 0) {
+          free(readBuffer);
+          exit(EXIT_SUCCESS);
+        }
+        break;
     }
 
     free(readBuffer);
-    readBuffer = NULL;
   } while (1);
-
-  if (readBuffer != NULL) {
-    free(readBuffer);
-  }
 }

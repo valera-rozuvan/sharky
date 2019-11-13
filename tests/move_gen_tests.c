@@ -54,7 +54,7 @@ void testFenPos(const BOARD *cBoard, const char *fenPos, const char **movesToChe
     if (arrayOfStrContainsStr((const char**)generatedMoves, generatedMovesNum, movesToCheck[idx]) == 0) {
       printf("Move generation for FEN '%s' failed!\n", fenPos);
       printf("Move not generated: %s\n", movesToCheck[idx]);
-      exit(1);
+      exit(EXIT_FAILURE);
     }
 
     totalChecksPerformed += 1;
@@ -64,7 +64,7 @@ void testFenPos(const BOARD *cBoard, const char *fenPos, const char **movesToChe
     if (arrayOfStrContainsStr(movesToCheck, MAX_POSSIBLE_MOVES_IN_POS_TO_CHECK, generatedMoves[idx]) == 0) {
       printf("Move generation for FEN '%s' failed!\n", fenPos);
       printf("Generated move is unexpected: %s\n", generatedMoves[idx]);
-      exit(1);
+      exit(EXIT_FAILURE);
     }
 
     totalChecksPerformed += 1;
