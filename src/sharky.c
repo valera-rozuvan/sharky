@@ -24,12 +24,12 @@ int main()
   processedInput = stripStr(userInput);
 
   if (strcmp(processedInput, "human") == 0) {
+    free(processedInput);
     human();
   } else if (strcmp(processedInput, "uci") == 0) {
+    free(processedInput);
     uci();
   }
-
-  free(processedInput);
 
   return 0;
 }
