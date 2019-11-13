@@ -2,6 +2,17 @@
 
 #include "threads.h"
 
+void threadInit(THREAD_PARAMS *threadParams)
+{
+  threadParams->status = THREAD_STATUS_NOT_STARTED;
+  pthread_mutex_init(&threadParams->mutex, NULL);
+}
+
+void threadDestroy(THREAD_PARAMS *threadParams)
+{
+  pthread_mutex_destroy(&threadParams->mutex);
+}
+
 void startThread(void *(*threadFn) (void *), void *threadFnParams, THREAD_PARAMS *threadParams)
 {
   unsigned char needToStart = 0;

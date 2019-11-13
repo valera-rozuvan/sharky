@@ -77,6 +77,8 @@ void uci()
   THREAD_PARAMS threadParams;
   SEARCH_THREAD_FN_PARAMS searchThreadFnParams;
 
+  threadInit(&threadParams);
+
   searchThreadFnParams.cBoard = &cBoard;
   searchThreadFnParams.threadParams = &threadParams;
 
@@ -149,6 +151,7 @@ void uci()
       case 'q':
         if (strcmp(buffer, "quit") == 0) {
           free(readBuffer);
+          threadDestroy(&threadParams);
           exit(EXIT_SUCCESS);
         }
         break;

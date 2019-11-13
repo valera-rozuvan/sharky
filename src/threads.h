@@ -16,6 +16,8 @@ typedef struct {
   unsigned int startTime;
 } THREAD_PARAMS;
 
+void threadInit(THREAD_PARAMS *threadParams);
+void threadDestroy(THREAD_PARAMS *threadParams);
 void startThread(void *(*threadFn) (void *), void *threadFnParams, THREAD_PARAMS *threadParams);
 void stopThread(THREAD_PARAMS *threadParams);
 unsigned int threadAlive(THREAD_PARAMS *threadParams);
