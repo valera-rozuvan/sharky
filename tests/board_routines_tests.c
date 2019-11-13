@@ -17,7 +17,7 @@ void board_routines_tests()
       printf("board64to120[idx] >= 120; idx = %hhu\n", idx);
       printf("board64to120[idx] = %hhu\n", board64to120[idx]);
 
-      exit(1);
+      exit(EXIT_FAILURE);
     } else {
       totalChecksPerformed += 1;
     }
@@ -28,7 +28,7 @@ void board_routines_tests()
       printf("(board120to64[idx] >= 64) && (board120to64[idx] != NO_SQ); idx = %hhu\n", idx);
       printf("board120to64[idx] = %hhu\n", board120to64[idx]);
 
-      exit(1);
+      exit(EXIT_FAILURE);
     } else {
       totalChecksPerformed += 1;
     }
@@ -40,7 +40,7 @@ void board_routines_tests()
       printf("board64to120[idx] = %hhu\n", board64to120[idx]);
       printf("board120to64[board64to120[idx]] = %hhu\n", board120to64[board64to120[idx]]);
 
-      exit(1);
+      exit(EXIT_FAILURE);
     } else {
       totalChecksPerformed += 1;
     }

@@ -48,7 +48,7 @@ void playRandomGames(const char *perftPos)
 
     if (generateFullHash(&cBoard) != initialPositionHash) {
       printf("After undoing all moves, starting position is invalid!\n");
-      exit(1);
+      exit(EXIT_FAILURE);
     }
 
     totalChecksPerformed += 1;

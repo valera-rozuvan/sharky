@@ -15,7 +15,7 @@ void assertBitIsZero_uc(unsigned char uc, unsigned char bit)
 {
   if (CHECK_BIT(uc, bit)) {
     printf("macroTests: assertBitIsZero_uc fail! uc = %hhu, bit = %hhu\n\n", uc, bit);
-    exit(1);
+    exit(EXIT_FAILURE);
   } else {
     totalChecksPerformed += 1;
   }
@@ -25,7 +25,7 @@ void assertBitIsOne_uc(unsigned char uc, unsigned char bit)
 {
   if (!CHECK_BIT(uc, bit)) {
     printf("macroTests: assertBitIsOne_uc fail! uc = %hhu, bit = %hhu\n\n", uc, bit);
-    exit(1);
+    exit(EXIT_FAILURE);
   } else {
     totalChecksPerformed += 1;
   }
@@ -35,7 +35,7 @@ void assertBitIsZero_sc(char sc, unsigned char bit)
 {
   if (CHECK_BIT(sc, bit)) {
     printf("macroTests: assertBitIsZero_sc fail! sc = %hhi, bit = %hhu\n\n", sc, bit);
-    exit(1);
+    exit(EXIT_FAILURE);
   } else {
     totalChecksPerformed += 1;
   }
@@ -45,7 +45,7 @@ void assertBitIsOne_sc(char sc, unsigned char bit)
 {
   if (!CHECK_BIT(sc, bit)) {
     printf("macroTests: assertBitIsOne_sc fail! sc = %hhi, bit = %hhu\n\n", sc, bit);
-    exit(1);
+    exit(EXIT_FAILURE);
   } else {
     totalChecksPerformed += 1;
   }
@@ -59,7 +59,7 @@ void assertBitIsZero_us(unsigned short us, unsigned char bit)
 {
   if (CHECK_BIT(us, bit)) {
     printf("macroTests: assertBitIsZero_us fail! us = %hu, bit = %hhu\n\n", us, bit);
-    exit(1);
+    exit(EXIT_FAILURE);
   } else {
     totalChecksPerformed += 1;
   }
@@ -69,7 +69,7 @@ void assertBitIsOne_us(unsigned short us, unsigned char bit)
 {
   if (!CHECK_BIT(us, bit)) {
     printf("macroTests: assertBitIsOne_us fail! us = %hu, bit = %hhu\n\n", us, bit);
-    exit(1);
+    exit(EXIT_FAILURE);
   } else {
     totalChecksPerformed += 1;
   }
@@ -79,7 +79,7 @@ void assertBitIsZero_ss(short ss, unsigned char bit)
 {
   if (CHECK_BIT(ss, bit)) {
     printf("macroTests: assertBitIsZero_ss fail! ss = %hi, bit = %hhu\n\n", ss, bit);
-    exit(1);
+    exit(EXIT_FAILURE);
   } else {
     totalChecksPerformed += 1;
   }
@@ -89,7 +89,7 @@ void assertBitIsOne_ss(short ss, unsigned char bit)
 {
   if (!CHECK_BIT(ss, bit)) {
     printf("macroTests: assertBitIsOne_ss fail! ss = %hi, bit = %hhu\n\n", ss, bit);
-    exit(1);
+    exit(EXIT_FAILURE);
   } else {
     totalChecksPerformed += 1;
   }
@@ -103,7 +103,7 @@ void assertBitIsZero_ul(unsigned long ul, unsigned char bit)
 {
   if (CHECK_BIT(ul, bit)) {
     printf("macroTests: assertBitIsZero_ul fail! ul = %lu, bit = %hhu\n\n", ul, bit);
-    exit(1);
+    exit(EXIT_FAILURE);
   } else {
     totalChecksPerformed += 1;
   }
@@ -113,7 +113,7 @@ void assertBitIsOne_ul(unsigned long ul, unsigned char bit)
 {
   if (!CHECK_BIT(ul, bit)) {
     printf("macroTests: assertBitIsOne_ul fail! ul = %lu, bit = %hhu\n\n", ul, bit);
-    exit(1);
+    exit(EXIT_FAILURE);
   } else {
     totalChecksPerformed += 1;
   }
@@ -123,7 +123,7 @@ void assertBitIsZero_sl(long sl, unsigned char bit)
 {
   if (CHECK_BIT(sl, bit)) {
     printf("macroTests: assertBitIsZero_sl fail! sl = %li, bit = %hhu\n\n", sl, bit);
-    exit(1);
+    exit(EXIT_FAILURE);
   } else {
     totalChecksPerformed += 1;
   }
@@ -133,7 +133,7 @@ void assertBitIsOne_sl(long sl, unsigned char bit)
 {
   if (!CHECK_BIT(sl, bit)) {
     printf("macroTests: assertBitIsOne_sl fail! sl = %li, bit = %hhu\n\n", sl, bit);
-    exit(1);
+    exit(EXIT_FAILURE);
   } else {
     totalChecksPerformed += 1;
   }
@@ -147,7 +147,7 @@ void assertBitIsZero_ull(unsigned long long ull, unsigned char bit)
 {
   if (CHECK_BIT(ull, bit)) {
     printf("macroTests: assertBitIsZero_ull fail! ull = %llu, bit = %hhu\n\n", ull, bit);
-    exit(1);
+    exit(EXIT_FAILURE);
   } else {
     totalChecksPerformed += 1;
   }
@@ -157,7 +157,7 @@ void assertBitIsOne_ull(unsigned long long ull, unsigned char bit)
 {
   if (!CHECK_BIT(ull, bit)) {
     printf("macroTests: assertBitIsOne_ull fail! ull = %llu, bit = %hhu\n\n", ull, bit);
-    exit(1);
+    exit(EXIT_FAILURE);
   } else {
     totalChecksPerformed += 1;
   }
@@ -167,7 +167,7 @@ void assertBitIsZero_sll(long long sll, unsigned char bit)
 {
   if (CHECK_BIT(sll, bit)) {
     printf("macroTests: assertBitIsZero_sll fail! sll = %lli, bit = %hhu\n\n", sll, bit);
-    exit(1);
+    exit(EXIT_FAILURE);
   } else {
     totalChecksPerformed += 1;
   }
@@ -177,7 +177,7 @@ void assertBitIsOne_sll(long long sll, unsigned char bit)
 {
   if (!CHECK_BIT(sll, bit)) {
     printf("macroTests: assertBitIsOne_sll fail! sll = %lli, bit = %hhu\n\n", sll, bit);
-    exit(1);
+    exit(EXIT_FAILURE);
   } else {
     totalChecksPerformed += 1;
   }
@@ -308,7 +308,7 @@ void setClrTests()
 
     if (bBoard != 0ULL) {
       printf("Single run: set & clear %s fail!\n\n", squaresStr[idx]);
-      exit(1);
+      exit(EXIT_FAILURE);
     } else {
       totalChecksPerformed += 1;
     }
@@ -322,7 +322,7 @@ void setClrTests()
 
     if (bBoard != 0ULL) {
       printf("Double SET_BIT run: set & clear %s fail!\n\n", squaresStr[idx]);
-      exit(1);
+      exit(EXIT_FAILURE);
     } else {
       totalChecksPerformed += 1;
     }
@@ -336,7 +336,7 @@ void setClrTests()
 
     if (bBoard != 0ULL) {
       printf("Double CLEAR_BIT run: set & clear %s fail!\n\n", squaresStr[idx]);
-      exit(1);
+      exit(EXIT_FAILURE);
     } else {
       totalChecksPerformed += 1;
     }
@@ -350,7 +350,7 @@ void countTests()
 
   if (bitCount != 0) {
     printf("bitCount != 0; bitCount = %hhu\n\n", bitCount);
-    exit(1);
+    exit(EXIT_FAILURE);
   } else {
     totalChecksPerformed += 1;
   }
@@ -367,7 +367,7 @@ void countTests()
 
   if (bitCount != 7) {
     printf("bitCount != 7; bitCount = %hhu\n\n", bitCount);
-    exit(1);
+    exit(EXIT_FAILURE);
   } else {
     totalChecksPerformed += 1;
   }
@@ -377,7 +377,7 @@ void countTests()
 
   if (bitCount != 64) {
     printf("bitCount != 64; bitCount = %hhu\n\n", bitCount);
-    exit(1);
+    exit(EXIT_FAILURE);
   } else {
     totalChecksPerformed += 1;
   }
@@ -399,7 +399,7 @@ void popTests()
   poppedBit = pop_1st_bit(&bBoard);
   if (poppedBit != board120to64[G1]) {
     printf("poppedBit != board120to64[G1]; poppedBit = %hhu\n\n", poppedBit);
-    exit(1);
+    exit(EXIT_FAILURE);
   } else {
     totalChecksPerformed += 1;
   }
@@ -407,7 +407,7 @@ void popTests()
   poppedBit = pop_1st_bit(&bBoard);
   if (poppedBit != board120to64[D2]) {
     printf("poppedBit != board120to64[D2]; poppedBit = %hhu\n\n", poppedBit);
-    exit(1);
+    exit(EXIT_FAILURE);
   } else {
     totalChecksPerformed += 1;
   }
@@ -415,7 +415,7 @@ void popTests()
   poppedBit = pop_1st_bit(&bBoard);
   if (poppedBit != board120to64[E2]) {
     printf("poppedBit != board120to64[E2]; poppedBit = %hhu\n\n", poppedBit);
-    exit(1);
+    exit(EXIT_FAILURE);
   } else {
     totalChecksPerformed += 1;
   }
@@ -423,7 +423,7 @@ void popTests()
   poppedBit = pop_1st_bit(&bBoard);
   if (poppedBit != board120to64[H3]) {
     printf("poppedBit != board120to64[H3]; poppedBit = %hhu\n\n", poppedBit);
-    exit(1);
+    exit(EXIT_FAILURE);
   } else {
     totalChecksPerformed += 1;
   }
@@ -431,7 +431,7 @@ void popTests()
   poppedBit = pop_1st_bit(&bBoard);
   if (poppedBit != board120to64[A5]) {
     printf("poppedBit != board120to64[A5]; poppedBit = %hhu\n\n", poppedBit);
-    exit(1);
+    exit(EXIT_FAILURE);
   } else {
     totalChecksPerformed += 1;
   }

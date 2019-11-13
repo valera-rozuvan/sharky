@@ -15,6 +15,7 @@ void printBoard(BOARD *cBoard);
 
 void chessMoveToAlgebraicStr(unsigned long long move, char fmtdMove[MAX_MOVE_STR_LENGTH]);
 void chessMoveToStr(unsigned long long move, char fmtdMove[MAX_MOVE_STR_LENGTH]);
+void printBestMove(BOARD *cBoard);
 void printMoves(BOARD *cBoard);
 
 void setupEmptyPosition(BOARD *cBoard);

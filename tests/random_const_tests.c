@@ -20,7 +20,7 @@ void random_const_tests()
         printf("idx1 = %hu, RANDOM_CONST[idx1] = %llu\n", idx1, RANDOM_CONST[idx1]);
         printf("idx2 = %hu, RANDOM_CONST[idx2] = %llu\n", idx2, RANDOM_CONST[idx2]);
 
-        exit(1);
+        exit(EXIT_FAILURE);
       } else {
         totalChecksPerformed += 1;
       }

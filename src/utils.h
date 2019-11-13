@@ -3,8 +3,8 @@
 
 unsigned char randomR(unsigned char min, unsigned char max);
 void sleepMs(int sleepInMs);
-char *stripStr(char *text);
 int startsWithStr(char *buf, const char *str);
-int compareStrFF(char **buf, const char *cmpStr);
+int startsWithStrFF(char **buf, const char *str);
+char *stripStr(char *str);
 
 #endif // __UTILS_H__

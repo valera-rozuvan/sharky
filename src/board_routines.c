@@ -309,6 +309,19 @@ void chessMoveToStr(unsigned long long move, char fmtdMove[MAX_MOVE_STR_LENGTH])
   }
 }
 
+void printBestMove(BOARD *cBoard)
+{
+  char fmtdMove[MAX_MOVE_STR_LENGTH] = "";
+
+  if (cBoard->bestMove == 0ULL) {
+    printf("bestmove 0000\n");
+    return;
+  }
+
+  chessMoveToAlgebraicStr(cBoard->bestMove, fmtdMove);
+  printf("bestmove %s\n", fmtdMove);
+}
+
 void printMoves(BOARD *cBoard)
 {
   unsigned long long move = 0ULL;
