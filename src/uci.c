@@ -23,6 +23,13 @@ void uciOK()
   printf("uciok\n");
 }
 
+void setupStartPosition(BOARD *cBoard)
+{
+  setupInitialPosition(cBoard);
+  moveGen(cBoard);
+  removeIllegalMoves(cBoard);
+}
+
 unsigned long long algebraicChessMoveStrToMove(BOARD *cBoard, char *buf)
 {
   unsigned char idx = 0;
@@ -82,6 +89,8 @@ void uci()
   searchThreadFnParams.cBoard = &cBoard;
   searchThreadFnParams.threadParams = &threadParams;
 
+  setupStartPosition(&cBoard);
+
   uciOK();
 
   setbuf(stdout, NULL);
@@ -128,9 +137,7 @@ void uci()
 
       case 'u':
         if (strcmp(buffer, "ucinewgame") == 0) {
-          setupInitialPosition(&cBoard);
-          moveGen(&cBoard);
-          removeIllegalMoves(&cBoard);
+          setupStartPosition(&cBoard);
         } else if (strcmp(buffer, "uci") == 0) {
           uciOK();
         }
@@ -150,8 +157,12 @@ void uci()
 
       case 'q':
         if (strcmp(buffer, "quit") == 0) {
-          free(readBuffer);
+          if (isSearching == 1) {
+            stopThread(&threadParams);
+          }
           threadDestroy(&threadParams);
+
+          free(readBuffer);
           exit(EXIT_SUCCESS);
         }
         break;
