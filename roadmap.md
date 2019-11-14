@@ -1,19 +1,19 @@
 # Roadmap
 
-LILO list for things to do on the project. Items with lower numbers get more attention. Please mark item as done when appropriate.
+LILO list for things to do on the project. Put new items at the top. Items towards the end of the list get more attention. Please mark items as done when appropriate.
 
 ## Things to do
 
-6. Windows build of the engine. Setup Visual Studio project. Add support for Windows native threads. Pthread library should only be used on `Linux`/`MacOS`/`*nix` systems.
+- Windows build of the engine. Setup Visual Studio project. Add support for Windows native threads. Pthread library should only be used on `Linux`/`MacOS`/`*nix` systems.
 
-5. Setup simple infrastructure to test new code from Pull Requests against latest `master` version of the engine. Need to compare actual game play results. Unit tests and code coverage can continue to run on Travis CI.
+- Setup simple infrastructure to test new code from Pull Requests against latest `master` version of the engine. Need to compare actual game play results. Unit tests and code coverage can continue to run on Travis CI.
 
-4. Use [emscripten-core/emscripten](https://github.com/emscripten-core/emscripten) to generate JavaScript build of the engine. Provide web demo for the engine using [ornicar/chessground](https://github.com/ornicar/chessground).
+- Use [emscripten-core/emscripten](https://github.com/emscripten-core/emscripten) to generate JavaScript build of the engine. Provide web demo for the engine using [ornicar/chessground](https://github.com/ornicar/chessground).
 
-3. Initial skeleton for depth-based monte carlo tree search. Provided a depth, the function must perform a monte carlo search along all available moves, up to a set depth. The function must be smart enough to know when no more improvement for a certain move is possible, and not look at it again. The function should return the move with the highest probability of success when time runs out, or there is no more sense in searching the available moves.
+- Initial skeleton for depth-based monte carlo tree search. Provided a depth, the function must perform a monte carlo search along all available moves, up to a set depth. The function must be smart enough to know when no more improvement for a certain move is possible, and not look at it again. The function should return the move with the highest probability of success when time runs out, or there is no more sense in searching the available moves.
 
-2. Add time control parsing for UCI. The engine should be aware of how much time is has per move/per game.
+- Add time control parsing for UCI. The engine should be aware of how much time is has per move/per game.
 
-1. Remove `human` mode. What's human mode? Initial idea was to allow the user use the engine via CLI (text input) in a manual mode - like it's 1980s ;) Human mode was supposed to provide nice move output (PGN style), allow the user to quickly make moves without the wordy UCI syntax, etc. However, I have decided that the engine will support only UCI mode going forward. Several reasons for this. For one, the more code/features you have, the more bugs in code exist. For two, I don't foresee any usage of this feature - because these days it's so easy to connect an engine to a GUI, and play with it. For three, I want to simplify and minimize the code base.
+- Remove `human` mode. What's human mode? Initial idea was to allow the user use the engine via CLI (text input) in a manual mode - like it's 1980s ;) Human mode was supposed to provide nice move output (PGN style), allow the user to quickly make moves without the wordy UCI syntax, etc. However, I have decided that the engine will support only UCI mode going forward. Several reasons for this. For one, the more code/features you have, the more bugs in code exist. For two, I don't foresee any usage of this feature - because these days it's so easy to connect an engine to a GUI, and play with it. For three, I want to simplify and minimize the code base.
 
-0. *[done]* Fix code related to thread killing. Actually wait for the thread to die, before exiting the program. Make sure that a new thread is not started until the old one is killed.
+- **[done]** Fix code related to thread killing. Actually wait for the thread to die, before exiting the program. Make sure that a new thread is not started until the old one is killed.
