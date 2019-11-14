@@ -1,6 +1,7 @@
 #include <pthread.h>
 
 #include "threads.h"
+#include "utils.h"
 
 void threadInit(THREAD_PARAMS *threadParams)
 {
@@ -18,8 +19,8 @@ void startThread(void *(*threadFn) (void *), void *threadFnParams, THREAD_PARAMS
   unsigned char needToStart = 0;
 
   pthread_mutex_lock(&threadParams->mutex);
-  if ((threadParams->status == THREAD_STATUS_NOT_STARTED) || (threadParams->status == THREAD_STATUS_STOPPED)) {
-    threadParams->status = THREAD_STATUS_NOT_STARTING;
+  if ((threadParams->status == THREAD_STATUS_NOT_STARTED) || (threadParams->status == THREAD_STATUS_DEAD)) {
+    threadParams->status = THREAD_STATUS_STARTING;
 
     needToStart = 1;
   }
@@ -32,22 +33,31 @@ void startThread(void *(*threadFn) (void *), void *threadFnParams, THREAD_PARAMS
 
 void stopThread(THREAD_PARAMS *threadParams)
 {
-  unsigned char needToStop = 0;
+  unsigned char needToJoin = 0;
+  unsigned char threadJoined = 0;
 
   pthread_mutex_lock(&threadParams->mutex);
   if (threadParams->status == THREAD_STATUS_RUNNING) {
     threadParams->status = THREAD_STATUS_STOPPING;
 
-    needToStop = 1;
+    needToJoin = 1;
+  } else if (threadParams->status == THREAD_STATUS_STOPPED) {
+    needToJoin = 1;
   }
   pthread_mutex_unlock(&threadParams->mutex);
 
-  if (needToStop == 1) {
-    pthread_join(threadParams->thread, NULL);
+  if (needToJoin == 1) {
+    do {
+      sleepMs(2);
 
-    pthread_mutex_lock(&threadParams->mutex);
-    threadParams->status = THREAD_STATUS_STOPPED;
-    pthread_mutex_unlock(&threadParams->mutex);
+      pthread_mutex_lock(&threadParams->mutex);
+      if (threadParams->status == THREAD_STATUS_STOPPED) {
+        threadJoined = 1;
+        pthread_join(threadParams->thread, NULL);
+        threadParams->status = THREAD_STATUS_DEAD;
+      }
+      pthread_mutex_unlock(&threadParams->mutex);
+    } while (threadJoined == 0);
   }
 }
 

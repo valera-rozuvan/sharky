@@ -82,5 +82,9 @@ void *search(void *threadFnParams)
 
   printBestMove(cBoard);
 
+  pthread_mutex_lock(&threadParams->mutex);
+  threadParams->status = THREAD_STATUS_STOPPED;
+  pthread_mutex_unlock(&threadParams->mutex);
+
   return NULL;
 }
