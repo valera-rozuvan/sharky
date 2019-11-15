@@ -22,6 +22,10 @@ Perft is included as a stand alone executable. To build it, run `make perft`. Yo
 
 Please take a look at the source code. Feel free to submit a PR or 2, if you spot something that you can improve.
 
+## Roadmap
+
+There are quite a few things planned for Sharky. Some of them are listed in [roadmap.md](docs/roadmap.md) file.
+
 ## License
 
 See [LICENSE](LICENSE) for more details.

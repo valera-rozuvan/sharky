@@ -22,7 +22,6 @@ MAIN_OBJECTS = \
 	obj/move_gen_black.o \
 	obj/do_move.o \
 	obj/uci.o \
-	obj/human.o \
 	obj/utils.o \
 	obj/search.o \
 	obj/threads.o
@@ -68,9 +67,6 @@ obj/uci.o: src/uci.c src/uci.h
 
 obj/utils.o: src/utils.c src/utils.h
 	gcc -c $(CFLAGS) src/utils.c -o obj/utils.o ${GPROF}
-
-obj/human.o: src/human.c src/human.h
-	gcc -c $(CFLAGS) src/human.c -o obj/human.o ${GPROF}
 
 obj/search.o: src/search.c src/search.h
 	gcc -c $(CFLAGS) src/search.c -o obj/search.o ${GPROF}
