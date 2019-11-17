@@ -43,7 +43,7 @@ unsigned long long algebraicChessMoveStrToMove(BOARD *cBoard, char *buf)
 
     if (CHECK_BIT(move, MOVE_BIT_ILLEGAL)) continue;
 
-    chessMoveToAlgebraicStr(move, fmtdMove);
+    chessMoveToStr(move, fmtdMove);
 
     if (startsWithStr(buf, fmtdMove)) return move;
   }

@@ -249,7 +249,7 @@ const char *SQUARE_NAMES[64] = {
   "a8", "b8", "c8", "d8", "e8", "f8", "g8", "h8"
 };
 
-void chessMoveToAlgebraicStr(unsigned long long move, char fmtdMove[MAX_MOVE_STR_LENGTH])
+void chessMoveToStr(unsigned long long move, char fmtdMove[MAX_MOVE_STR_LENGTH])
 {
   unsigned char fromSq64 = board120to64[move & 0xFFULL];
   unsigned char toSq64 = board120to64[(move >> 8) & 0xFFULL];
@@ -279,36 +279,6 @@ void chessMoveToAlgebraicStr(unsigned long long move, char fmtdMove[MAX_MOVE_STR
   }
 }
 
-void chessMoveToStr(unsigned long long move, char fmtdMove[MAX_MOVE_STR_LENGTH])
-{
-  unsigned char fromSq64 = board120to64[move & 0xFFULL];
-  unsigned char toSq64 = board120to64[(move >> 8) & 0xFFULL];
-
-  // Only used for showing promoted piece, if applicable.
-  unsigned char promotedPiece = (move >> 16) & 0xFFULL;
-
-  CLEAR_BIT(promotedPiece, 4);
-  CLEAR_BIT(promotedPiece, 5);
-  CLEAR_BIT(promotedPiece, 6);
-  CLEAR_BIT(promotedPiece, 7);
-
-  if (CHECK_BIT(move, MOVE_BIT_K_CASTLE)) {
-    snprintf(fmtdMove, 4, "%s", "0-0");
-  } else if (CHECK_BIT(move, MOVE_BIT_Q_CASTLE)) {
-    snprintf(fmtdMove, 6, "%s", "0-0-0");
-  } else if ((CHECK_BIT(move, MOVE_BIT_CAPTURE)) && (!CHECK_BIT(move, MOVE_BIT_EN_PASSANT_CAPTURE))) {
-    snprintf(fmtdMove, 6, "%s%s%s", SQUARE_NAMES[fromSq64], "x", SQUARE_NAMES[toSq64]);
-  } else if ((CHECK_BIT(move, MOVE_BIT_CAPTURE)) && (CHECK_BIT(move, MOVE_BIT_EN_PASSANT_CAPTURE))) {
-    snprintf(fmtdMove, 10, "%s%s%s%s", SQUARE_NAMES[fromSq64], "x", SQUARE_NAMES[toSq64], "e.p.");
-  } else if ((!CHECK_BIT(move, MOVE_BIT_CAPTURE)) && (CHECK_BIT(move, MOVE_BIT_PROMOTION))) {
-    snprintf(fmtdMove, 7, "%s%s%s%s", SQUARE_NAMES[fromSq64], SQUARE_NAMES[toSq64], "=", boardPieceStr[promotedPiece]);
-  } else if ((CHECK_BIT(move, MOVE_BIT_CAPTURE)) && (CHECK_BIT(move, MOVE_BIT_PROMOTION))) {
-    snprintf(fmtdMove, 8, "%s%s%s%s%s", SQUARE_NAMES[fromSq64], "x", SQUARE_NAMES[toSq64], "=", boardPieceStr[promotedPiece]);
-  } else {
-    snprintf(fmtdMove, 5, "%s%s", SQUARE_NAMES[fromSq64], SQUARE_NAMES[toSq64]);
-  }
-}
-
 void printBestMove(BOARD *cBoard)
 {
   char fmtdMove[MAX_MOVE_STR_LENGTH] = "";
@@ -318,7 +288,7 @@ void printBestMove(BOARD *cBoard)
     return;
   }
 
-  chessMoveToAlgebraicStr(cBoard->bestMove, fmtdMove);
+  chessMoveToStr(cBoard->bestMove, fmtdMove);
   printf("bestmove %s\n", fmtdMove);
 }
 
@@ -330,13 +300,32 @@ void printMoves(BOARD *cBoard)
   char fmtdMove[MAX_MOVE_STR_LENGTH] = "";
 
   if (cBoard->movesAvailable == 0) {
-    printf("Moves available: none\n");
+    printf("Moves available [0]: none\n");
 
     return;
   }
 
-  printf("Moves available[%hu]: ", cBoard->legalMovesAvailable);
+  legalMovesCount = 0;
+  idx = 0;
+  do {
+    if (CHECK_BIT(cBoard->moves[idx], MOVE_BIT_ILLEGAL)) {
+      idx += 1;
+      continue;
+    }
 
+    legalMovesCount += 1;
+    idx += 1;
+  } while ((idx < cBoard->movesAvailable) && (idx < MAX_POSSIBLE_MOVES_IN_POSITION));
+
+  printf("Moves available [%hu]: ", legalMovesCount);
+
+  if (legalMovesCount == 0) {
+    printf("none\n");
+
+    return;
+  }
+
+  legalMovesCount = 0;
   idx = 0;
   do {
     move = cBoard->moves[idx];
@@ -353,11 +342,7 @@ void printMoves(BOARD *cBoard)
     idx += 1;
   } while ((idx < cBoard->movesAvailable) && (idx < MAX_POSSIBLE_MOVES_IN_POSITION));
 
-  if (legalMovesCount == 0) {
-    printf("none");
-  }
-
-  printf("\n\n");
+  printf("\n");
 }
 
 void setupEmptyPosition(BOARD *cBoard)

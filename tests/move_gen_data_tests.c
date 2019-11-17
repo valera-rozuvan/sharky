@@ -100,10 +100,10 @@ const char *movesToCheckForPos[FEN_POS_TO_CHECK_LENGTH][MAX_POSSIBLE_MOVES_IN_PO
   // *******************************************
 
   // No threats - white king can castle king-side.
-  { "e1d1", "e1d2", "e1e2", "e1f2", "e1f1", "0-0", "h1g1", "h1f1", "h1h2", "h1h3", "h1h4", "h1h5", "h1h6", "h1h7", "h1h8", NULL },
+  { "e1d1", "e1d2", "e1e2", "e1f2", "e1f1", "e1g1", "h1g1", "h1f1", "h1h2", "h1h3", "h1h4", "h1h5", "h1h6", "h1h7", "h1h8", NULL },
 
   // Knight is only threatening the rook. White king can castle.
-  { "e1d1", "e1d2", "e1e2", "e1xf2", "e1f1", "0-0", "h1g1", "h1f1", "h1h2", "h1h3", "h1h4", "h1h5", "h1h6", "h1h7", "h1h8", NULL },
+  { "e1d1", "e1d2", "e1e2", "e1f2", "e1f1", "e1g1", "h1g1", "h1f1", "h1h2", "h1h3", "h1h4", "h1h5", "h1h6", "h1h7", "h1h8", NULL },
 
   // In all below positions the white king can't king-side castle - since attacked by knight.
   { "e1d1", "e1d2", "e1e2", "e1f2", "e1f1", "h1g1", "h1f1", "h1h2", "h1h3", "h1h4", "h1h5", "h1h6", "h1h7", "h1h8", NULL },
@@ -112,28 +112,28 @@ const char *movesToCheckForPos[FEN_POS_TO_CHECK_LENGTH][MAX_POSSIBLE_MOVES_IN_PO
   { "e1d1", "e1d2", "e1e2", "e1f2", "e1f1", "h1g1", "h1f1", "h1h2", "h1h3", "h1h4", "h1h5", "h1h6", "h1h7", "h1h8", NULL },
 
   // In all below positions the white king can't king-side castle - since passing square is attacked by knight.
-  { "e1d1", "e1xd2", "e1e2", "e1f2", "e1f1", "h1g1", "h1f1", "h1h2", "h1h3", "h1h4", "h1h5", "h1h6", "h1h7", "h1h8", NULL },
   { "e1d1", "e1d2", "e1e2", "e1f2", "e1f1", "h1g1", "h1f1", "h1h2", "h1h3", "h1h4", "h1h5", "h1h6", "h1h7", "h1h8", NULL },
   { "e1d1", "e1d2", "e1e2", "e1f2", "e1f1", "h1g1", "h1f1", "h1h2", "h1h3", "h1h4", "h1h5", "h1h6", "h1h7", "h1h8", NULL },
-  { "e1d1", "e1d2", "e1e2", "e1f2", "e1f1", "h1g1", "h1f1", "h1xh2", NULL },
+  { "e1d1", "e1d2", "e1e2", "e1f2", "e1f1", "h1g1", "h1f1", "h1h2", "h1h3", "h1h4", "h1h5", "h1h6", "h1h7", "h1h8", NULL },
+  { "e1d1", "e1d2", "e1e2", "e1f2", "e1f1", "h1g1", "h1f1", "h1h2", NULL },
 
   // In all below positions the white king can't king-side castle - since finishing square is attacked by knight.
-  { "e1d1", "e1d2", "e1xe2", "e1f2", "e1f1", "h1g1", "h1f1", "h1h2", "h1h3", "h1h4", "h1h5", "h1h6", "h1h7", "h1h8", NULL },
   { "e1d1", "e1d2", "e1e2", "e1f2", "e1f1", "h1g1", "h1f1", "h1h2", "h1h3", "h1h4", "h1h5", "h1h6", "h1h7", "h1h8", NULL },
-  { "e1d1", "e1d2", "e1e2", "e1f2", "e1f1", "h1g1", "h1f1", "h1h2", "h1xh3", NULL },
+  { "e1d1", "e1d2", "e1e2", "e1f2", "e1f1", "h1g1", "h1f1", "h1h2", "h1h3", "h1h4", "h1h5", "h1h6", "h1h7", "h1h8", NULL },
+  { "e1d1", "e1d2", "e1e2", "e1f2", "e1f1", "h1g1", "h1f1", "h1h2", "h1h3", NULL },
 
   // *******************************************
   // White queen-side castling. Various threats.
   // *******************************************
 
   // No threats - white king can castle queen-side.
-  { "e1d1", "e1d2", "e1e2", "e1f2", "e1f1", "0-0-0", "a1b1", "a1c1", "a1d1", "a1a2", "a1a3", "a1a4", "a1a5", "a1a6", "a1a7", "a1a8", NULL },
+  { "e1d1", "e1d2", "e1e2", "e1f2", "e1f1", "e1c1", "a1b1", "a1c1", "a1d1", "a1a2", "a1a3", "a1a4", "a1a5", "a1a6", "a1a7", "a1a8", NULL },
 
   // Knight is threatening both king and the rook. White king can't castle.
   { "e1d1", "e1d2", "e1e2", "e1f2", "e1f1", "a1b1", "a1c1", "a1d1", "a1a2", "a1a3", "a1a4", "a1a5", "a1a6", "a1a7", "a1a8", NULL },
 
   // Knight is threatening only the square the rook passes. White king can castle.
-  { "e1d1", "e1d2", "e1e2", "e1f2", "e1f1", "0-0-0", "a1b1", "a1c1", "a1d1", "a1a2", "a1xa3", NULL },
+  { "e1d1", "e1d2", "e1e2", "e1f2", "e1f1", "e1c1", "a1b1", "a1c1", "a1d1", "a1a2", "a1a3", NULL },
 
   // In all below positions the white king can't queen-side castle - since attacked by knight.
   { "e1d1", "e1d2", "e1e2", "e1f2", "e1f1", "a1b1", "a1c1", "a1d1", "a1a2", "a1a3", "a1a4", "a1a5", "a1a6", "a1a7", "a1a8", NULL },
@@ -144,13 +144,13 @@ const char *movesToCheckForPos[FEN_POS_TO_CHECK_LENGTH][MAX_POSSIBLE_MOVES_IN_PO
   { "e1d1", "e1d2", "e1e2", "e1f2", "e1f1", "a1b1", "a1c1", "a1d1", "a1a2", "a1a3", "a1a4", "a1a5", "a1a6", "a1a7", "a1a8", NULL },
   { "e1d1", "e1d2", "e1e2", "e1f2", "e1f1", "a1b1", "a1c1", "a1d1", "a1a2", "a1a3", "a1a4", "a1a5", "a1a6", "a1a7", "a1a8", NULL },
   { "e1d1", "e1d2", "e1e2", "e1f2", "e1f1", "a1b1", "a1c1", "a1d1", "a1a2", "a1a3", "a1a4", "a1a5", "a1a6", "a1a7", "a1a8", NULL },
-  { "e1d1", "e1d2", "e1e2", "e1xf2", "e1f1", "a1b1", "a1c1", "a1d1", "a1a2", "a1a3", "a1a4", "a1a5", "a1a6", "a1a7", "a1a8", NULL },
+  { "e1d1", "e1d2", "e1e2", "e1f2", "e1f1", "a1b1", "a1c1", "a1d1", "a1a2", "a1a3", "a1a4", "a1a5", "a1a6", "a1a7", "a1a8", NULL },
 
   // In all below positions the white king can't queen-side castle - since finishing square is attacked by knight.
-  { "e1d1", "e1d2", "e1e2", "e1f2", "e1f1", "a1b1", "a1c1", "a1d1", "a1xa2", NULL },
+  { "e1d1", "e1d2", "e1e2", "e1f2", "e1f1", "a1b1", "a1c1", "a1d1", "a1a2", NULL },
   { "e1d1", "e1d2", "e1e2", "e1f2", "e1f1", "a1b1", "a1c1", "a1d1", "a1a2", "a1a3", "a1a4", "a1a5", "a1a6", "a1a7", "a1a8", NULL },
   { "e1d1", "e1d2", "e1e2", "e1f2", "e1f1", "a1b1", "a1c1", "a1d1", "a1a2", "a1a3", "a1a4", "a1a5", "a1a6", "a1a7", "a1a8", NULL },
-  { "e1d1", "e1d2", "e1xe2", "e1f2", "e1f1", "a1b1", "a1c1", "a1d1", "a1a2", "a1a3", "a1a4", "a1a5", "a1a6", "a1a7", "a1a8", NULL },
+  { "e1d1", "e1d2", "e1e2", "e1f2", "e1f1", "a1b1", "a1c1", "a1d1", "a1a2", "a1a3", "a1a4", "a1a5", "a1a6", "a1a7", "a1a8", NULL },
 
   // ------------------------------------------------------------------------------------------------
   // ------------------------------------------------------------------------------------------------
@@ -163,10 +163,10 @@ const char *movesToCheckForPos[FEN_POS_TO_CHECK_LENGTH][MAX_POSSIBLE_MOVES_IN_PO
   // *******************************************
 
   // No threats - black king can castle king-side.
-  { "e8d8", "e8d7", "e8e7", "e8f7", "e8f8", "0-0", "h8g8", "h8f8", "h8h7", "h8h6", "h8h5", "h8h4", "h8h3", "h8h2", "h8h1", NULL },
+  { "e8d8", "e8d7", "e8e7", "e8f7", "e8f8", "e8g8", "h8g8", "h8f8", "h8h7", "h8h6", "h8h5", "h8h4", "h8h3", "h8h2", "h8h1", NULL },
 
   // Knight is only threatening the rook. Black king can castle.
-  { "e8d8", "e8d7", "e8e7", "e8xf7", "e8f8", "0-0", "h8g8", "h8f8", "h8h7", "h8h6", "h8h5", "h8h4", "h8h3", "h8h2", "h8h1", NULL },
+  { "e8d8", "e8d7", "e8e7", "e8f7", "e8f8", "e8g8", "h8g8", "h8f8", "h8h7", "h8h6", "h8h5", "h8h4", "h8h3", "h8h2", "h8h1", NULL },
 
   // In all below positions the black king can't king-side castle - since attacked by knight.
   { "e8d8", "e8d7", "e8e7", "e8f7", "e8f8", "h8g8", "h8f8", "h8h7", "h8h6", "h8h5", "h8h4", "h8h3", "h8h2", "h8h1", NULL },
@@ -175,14 +175,14 @@ const char *movesToCheckForPos[FEN_POS_TO_CHECK_LENGTH][MAX_POSSIBLE_MOVES_IN_PO
   { "e8d8", "e8d7", "e8e7", "e8f7", "e8f8", "h8g8", "h8f8", "h8h7", "h8h6", "h8h5", "h8h4", "h8h3", "h8h2", "h8h1", NULL },
 
   // In all below positions the black king can't king-side castle - since passing square is attacked by knight.
-  { "e8d8", "e8xd7", "e8e7", "e8f7", "e8f8", "h8g8", "h8f8", "h8h7", "h8h6", "h8h5", "h8h4", "h8h3", "h8h2", "h8h1", NULL },
   { "e8d8", "e8d7", "e8e7", "e8f7", "e8f8", "h8g8", "h8f8", "h8h7", "h8h6", "h8h5", "h8h4", "h8h3", "h8h2", "h8h1", NULL },
   { "e8d8", "e8d7", "e8e7", "e8f7", "e8f8", "h8g8", "h8f8", "h8h7", "h8h6", "h8h5", "h8h4", "h8h3", "h8h2", "h8h1", NULL },
-  { "e8d8", "e8d7", "e8e7", "e8f7", "e8f8", "h8g8", "h8f8", "h8xh7", NULL },
+  { "e8d8", "e8d7", "e8e7", "e8f7", "e8f8", "h8g8", "h8f8", "h8h7", "h8h6", "h8h5", "h8h4", "h8h3", "h8h2", "h8h1", NULL },
+  { "e8d8", "e8d7", "e8e7", "e8f7", "e8f8", "h8g8", "h8f8", "h8h7", NULL },
 
   // In all below positions the black king can't king-side castle - since finishing square is attacked by knight.
-  { "e8d8", "e8d7", "e8xe7", "e8f7", "e8f8", "h8g8", "h8f8", "h8h7", "h8h6", "h8h5", "h8h4", "h8h3", "h8h2", "h8h1", NULL },
   { "e8d8", "e8d7", "e8e7", "e8f7", "e8f8", "h8g8", "h8f8", "h8h7", "h8h6", "h8h5", "h8h4", "h8h3", "h8h2", "h8h1", NULL },
-  { "e8d8", "e8d7", "e8e7", "e8f7", "e8f8", "h8g8", "h8f8", "h8h7", "h8xh6", NULL }
+  { "e8d8", "e8d7", "e8e7", "e8f7", "e8f8", "h8g8", "h8f8", "h8h7", "h8h6", "h8h5", "h8h4", "h8h3", "h8h2", "h8h1", NULL },
+  { "e8d8", "e8d7", "e8e7", "e8f7", "e8f8", "h8g8", "h8f8", "h8h7", "h8h6", NULL }
 
 };
