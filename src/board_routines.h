@@ -11,9 +11,9 @@ extern unsigned char board120toFile[120];
 
 void printBoard(BOARD *cBoard);
 
-#define MAX_MOVE_STR_LENGTH 10
+// 5 + 1 = 6 // max move length + 1 (the 1 is `\0` char - C string termination character)
+#define MAX_MOVE_STR_LENGTH 6
 
-void chessMoveToAlgebraicStr(unsigned long long move, char fmtdMove[MAX_MOVE_STR_LENGTH]);
 void chessMoveToStr(unsigned long long move, char fmtdMove[MAX_MOVE_STR_LENGTH]);
 void printBestMove(BOARD *cBoard);
 void printMoves(BOARD *cBoard);

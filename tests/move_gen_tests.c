@@ -42,7 +42,7 @@ void testFenPos(const BOARD *cBoard, const char *fenPos, const char **movesToChe
   generatedMovesNum = cBoard->movesAvailable;
   generatedMoves = malloc(generatedMovesNum * sizeof(char*));
   for (idx = 0; idx < generatedMovesNum; idx += 1) {
-    generatedMoves[idx] = malloc((MAX_MOVE_STR_LENGTH + 1) * sizeof(char));
+    generatedMoves[idx] = malloc(MAX_MOVE_STR_LENGTH * sizeof(char));
     chessMoveToStr(cBoard->moves[idx], generatedMoves[idx]);
   }
 
