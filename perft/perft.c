@@ -25,6 +25,7 @@ unsigned long long countMoves(BOARD *cBoard, unsigned char bailout, unsigned cha
   if (printInfo == 1) {
     printBoard(cBoard);
     printMoves(cBoard);
+    printf("\n");
   }
 
   for (idx = 0; idx < cBoard->movesAvailable; idx += 1) {
@@ -91,7 +92,7 @@ int main()
   for (idx = 0; idx < 6; idx += 1) {
     printf("%s\n", perftPos[idx]);
     setPositionFromFen(&cBoard, perftPos[idx]);
-    count = countMoves(&cBoard, bailout, 0);
+    count = countMoves(&cBoard, bailout, 1);
     printf("depth %hhu: perft count = %llu\n\n", bailout + 1, count);
   }
 

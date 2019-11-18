@@ -121,10 +121,19 @@ obj/move_gen_data_tests.o: tests/move_gen_data_tests.c tests/move_gen_data_tests
 obj/do_move_tests.o: tests/do_move_tests.c tests/do_move_tests.h
 	gcc -c $(CFLAGS) tests/do_move_tests.c -o obj/do_move_tests.o ${GPROF}
 
-PERFT_OBJECTS =
+PERFT_OBJECTS = \
+	obj/board_routines.o \
+	obj/bitboard.o \
+	obj/random_const.o \
+	obj/zobrist_hashing.o \
+	obj/fen.o \
+	obj/move_gen.o \
+	obj/move_gen_white.o \
+	obj/move_gen_black.o \
+	obj/do_move.o
 
-perft: obj/perft.o $(PERFT_OBJECTS) $(MAIN_OBJECTS)
-	gcc -o build/perft ${LFLAGS}  obj/perft.o $(PERFT_OBJECTS) $(MAIN_OBJECTS) ${GPROF}
+perft: obj/perft.o $(PERFT_OBJECTS)
+	gcc -o build/perft obj/perft.o $(PERFT_OBJECTS) ${GPROF}
 
 obj/perft.o: perft/perft.c perft/perft.h
 	gcc -c $(CFLAGS) perft/perft.c -o obj/perft.o ${GPROF}
