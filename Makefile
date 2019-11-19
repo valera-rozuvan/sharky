@@ -130,10 +130,14 @@ PERFT_OBJECTS = \
 	obj/move_gen.o \
 	obj/move_gen_white.o \
 	obj/move_gen_black.o \
-	obj/do_move.o
+	obj/do_move.o \
+	obj/parse_perft_options.o
 
 perft: obj/perft.o $(PERFT_OBJECTS)
 	gcc -o build/perft obj/perft.o $(PERFT_OBJECTS) ${GPROF}
 
 obj/perft.o: perft/perft.c perft/perft.h
 	gcc -c $(CFLAGS) perft/perft.c -o obj/perft.o ${GPROF}
+
+obj/parse_perft_options.o: perft/parse_options.c perft/parse_options.h
+	gcc -c $(CFLAGS) perft/parse_options.c -o obj/parse_perft_options.o ${GPROF}

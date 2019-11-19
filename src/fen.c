@@ -1,3 +1,5 @@
+#include <stdlib.h>
+
 #include "board.h"
 #include "fen.h"
 #include "board_routines.h"
@@ -153,6 +155,10 @@ unsigned char setPositionFromFen(BOARD *cBoard, const char *fenStr)
   unsigned char currentFile = 0;
   unsigned char currentRank = 0;
   unsigned char numOfEmpty = 0;
+
+  if (fenStr == NULL) {
+    return setInitialPosReturnError(cBoard, 99);
+  }
 
   setupEmptyPosition(cBoard);
 
