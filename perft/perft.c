@@ -87,6 +87,8 @@ int main()
   //   printf("depth %hhu: perft count = %llu\n", bailout + 1, count);
   // }
 
+  setvbuf(stdout, NULL, _IONBF, 0);
+
   bailout = 5;
 
   for (idx = 0; idx < 6; idx += 1) {

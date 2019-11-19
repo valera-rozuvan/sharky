@@ -93,8 +93,6 @@ void uci()
 
   uciOK();
 
-  setbuf(stdout, NULL);
-
   do {
     if (fgets(rawBuffer, READ_BUFFER_SIZE, stdin) == NULL) {
       sleepMs(2);

@@ -11,6 +11,8 @@ int main(int argc, char* argv[])
 {
   unsigned char idx = 0;
 
+  setvbuf(stdout, NULL, _IONBF, 0);
+
   for (idx = 1; idx < argc; idx += 1) {
     if (strcmp(argv[idx], "--version") == 0) {
       printf("%s v%s %s\n\n%s\n%s %s\n", PROGRAM_NAME, PROGRAM_VERSION, PROGRAM_ARCH, PROGRAM_LICENSE, PROGRAM_COPYRIGHT, PROGRAM_AUTHOR);
