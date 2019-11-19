@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include "../src/board.h"
 #include "../src/board_routines.h"
@@ -7,6 +9,8 @@
 #include "../src/do_move.h"
 #include "../src/fen.h"
 #include "../src/zobrist_hashing.h"
+
+#include "parse_options.h"
 
 unsigned long long countMoves(BOARD *cBoard, unsigned char bailout, unsigned char printInfo)
 {
@@ -28,16 +32,16 @@ unsigned long long countMoves(BOARD *cBoard, unsigned char bailout, unsigned cha
     printf("\n");
   }
 
-  for (idx = 0; idx < cBoard->movesAvailable; idx += 1) {
-    movesCopy[idx] = cBoard->moves[idx];
-  }
-  movesAvailableCopy = cBoard->movesAvailable;
-
-  if (bailout == 0) {
+  if (bailout == 1) {
     count = cBoard->legalMovesAvailable;
   } else if ((cBoard->legalMovesAvailable == 0) || (cBoard->fiftyMove >= 100) || (checkDrawByRepetition(cBoard) == 1)) {
     count = 0;
   } else {
+    for (idx = 0; idx < cBoard->movesAvailable; idx += 1) {
+      movesCopy[idx] = cBoard->moves[idx];
+    }
+    movesAvailableCopy = cBoard->movesAvailable;
+
     for (idx = 0; idx < movesAvailableCopy; idx += 1) {
       if (CHECK_BIT(movesCopy[idx], MOVE_BIT_ILLEGAL)) {
         continue;
@@ -59,44 +63,47 @@ unsigned long long countMoves(BOARD *cBoard, unsigned char bailout, unsigned cha
   return count;
 }
 
-int main()
+int main(int argc, char *argv[])
 {
   BOARD cBoard;
   unsigned long long count = 0ULL;
-  unsigned char bailout = 0;
   unsigned char idx = 0;
-
-  // char *perftPos = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
-  // char *perftPos = "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -";
-  // char *perftPos = "8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - -";
-  // char *perftPos = "r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1";
-  // char *perftPos = "rnbq1k1r/pp1Pbppp/2p5/8/2B5/8/PPP1NnPP/RNBQK2R w KQ - 1 8";
-  // char *perftPos = "r4rk1/1pp1qppp/p1np1n2/2b1p1B1/2B1P1b1/P1NP1N2/1PP1QPPP/R4RK1 w - - 0 10";
-
-  char *perftPos[6] = {
-    "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
-    "r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq -",
-    "8/2p5/3p4/KP5r/1R3p1k/8/4P1P1/8 w - -",
-    "r3k2r/Pppp1ppp/1b3nbN/nP6/BBP1P3/q4N2/Pp1P2PP/R2Q1RK1 w kq - 0 1",
-    "rnbq1k1r/pp1Pbppp/2p5/8/2B5/8/PPP1NnPP/RNBQK2R w KQ - 1 8",
-    "r4rk1/1pp1qppp/p1np1n2/2b1p1B1/2B1P1b1/P1NP1N2/1PP1QPPP/R4RK1 w - - 0 10"
-  };
-
-  // for (bailout = 0; bailout < 6; bailout += 1) {
-  //   count = countMoves(&cBoard, bailout, 0);
-  //   printf("depth %hhu: perft count = %llu\n", bailout + 1, count);
-  // }
+  char *param = NULL;
+  unsigned char perftDepth = 0;
+  char *perftPos = NULL;
 
   setvbuf(stdout, NULL, _IONBF, 0);
 
-  bailout = 5;
+  for (idx = 0; idx < argc; idx += 1) {
+    param = argv[idx];
 
-  for (idx = 0; idx < 6; idx += 1) {
-    printf("%s\n", perftPos[idx]);
-    setPositionFromFen(&cBoard, perftPos[idx]);
-    count = countMoves(&cBoard, bailout, 1);
-    printf("depth %hhu: perft count = %llu\n\n", bailout + 1, count);
+    if ((strcmp(param, "--depth") == 0) || (strcmp(param, "-d") == 0)) {
+      perftDepth = parseDepthOption(argc, argv, idx);
+    } else if ((strcmp(param, "--fen") == 0) || (strcmp(param, "-f") == 0)) {
+      perftPos = parseFENOption(argc, argv, idx);
+
+      if (setPositionFromFen(&cBoard, perftPos) != 0) {
+        perftPos = NULL;
+      }
+    }
   }
 
+  if (perftDepth == 0) {
+    printf("Exiting... please provide a valid depth.\n");
+
+    exit(EXIT_FAILURE);
+    return 1;
+  } else if (perftPos == NULL) {
+    printf("Exiting... please provide a valid FEN string.\n");
+
+    exit(EXIT_FAILURE);
+    return 1;
+  }
+
+  printf("%s\n", perftPos);
+  count = countMoves(&cBoard, perftDepth, 1);
+  printf("\ndepth: %hhu; perft: %llu\n\n", perftDepth, count);
+
+  exit(EXIT_SUCCESS);
   return 0;
 }

@@ -16,7 +16,14 @@ Your system needs to have `make` and `gcc` installed.
 
 ## Perft
 
-Perft is included as a stand alone executable. To build it, run `make perft`. You can then run the executable `./build/perft`.
+Perft is provided as a stand alone executable. To build it, run `make perft`. You can then run the executable `./build/perft`. Please provide depth via `--depth` or `-d` CLI param, and position as a FEN string via `--fen` or `-f` CLI param.
+
+For example:
+
+```
+./build/perft --depth 5 --fen "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
+./build/perft -d 5 -f "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
+```
 
 ## Contributing
 
