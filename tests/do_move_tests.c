@@ -47,7 +47,7 @@ void playRandomGames(const char *perftPos)
     } while (cBoard.historyPly > 0);
 
     if (generateFullHash(&cBoard) != initialPositionHash) {
-      printf("After undoing all moves, starting position is invalid!\n");
+      fprintf(stderr, "ERROR: After undoing all moves, starting position is invalid!\n");
       exit(EXIT_FAILURE);
     }
 
