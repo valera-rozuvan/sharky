@@ -73,3 +73,7 @@ tags
 # Persistent undo
 [._]*.un~
 
+# Ignore binary build files.
+build/sharky
+build/tests
+build/perft

@@ -14,7 +14,7 @@ LILO list for things to do on the project. Put new items at the top. Items towar
 
 - Add time control parsing for UCI. The engine should be aware of how much time is has per move/per game.
 
-- Improve perft program. Enable passing as CLI options the following: depth, FEN string, expected count, divide move print flag. Update Travis CI checks with perft depth 4 tests for various positions.
+- **[done]** Improve perft program. Enable passing as CLI options the following: depth, FEN string. Update Travis CI checks with perft depth 5 tests for various positions.
 
 - **[done]** Remove `human` mode. What's human mode? Initial idea was to allow the user use the engine via CLI (text input) in a manual mode - like it's 1980s ;) Human mode was supposed to provide nice move output (PGN style), allow the user to quickly make moves without the wordy UCI syntax, etc. However, I have decided that the engine will support only UCI mode going forward. Several reasons for this. For one, the more code/features you have, the more bugs in code exist. For two, I don't foresee any usage of this feature - because these days it's so easy to connect an engine to a GUI, and play with it. For three, I want to simplify and minimize the code base.
 
