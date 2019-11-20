@@ -31,7 +31,7 @@ void veryLongFenStrTest()
   free(testFenStr);
 
   if (result != 1) {
-    printf("Very long FEN string should not pass FEN validation.\n");
+    fprintf(stderr, "ERROR: Very long FEN string should not pass FEN validation.\n");
     exit(EXIT_FAILURE);
   } else {
     totalChecksPerformed += 1;
@@ -52,13 +52,13 @@ void checkErrorResultForFen(
     printBoard(&cBoard);
 
     if (cBoard.positionKey != expectedPositionKey) {
-      printf("%s\n", testErrorMessage);
+      fprintf(stderr, "ERROR: %s\n", testErrorMessage);
       exit(EXIT_FAILURE);
     }
   }
 
   if (result != expectedError) {
-    printf("%s\n", testErrorMessage);
+    fprintf(stderr, "ERROR: %s\n", testErrorMessage);
     exit(EXIT_FAILURE);
   } else {
     totalChecksPerformed += 1;

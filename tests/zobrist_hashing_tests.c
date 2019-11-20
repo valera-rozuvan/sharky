@@ -19,8 +19,7 @@ void testEmptyPosition()
   setupEmptyPosition(&cBoard);
 
   if (cBoard.positionKey != 0x0ULL) {
-    printf("Empty position hash key is wrong! cBoard.positionKey = %llx\n", cBoard.positionKey);
-
+    fprintf(stderr, "ERROR: Empty position hash key is wrong! cBoard.positionKey = %llx\n", cBoard.positionKey);
     exit(EXIT_FAILURE);
   } else {
     totalChecksPerformed += 1;
@@ -34,8 +33,7 @@ void testStartPosition()
   setupInitialPosition(&cBoard);
 
   if (cBoard.positionKey != INITIAL_POSITION_ZOBRIST_KEY) {
-    printf("Initial position hash key is wrong! cBoard.positionKey = %llx\n", cBoard.positionKey);
-
+    fprintf(stderr, "ERROR: Initial position hash key is wrong! cBoard.positionKey = %llx\n", cBoard.positionKey);
     exit(EXIT_FAILURE);
   } else {
     totalChecksPerformed += 1;
@@ -126,7 +124,7 @@ void testIndividualPieces()
   }
 
   if (hashCounter != RANDOM_CONST_LENGTH) {
-    printf("Error! Not all random constants were used! hashCounter = %hu, RANDOM_CONST_LENGTH = %hu\n", hashCounter, RANDOM_CONST_LENGTH);
+    fprintf(stderr, "ERROR: Error! Not all random constants were used! hashCounter = %hu, RANDOM_CONST_LENGTH = %hu\n", hashCounter, RANDOM_CONST_LENGTH);
     exit(EXIT_FAILURE);
   } else {
     totalChecksPerformed += 1;
@@ -135,18 +133,18 @@ void testIndividualPieces()
   for (idx1 = 0; idx1 < RANDOM_CONST_LENGTH; idx1 += 1) {
     for (idx2 = idx1 + 1; idx2 < RANDOM_CONST_LENGTH; idx2 += 1) {
       if (hashArr[idx1] == hashArr[idx2]) {
-        printf("Position hash collision detected!\n");
-        printf("idx1 = %hu, idx2 = %hu\n", idx1, idx2);
-        printf("hashArr[idx1] = %llx, hashArr[idx2] = %llx\n", hashArr[idx1], hashArr[idx2]);
+        fprintf(stderr, "ERROR: Position hash collision detected!\n");
+        fprintf(stderr, "ERROR: idx1 = %hu, idx2 = %hu\n", idx1, idx2);
+        fprintf(stderr, "ERROR: hashArr[idx1] = %llx, hashArr[idx2] = %llx\n", hashArr[idx1], hashArr[idx2]);
 
         if (idx1 <= 735) {
-          printf("hashArr_piece[idx1] = %hhu\n", hashArr_piece[idx1]);
-          printf("hashArr_sqr64[idx1] = %hhu\n", hashArr_sqr64[idx1]);
+          fprintf(stderr, "ERROR: hashArr_piece[idx1] = %hhu\n", hashArr_piece[idx1]);
+          fprintf(stderr, "ERROR: hashArr_sqr64[idx1] = %hhu\n", hashArr_sqr64[idx1]);
         }
 
         if (idx2 <= 735) {
-          printf("hashArr_piece[idx2] = %hhu\n", hashArr_piece[idx2]);
-          printf("hashArr_sqr64[idx2] = %hhu\n", hashArr_sqr64[idx2]);
+          fprintf(stderr, "ERROR: hashArr_piece[idx2] = %hhu\n", hashArr_piece[idx2]);
+          fprintf(stderr, "ERROR: hashArr_sqr64[idx2] = %hhu\n", hashArr_sqr64[idx2]);
         }
 
         exit(EXIT_FAILURE);

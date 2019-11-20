@@ -14,9 +14,8 @@ void board_routines_tests()
 
   for (idx = 0; idx < 64; idx += 1) {
     if (board64to120[idx] >= 120) {
-      printf("board64to120[idx] >= 120; idx = %hhu\n", idx);
-      printf("board64to120[idx] = %hhu\n", board64to120[idx]);
-
+      fprintf(stderr, "ERROR: board64to120[idx] >= 120; idx = %hhu\n", idx);
+      fprintf(stderr, "ERROR: board64to120[idx] = %hhu\n", board64to120[idx]);
       exit(EXIT_FAILURE);
     } else {
       totalChecksPerformed += 1;
@@ -25,9 +24,8 @@ void board_routines_tests()
 
   for (idx = 0; idx < 120; idx += 1) {
     if ((board120to64[idx] >= 64) && (board120to64[idx] != NO_SQ)) {
-      printf("(board120to64[idx] >= 64) && (board120to64[idx] != NO_SQ); idx = %hhu\n", idx);
-      printf("board120to64[idx] = %hhu\n", board120to64[idx]);
-
+      fprintf(stderr, "ERROR: (board120to64[idx] >= 64) && (board120to64[idx] != NO_SQ); idx = %hhu\n", idx);
+      fprintf(stderr, "ERROR: board120to64[idx] = %hhu\n", board120to64[idx]);
       exit(EXIT_FAILURE);
     } else {
       totalChecksPerformed += 1;
@@ -36,10 +34,9 @@ void board_routines_tests()
 
   for (idx = 0; idx < 64; idx += 1) {
     if (board120to64[board64to120[idx]] != idx) {
-      printf("board120to64[board64to120[idx]] != idx; idx = %hhu\n", idx);
-      printf("board64to120[idx] = %hhu\n", board64to120[idx]);
-      printf("board120to64[board64to120[idx]] = %hhu\n", board120to64[board64to120[idx]]);
-
+      fprintf(stderr, "ERROR: board120to64[board64to120[idx]] != idx; idx = %hhu\n", idx);
+      fprintf(stderr, "ERROR: board64to120[idx] = %hhu\n", board64to120[idx]);
+      fprintf(stderr, "ERROR: board120to64[board64to120[idx]] = %hhu\n", board120to64[board64to120[idx]]);
       exit(EXIT_FAILURE);
     } else {
       totalChecksPerformed += 1;

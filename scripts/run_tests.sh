@@ -2,7 +2,7 @@
 set -ev
 
 check_perft() {
-  ./build/perft \
+  time ./build/perft \
     --depth "${1}" \
     --fen "${2}" \
     | \
@@ -11,7 +11,8 @@ check_perft() {
 
 make clean
 make test
-./build/tests > /dev/null
+
+time ./build/tests > /dev/null
 
 make clean
 make perft
