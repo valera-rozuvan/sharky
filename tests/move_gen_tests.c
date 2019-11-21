@@ -76,7 +76,7 @@ void testFenPos(const BOARD *cBoard, const char *fenPos, const char **movesToChe
   free(generatedMoves);
 }
 
-void moveGenTests()
+void move_gen_tests()
 {
   BOARD cBoard;
   unsigned short idx = 0;

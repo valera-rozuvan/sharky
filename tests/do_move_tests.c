@@ -1,6 +1,5 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <time.h>
 #include <unistd.h>
 
 #include "../src/do_move.h"
@@ -55,13 +54,11 @@ void playRandomGames(const char *perftPos)
   }
 }
 
-void doMoveTests()
+void do_move_tests()
 {
   unsigned char idx = 0;
 
   printf("Starting do_move_tests...\n");
-
-  srand(time(0));
 
   for (idx = 0; idx < PEFRT_FEN_STRINGS_LENGTH; idx += 1) {
     playRandomGames(PEFRT_FEN_STRINGS[idx]);
