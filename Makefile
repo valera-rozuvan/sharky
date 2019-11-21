@@ -86,7 +86,8 @@ TESTS_OBJECTS = \
 	obj/perft_tests.o \
 	obj/move_gen_tests.o \
 	obj/move_gen_data_tests.o \
-	obj/do_move_tests.o
+	obj/do_move_tests.o \
+	obj/utils_tests.o
 
 test: obj/tests.o $(TESTS_OBJECTS) $(MAIN_OBJECTS)
 	gcc -o build/tests ${LFLAGS} obj/tests.o $(TESTS_OBJECTS) $(MAIN_OBJECTS) ${GPROF}
@@ -120,6 +121,9 @@ obj/move_gen_data_tests.o: tests/move_gen_data_tests.c tests/move_gen_data_tests
 
 obj/do_move_tests.o: tests/do_move_tests.c tests/do_move_tests.h
 	gcc -c $(CFLAGS) tests/do_move_tests.c -o obj/do_move_tests.o ${GPROF}
+
+obj/utils_tests.o: tests/utils_tests.c tests/utils_tests.h
+	gcc -c $(CFLAGS) tests/utils_tests.c -o obj/utils_tests.o ${GPROF}
 
 PERFT_OBJECTS = \
 	obj/board_routines.o \

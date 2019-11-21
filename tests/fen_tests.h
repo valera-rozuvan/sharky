@@ -1,6 +1,6 @@
 #ifndef __FEN_TESTS_H__
 #define __FEN_TESTS_H__
 
-void fenTests();
+void fen_tests();
 
 #endif // __FEN_TESTS_H__

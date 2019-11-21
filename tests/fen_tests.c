@@ -82,7 +82,7 @@ void fenPerftTests()
   }
 }
 
-void fenTests()
+void fen_tests()
 {
   printf("Starting fen_tests...\n");
 
