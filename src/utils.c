@@ -21,6 +21,10 @@ void sleepMs(int sleepInMs)
  */
 int startsWithStr(char *buf, const char *str)
 {
+  if (buf == NULL) return 0;
+  if (str == NULL) return 0;
+  if (str[0] == '\0') return 0;
+
   return !strncmp(buf, str, strlen(str));
 }
 

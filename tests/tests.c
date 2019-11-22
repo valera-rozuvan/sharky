@@ -26,6 +26,7 @@ int main()
 
   startTime = getRealTime();
 
+  utils_tests();
   random_const_tests();
   board_routines_tests();
   bitboard_tests();
@@ -33,7 +34,6 @@ int main()
   fen_tests();
   move_gen_tests();
   do_move_tests();
-  utils_tests();
 
   endTime = getRealTime();
 
