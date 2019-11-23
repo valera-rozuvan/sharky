@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 #include "../src/utils.h"
 
@@ -78,12 +79,72 @@ void testStartsWithStr()
   }
 }
 
+void testStripStr_testCase(char *str1, char *str2)
+{
+  char *buffer = NULL;
+
+  buffer = stripStr(str1);
+  if (strcmp(buffer, str2) != 0) {
+    fprintf(stderr, "ERROR: stripStr test failed! Expected '%s' but got '%s'.\n", str2, buffer);
+
+    free(buffer);
+    exit(EXIT_FAILURE);
+  }
+  free(buffer);
+  totalChecksPerformed += 1;
+}
+
+void testStripStr()
+{
+  testStripStr_testCase(" hello ", "hello");
+  testStripStr_testCase("  hello  ", "hello");
+  testStripStr_testCase("   hello   ", "hello");
+
+  testStripStr_testCase("hello ", "hello");
+  testStripStr_testCase("hello  ", "hello");
+  testStripStr_testCase("hello   ", "hello");
+
+  testStripStr_testCase(" hello", "hello");
+  testStripStr_testCase("  hello", "hello");
+  testStripStr_testCase("   hello", "hello");
+
+  testStripStr_testCase(" hello world ", "hello world");
+
+  testStripStr_testCase(" hello  world ", "hello world");
+  testStripStr_testCase(" hello   world ", "hello world");
+  testStripStr_testCase(" hello    world ", "hello world");
+
+  testStripStr_testCase("  hello world ", "hello world");
+  testStripStr_testCase("   hello world ", "hello world");
+  testStripStr_testCase("    hello world ", "hello world");
+
+  testStripStr_testCase(" hello world  ", "hello world");
+  testStripStr_testCase(" hello world   ", "hello world");
+  testStripStr_testCase(" hello world    ", "hello world");
+
+  testStripStr_testCase("  hello  world  ", "hello world");
+  testStripStr_testCase("   hello   world   ", "hello world");
+  testStripStr_testCase("    hello    world    ", "hello world");
+
+  testStripStr_testCase(" hello world ! ", "hello world !");
+  testStripStr_testCase("    hello    world    !    ", "hello world !");
+
+  testStripStr_testCase("", "");
+
+  testStripStr_testCase("  ", "");
+  testStripStr_testCase("   ", "");
+  testStripStr_testCase("    ", "");
+
+  testStripStr_testCase(NULL, "");
+}
+
 void utils_tests()
 {
   printf("Starting utils_tests...\n");
 
   testRandR();
   testStartsWithStr();
+  testStripStr();
 
   printf("Done!\n\n");
 }

@@ -44,44 +44,58 @@ int startsWithStrFF(char **buf, const char *str)
 }
 
 char *stripStr(char *str) {
-  int length, c, d;
-  char *start;
+  unsigned short length = 0, c = 0, d = 0, temp = 0;
+  char *start = NULL;
 
-  c = d = 0;
-  length = strlen(str);
-  if (length == 0) length = 1;
-  start = (char*)malloc(length + 1);
+  if (str == NULL) {
+    start = (char*)malloc(1);
+    if (start == NULL) exit(EXIT_FAILURE);
 
-  if (start == NULL)
-    exit(EXIT_FAILURE);
-
-  if (length == 1) {
     *(start) = '\0';
     return start;
   }
 
+  length = strlen(str);
+
+  start = (char*)malloc(length + 1);
+  if (start == NULL) exit(EXIT_FAILURE);
+
+  if (length == 0) {
+    *(start) = '\0';
+    return start;
+  }
+
+  c = 0;
   while (*(str + c) != '\0') {
     if (*(str + c) != ' ') {
       break;
     }
-    c++;
+    c += 1;
   }
 
+  if (*(str + c) == '\0') {
+    *(start) = '\0';
+    return start;
+  }
+
+  d = 0;
   while (*(str + c) != '\0') {
     if (*(str + c) == ' ') {
-       int temp = c + 1;
-       if (*(str + temp) != '\0') {
-          while (*(str + temp) == ' ' && *(str + temp) != '\0') {
-             if (*(str + temp) == ' ') {
-                c++;
-             }
-             temp++;
+      temp = c + 1;
+      if (*(str + temp) != '\0') {
+        while ((*(str + temp) == ' ') && (*(str + temp) != '\0')) {
+          if (*(str + temp) == ' ') {
+            c += 1;
           }
-       }
+
+          temp += 1;
+        }
+      }
     }
     *(start + d) = *(str + c);
-    c++;
-    d++;
+
+    c += 1;
+    d += 1;
   }
 
   if ((*(start + d - 1) == '\n') && (*(start + d - 2) == ' ')) {
