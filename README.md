@@ -4,11 +4,17 @@
 
 ![sharky chess engine](docs/logo/sharky-chess-logo.png "sharky chess engine")
 
-## Prerequisites
+## About
+
+Sharky is a UCI chess engine written in C. It plays random legal moves (for now).
+
+## Building
+
+### Prerequisites
 
 Your system needs to have `make` and `gcc` installed.
 
-## Make commands
+### Make commands
 
 1. To build, run `make`. Executable `sharky` will be in `./build` directory.
 2. To test, run `make test`. Executable `tests` will be in `./build` directory.
