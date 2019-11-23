@@ -86,6 +86,7 @@ void testStripStr_testCase(char *str1, char *str2)
   buffer = stripStr(str1);
   if (strcmp(buffer, str2) != 0) {
     fprintf(stderr, "ERROR: stripStr test failed! Expected '%s' but got '%s'.\n", str2, buffer);
+    fprintf(stderr, "ERROR: string to strip was '%s'.\n", str1);
 
     free(buffer);
     exit(EXIT_FAILURE);
