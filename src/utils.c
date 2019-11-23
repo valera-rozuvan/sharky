@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <ctype.h>
 
 unsigned char randomR(unsigned char min, unsigned char max)
 {
@@ -87,10 +88,18 @@ char *stripStr(char *str) {
         }
       }
     }
-    *(start + d) = *(str + c);
+
+    if (*(str + c) == ' ') {
+      *(start + d) = ' ';
+      d += 1;
+    } else if (isspace(*(str + c))) {
+      // do nothing
+    } else {
+      *(start + d) = *(str + c);
+      d += 1;
+    }
 
     c += 1;
-    d += 1;
   }
 
   if (*(start + d - 1) == ' ') {
