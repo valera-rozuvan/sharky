@@ -47,7 +47,7 @@ char *stripStr(char *str) {
   unsigned short length = 0, c = 0, d = 0, temp = 0;
   char *start = NULL;
 
-  if (str == NULL) {
+  if ((str == NULL) || (str[0] == '\0')) {
     start = (char*)malloc(1);
     if (start == NULL) exit(EXIT_FAILURE);
 
@@ -59,11 +59,6 @@ char *stripStr(char *str) {
 
   start = (char*)malloc(length + 1);
   if (start == NULL) exit(EXIT_FAILURE);
-
-  if (length == 0) {
-    *(start) = '\0';
-    return start;
-  }
 
   c = 0;
   while (*(str + c) != '\0') {
@@ -98,10 +93,10 @@ char *stripStr(char *str) {
     d += 1;
   }
 
-  if ((*(start + d - 1) == '\n') && (*(start + d - 2) == ' ')) {
-    *(start + d - 2) = '\0';
-  } if ((*(start + d - 1) == '\n') || (*(start + d - 1) == ' ')) {
+  if (*(start + d - 1) == ' ') {
     *(start + d - 1) = '\0';
+  } else {
+    *(start + d) = '\0';
   }
 
   return start;
