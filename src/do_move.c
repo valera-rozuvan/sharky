@@ -1,5 +1,3 @@
-#include <stdio.h>
-
 #include "board.h"
 #include "defs.h"
 #include "bitboard.h"
