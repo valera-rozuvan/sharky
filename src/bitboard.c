@@ -1,3 +1,10 @@
+/*
+ *
+ * setBitMask[] and clrBitMask[] arrays are used by the macros CLEAR_BIT() and SET_BIT().
+ * There are 64 items in each array so that we can use the macros on any C numeric type
+ * (integers), including `unsigned long long`.
+ *
+ **/
 unsigned long long setBitMask[64] = {
   1ULL,
   2ULL,
@@ -133,9 +140,14 @@ unsigned long long clrBitMask[64] = {
 };
 
 /*
+ *
  * Below 2 functions, and the constant array, are taken from:
  *   https://www.chessprogramming.org/Looking_for_Magics
- */
+ *
+ * They are used to count bits in a bitmask (type `unsigned long long`),
+ * and to find (and return the index of) the first set bit (least significant).
+ *
+ **/
 unsigned char count_1s(unsigned long long bb)
 {
   unsigned char r;

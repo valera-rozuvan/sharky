@@ -1,6 +1,12 @@
 #ifndef __BITBOARD_H__
 #define __BITBOARD_H__
 
+/*
+ *
+ * Below macros are safe to use on any integer numeric type. Also, it doesn't matter
+ * if the type is signed or unsigned.
+ *
+ **/
 #define CLEAR_BIT(bb, bit) bb &= clrBitMask[bit]
 #define SET_BIT(bb, bit) bb |= setBitMask[bit]
 #define CHECK_BIT(bb, bit) (bb & (1ULL << bit))

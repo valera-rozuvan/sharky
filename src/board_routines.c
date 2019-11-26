@@ -182,6 +182,13 @@ const char *FILE_NAMES[8] = {
   "A", "B", "C", "D", "E", "F", "G", "H"
 };
 
+/*
+ *
+ * printBoard() prints to stdout the board (squares and pieces), along with board legend (ranks, files),
+ * and important board state (en passant, castling, etc.). White pieces are printed with upper case
+ * letters black pieces are printed with lower case letters.
+ *
+ **/
 void printBoard(BOARD *cBoard) {
   char rankIter = 0;
   char fileIter = 0;
