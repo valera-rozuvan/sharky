@@ -98,13 +98,24 @@
  *
  */
 
-#include "stdio.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 #include "defs.h"
 #include "board.h"
 #include "board_routines.h"
 #include "bitboard.h"
 #include "zobrist_hashing.h"
+
+
+
+/****************************************************************************
+ *
+ * START OF: Helper arrays used in functions below, and elsewhere.
+ *
+ * Related to the board, board routines, and the various pieces of board state.
+ *
+ **/
 
 unsigned char board64to120[64] = {
   21, 22, 23, 24, 25, 26, 27, 28,
@@ -159,28 +170,72 @@ const char *boardPieceWithoutColorStr[13] = {
   "p", "n", "b", "r", "q", "k"
 };
 
+const char *BIT_CASTLING_CHAR[4] = {
+  "K", "Q", "k", "q"
+};
+
+const char *FILE_NAMES[8] = {
+  "A", "B", "C", "D", "E", "F", "G", "H"
+};
+
+const char *SQUARE_NAMES[64] = {
+  "a1", "b1", "c1", "d1", "e1", "f1", "g1", "h1",
+  "a2", "b2", "c2", "d2", "e2", "f2", "g2", "h2",
+  "a3", "b3", "c3", "d3", "e3", "f3", "g3", "h3",
+  "a4", "b4", "c4", "d4", "e4", "f4", "g4", "h4",
+  "a5", "b5", "c5", "d5", "e5", "f5", "g5", "h5",
+  "a6", "b6", "c6", "d6", "e6", "f6", "g6", "h6",
+  "a7", "b7", "c7", "d7", "e7", "f7", "g7", "h7",
+  "a8", "b8", "c8", "d8", "e8", "f8", "g8", "h8"
+};
+
+/*
+ *
+ * END OF: Helper arrays used in functions below, and elsewhere.
+ *
+ ****************************************************************************/
+
+
+
+/*
+ *
+ * sideToMoveStr() returns a string, representing the side to move for the current board state.
+ *
+ * There should ever be only two possible returns from the function "white" or "black". However,
+ * just in case, we check.
+ *
+ * If the `side` variable is set to an unexpected value, we exit the program with an error.
+ * Basically, this should never happen, and code should never reach that place (end of function).
+ *
+ **/
 const char* sideToMoveStr(BOARD *cBoard)
 {
   if (cBoard->side == WHITE) return "white";
   if (cBoard->side == BLACK) return "black";
 
+  // In theory - we should never reach this line of code ;)
+  exit(EXIT_FAILURE);
   return "?";
 }
 
-const char *BIT_CASTLING_CHAR[4] = {
-  "K", "Q", "k", "q"
-};
-
+/*
+ *
+ * castlingPermStr() returns a string containing a single castling permission character, based on the bit
+ * passed to the function as `bitToTest`.
+ *
+ * If the bit is not set in the castling permissions variable, the function returns "-".
+ *
+ * Because we store both white and black castling permissions in a single variable, unique bits are set for
+ * each side and for each available castling right. For white side - upper case letters are returned. For
+ * black side - lower case letters are returned.
+ *
+ **/
 const char* castlingPermStr(BOARD *cBoard, unsigned char bitToTest)
 {
   if (CHECK_BIT(cBoard->castlingPerm, bitToTest)) return BIT_CASTLING_CHAR[bitToTest];
 
   return "-";
 }
-
-const char *FILE_NAMES[8] = {
-  "A", "B", "C", "D", "E", "F", "G", "H"
-};
 
 /*
  *
@@ -244,17 +299,6 @@ void printBoard(BOARD *cBoard) {
     );
   }
 }
-
-const char *SQUARE_NAMES[64] = {
-  "a1", "b1", "c1", "d1", "e1", "f1", "g1", "h1",
-  "a2", "b2", "c2", "d2", "e2", "f2", "g2", "h2",
-  "a3", "b3", "c3", "d3", "e3", "f3", "g3", "h3",
-  "a4", "b4", "c4", "d4", "e4", "f4", "g4", "h4",
-  "a5", "b5", "c5", "d5", "e5", "f5", "g5", "h5",
-  "a6", "b6", "c6", "d6", "e6", "f6", "g6", "h6",
-  "a7", "b7", "c7", "d7", "e7", "f7", "g7", "h7",
-  "a8", "b8", "c8", "d8", "e8", "f8", "g8", "h8"
-};
 
 void chessMoveToStr(unsigned long long move, char fmtdMove[MAX_MOVE_STR_LENGTH])
 {
