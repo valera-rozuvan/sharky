@@ -1,3 +1,22 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#include "defs.h"
+#include "board.h"
+#include "board_routines.h"
+#include "bitboard.h"
+#include "zobrist_hashing.h"
+
+
+
+/****************************************************************************
+ *
+ * START OF: Helper arrays used in functions below, and elsewhere.
+ *
+ * Related to the board, board routines, and the various pieces of board state.
+ *
+ **/
+
 /*
  * Define arrays to convert indexes between two virtual representations
  * of the chess board.
@@ -97,25 +116,6 @@
  *   board120to64[42] = 17
  *
  */
-
-#include <stdio.h>
-#include <stdlib.h>
-
-#include "defs.h"
-#include "board.h"
-#include "board_routines.h"
-#include "bitboard.h"
-#include "zobrist_hashing.h"
-
-
-
-/****************************************************************************
- *
- * START OF: Helper arrays used in functions below, and elsewhere.
- *
- * Related to the board, board routines, and the various pieces of board state.
- *
- **/
 
 unsigned char board64to120[64] = {
   21, 22, 23, 24, 25, 26, 27, 28,
@@ -300,6 +300,15 @@ void printBoard(BOARD *cBoard) {
   }
 }
 
+/*
+ *
+ * chessMoveToStr() processes a chess move, passed as 1st param `move`, and writes human readable move string
+ * to the function's 2nd parameter `fmtdMove`. Internally, chess moves are stored as `unsigned long long`
+ * numbers. Each bit of an internal move represents something about it. For example promotion information.
+ *
+ * For UCI protocol, we need the ability to pass moves as text. That's what this function is for.
+ *
+ **/
 void chessMoveToStr(unsigned long long move, char fmtdMove[MAX_MOVE_STR_LENGTH])
 {
   unsigned char fromSq64 = board120to64[move & 0xFFULL];
