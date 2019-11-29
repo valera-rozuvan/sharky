@@ -431,6 +431,7 @@ void setupEmptyPosition(BOARD *cBoard)
   // moveGen() function at each run of the function.
 
   cBoard->positionKey = generateFullHash(cBoard);
+  cBoard->bestMove = 0ULL;
 }
 
 void setupInitialPosition(BOARD *cBoard)
@@ -493,6 +494,7 @@ void setupInitialPosition(BOARD *cBoard)
   // moveGen() function at each run of the function.
 
   cBoard->positionKey = generateFullHash(cBoard);
+  cBoard->bestMove = 0ULL;
 }
 
 unsigned char checkDrawByRepetition(BOARD *cBoard)

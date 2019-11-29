@@ -120,6 +120,7 @@ void doMove(BOARD *cBoard, unsigned long long move)
   }
 
   cBoard->historyPly += 1;
+  cBoard->bestMove = 0ULL;
 }
 
 void undoMove(BOARD *cBoard)
@@ -135,6 +136,7 @@ void undoMove(BOARD *cBoard)
   if (cBoard->historyPly == 0) return;
 
   cBoard->historyPly -= 1;
+  cBoard->bestMove = 0ULL;
 
   cBoard->castlingPerm = cBoard->history[cBoard->historyPly].castlingPerm;
   cBoard->enPassantFile = cBoard->history[cBoard->historyPly].enPassantFile;
