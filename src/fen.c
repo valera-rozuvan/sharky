@@ -297,6 +297,7 @@ unsigned char setPositionFromFen(BOARD *cBoard, const char *fenStr)
   cBoard->movesAvailable = 0;
 
   cBoard->positionKey = generateFullHash(cBoard);
+  cBoard->bestMove = 0ULL;
 
   return 0;
 }
