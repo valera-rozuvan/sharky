@@ -339,6 +339,15 @@ void chessMoveToStr(unsigned long long move, char fmtdMove[MAX_MOVE_STR_LENGTH])
   }
 }
 
+/*
+ *
+ * printBestMove() prints to stdout best move found for the current board state.
+ *
+ * If no move was found, or if search did not run, or if board state is just after initialization,
+ * then internally `bestMove` is set to 0ULL. In this case we print the nullmove, which in UCI protocol is
+ * represented by the "0000" string.
+ *
+ **/
 void printBestMove(BOARD *cBoard)
 {
   char fmtdMove[MAX_MOVE_STR_LENGTH] = "";
@@ -352,6 +361,17 @@ void printBestMove(BOARD *cBoard)
   printf("bestmove %s\n", fmtdMove);
 }
 
+
+/*
+ *
+ * printMoves() prints to stdout legal moves available in the current position. Legal moves have the bit
+ * `MOVE_BIT_ILLEGAL` set to zero.
+ *
+ * Along with the moves, function prints total number of legal moves available.
+ *
+ * If no moves are available, function prints "[0]: none".
+ *
+ **/
 void printMoves(BOARD *cBoard)
 {
   unsigned long long move = 0ULL;
@@ -405,6 +425,19 @@ void printMoves(BOARD *cBoard)
   printf("\n");
 }
 
+/*
+ *
+ * setupEmptyPosition() sets up initial board state to contain no pieces, and
+ * the side to move as WHITE.
+ *
+ * All other state (such as castling permissions) are also initialized as best as possible according to the rules
+ * of chess. Obviously an empty position is an illegal chess position (according to the official laws of chess).
+ * But, such a function is handy when testing basic engine functionality. Therefore this function exists :)
+ *
+ * We set up board state (squares, pieces) manually, and don't use FEN parser. This way we can actually test FEN parser
+ * for the empty position, and compare it to the one set up with this manual function.
+ *
+ */
 void setupEmptyPosition(BOARD *cBoard)
 {
   unsigned char idx = 0;
@@ -434,6 +467,15 @@ void setupEmptyPosition(BOARD *cBoard)
   cBoard->bestMove = 0ULL;
 }
 
+/*
+ *
+ * setupInitialPosition() sets up initial board state to the start of the game (start position, as described by official
+ * chess rules). All other state (such as castling permissions) are also initialized according to the rules of chess.
+ *
+ * We set up board state (squares, pieces) manually, and don't use FEN parser. This way we can actually test FEN parser
+ * for the start position, and compare it to the one set up with this manual function.
+ *
+ */
 void setupInitialPosition(BOARD *cBoard)
 {
   unsigned char idx = 0;
@@ -497,6 +539,16 @@ void setupInitialPosition(BOARD *cBoard)
   cBoard->bestMove = 0ULL;
 }
 
+/*
+ *
+ * checkDrawByRepetition() goes through board history (previous positions), and tries to find matching `positionKey`
+ * values (hashes of positions). If there are 3 matches (i.e. in the course of the current game, a position
+ * was repeated 3 times), then the current game is a draw.
+ *
+ * Return 1 - if the game is drawn by repetition.
+ * Return 0 - if the game is not drawn, and can continue.
+ *
+ */
 unsigned char checkDrawByRepetition(BOARD *cBoard)
 {
   unsigned long long latestHash = 0ULL;
