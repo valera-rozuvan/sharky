@@ -2,6 +2,10 @@
 
 LILO list for things to do on the project. Put new items at the top. Items towards the end of the list get more attention. Please mark items as done when appropriate.
 
+## 2024 list
+
+- complete enough of functionality to take part in [TCEC](https://tcec-chess.com/) (Top Chess Engine Championship)
+
 ## Things to do
 
 - Windows build of the engine. Setup Visual Studio project. Add support for Windows native threads. Pthread library should only be used on `Linux`/`MacOS`/`*nix` systems.
